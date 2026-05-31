@@ -198,7 +198,7 @@ export default function Home() {
             <motion.div variants={itemVariants} className="text-center max-w-2xl mx-auto">
               <h2 className="mb-lg">Наші послуги</h2>
               <p className="text-lg text-text-secondary">
-                Два шляхи до зростання вашого капіталу
+                Три шляхи до зростання вашого капіталу
               </p>
             </motion.div>
 
