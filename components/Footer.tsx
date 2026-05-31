@@ -76,6 +76,16 @@ export default function Footer() {
                   mail@sis.pl.ua
                 </a>
               </li>
+              <li>
+                <a href="https://wa.me/380960082884" className="hover:text-navy-600 transition-colors">
+                  WhatsApp
+                </a>
+              </li>
+              <li>
+                <a href="https://t.me/+380960082884" className="hover:text-navy-600 transition-colors">
+                  Telegram
+                </a>
+              </li>
               <li>м. Київ, вул. Володимирська, 4</li>
             </ul>
           </motion.div>

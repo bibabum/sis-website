@@ -391,6 +391,9 @@ export default function Home() {
               <a href="https://t.me/+380960082884" className="btn-base border-2 border-white text-white bg-transparent hover:bg-white/15">
                 Телеграм
               </a>
+              <a href="https://wa.me/380960082884" className="btn-base border-2 border-white text-white bg-transparent hover:bg-white/15">
+                WhatsApp
+              </a>
             </motion.div>
           </motion.div>
         </div>
