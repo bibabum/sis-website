@@ -17,11 +17,10 @@ export default function Footer() {
             transition={{ duration: 0.6 }}
             viewport={{ once: true }}
           >
-            <div className="flex items-center gap-sm mb-lg">
+            <div className="mb-lg">
               <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-navy-600 to-navy-700 flex-center text-white font-serif font-bold">
                 SIS
               </div>
-              <span className="font-serif font-bold text-navy-600">SIS</span>
             </div>
             <p className="text-text-secondary text-sm">
               Інвестиційний консалтинг для українців
