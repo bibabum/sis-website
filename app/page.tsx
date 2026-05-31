@@ -287,9 +287,6 @@ export default function Home() {
                       </div>
                     </div>
 
-                    <Link href="/projects" className="btn-secondary w-full text-center">
-                      Деталі проєкту
-                    </Link>
                   </div>
                 </motion.div>
               ))}
