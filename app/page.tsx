@@ -208,12 +208,12 @@ export default function Home() {
                   key={service.id}
                   variants={itemVariants}
                   onClick={() => setSelectedService(service.id.toString())}
-                  className="card-base p-lg text-left h-full hover:border-gold-600 group cursor-pointer"
+                  className="card-base p-lg text-left h-full hover:border-gold-600 group cursor-pointer flex flex-col overflow-visible"
                 >
                   <div className="text-4xl mb-md">{service.icon}</div>
                   <h3 className="mb-md group-hover:text-gold-600 transition-colors">{service.title}</h3>
                   <p className="text-sm text-text-secondary mb-lg">{service.description}</p>
-                  <ul className="space-y-sm text-sm">
+                  <ul className="space-y-sm text-sm flex-grow mb-lg">
                     {service.features.map((feat, fidx) => (
                       <li key={fidx} className="flex gap-sm text-text-secondary">
                         <span className="text-gold-600 flex-shrink-0">✓</span>
@@ -221,7 +221,7 @@ export default function Home() {
                       </li>
                     ))}
                   </ul>
-                  <Link href="/contact" className="btn-primary w-full text-center mt-2xl">
+                  <Link href="/contact" className="btn-primary w-full text-center mt-auto">
                     Дізнатись більше
                   </Link>
                 </motion.button>
