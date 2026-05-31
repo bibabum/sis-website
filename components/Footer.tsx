@@ -37,7 +37,7 @@ export default function Footer() {
             <h4 className="font-sans font-bold mb-md text-navy-600">Навігація</h4>
             <ul className="space-y-sm text-sm text-text-secondary">
               <li><a href="#services" className="hover:text-navy-600 transition-colors">Послуги</a></li>
-              <li><a href="#projects" className="hover:text-navy-600 transition-colors">Проекти</a></li>
+              <li><a href="#projects" className="hover:text-navy-600 transition-colors">Проєкти</a></li>
               <li><Link href="/contact" className="hover:text-navy-600 transition-colors">Контакти</Link></li>
             </ul>
           </motion.div>
