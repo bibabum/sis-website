@@ -221,7 +221,7 @@ export default function Home() {
                       </li>
                     ))}
                   </ul>
-                  <Link href="/contact" className="btn-primary w-full text-center mt-lg">
+                  <Link href="/contact" className="btn-primary w-full text-center mt-2xl">
                     Дізнатись більше
                   </Link>
                 </motion.button>
