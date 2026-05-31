@@ -388,7 +388,7 @@ export default function Home() {
               <Link href="/contact" className="btn-primary">
                 Записатися
               </Link>
-              <a href="https://t.me/+380960082884" className="btn-secondary border-white/30 text-white hover:bg-white/10">
+              <a href="https://t.me/+380960082884" className="btn-base border-2 border-white text-white bg-transparent hover:bg-white/15">
                 Телеграм
               </a>
             </motion.div>
