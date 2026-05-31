@@ -55,10 +55,10 @@ export default function HeroSection() {
             </motion.p>
 
             <motion.div variants={itemVariants} className="flex flex-col sm:flex-row gap-md pt-lg">
-              <Link href="/contact" className="btn-primary text-center">
+              <Link href="/contact" className="btn-primary text-center border-2 border-gold-400 hover:border-gold-500">
                 Інвестувати в проєкт
               </Link>
-              <a href="#services" className="btn-secondary text-center border-white/30 text-white hover:bg-white/10">
+              <a href="#services" className="btn-secondary text-center border-2 border-white text-white hover:bg-white/10">
                 Отримати консультацію
               </a>
             </motion.div>

@@ -19,11 +19,10 @@ export default function Navigation() {
     <nav className="sticky top-0 z-50 bg-surface/95 backdrop-blur-sm border-b border-border">
       <div className="container-responsive flex-between py-md">
         {/* Logo */}
-        <Link href="/" className="flex items-center gap-sm group">
+        <Link href="/" className="flex items-center group">
           <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-navy-600 to-navy-700 flex-center text-white font-serif font-bold text-lg group-hover:shadow-gold-glow transition-shadow duration-300">
             SIS
           </div>
-          <span className="hidden sm:inline font-serif font-bold text-navy-600">SIS</span>
         </Link>
 
         {/* Desktop Menu */}
