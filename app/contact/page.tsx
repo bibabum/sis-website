@@ -209,7 +209,6 @@ export default function ContactPage() {
                       <option value="whatsapp">WhatsApp</option>
                       <option value="viber">Viber</option>
                       <option value="phone">Звонок</option>
-                      <option value="zoom">Zoom</option>
                     </select>
                   </div>
 
