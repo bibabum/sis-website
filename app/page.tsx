@@ -349,7 +349,7 @@ export default function Home() {
                   Кожен завершений проект на варшавській вулиці Miła або в київському River Stone — це не просто портфелем для клієнтів. Це його особиста репутація.
                 </p>
               </div>
-              <Link href="/about" className="btn-primary mt-lg">
+              <Link href="/about" className="btn-primary mt-2xl block w-fit">
                 Повна історія
               </Link>
             </motion.div>
