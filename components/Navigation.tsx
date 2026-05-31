@@ -8,11 +8,11 @@ export default function Navigation() {
   const [isOpen, setIsOpen] = useState(false);
 
   const navItems = [
-    { href: '#services', label: 'Услуги' },
-    { href: '#projects', label: 'Проекты' },
-    { href: '#process', label: 'Процесс' },
-    { href: '#about', label: 'О нас' },
-    { href: '/contact', label: 'Контакты' },
+    { href: '#services', label: 'Послуги' },
+    { href: '#projects', label: 'Проєкти' },
+    { href: '#process', label: 'Процес' },
+    { href: '#about', label: 'Про нас' },
+    { href: '/contact', label: 'Контакти' },
   ];
 
   return (
