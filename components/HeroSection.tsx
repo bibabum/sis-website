@@ -58,7 +58,7 @@ export default function HeroSection() {
               <Link href="/contact" className="btn-primary text-center border-2 border-gold-400 hover:border-gold-500">
                 Інвестувати в проєкт
               </Link>
-              <a href="#services" className="btn-secondary text-center border-2 border-white text-white hover:bg-white/10">
+              <a href="#services" className="btn-base text-center border-2 border-white text-white bg-transparent hover:bg-white/15">
                 Отримати консультацію
               </a>
             </motion.div>
