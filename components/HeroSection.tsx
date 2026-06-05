@@ -51,7 +51,7 @@ export default function HeroSection() {
             </motion.h1>
 
             <motion.p variants={itemVariants} className="text-lg text-white/80 max-w-md leading-relaxed">
-              Інвестуйте в польські та українські проекти без ризику та стресу. Повний супровід, реальні 30%+ результати, прозора структура.
+              Інвестуйте в польські та українські проекти без ризику та стресу. Повний супровід, прозора структура.
             </motion.p>
 
             <motion.div variants={itemVariants} className="flex flex-col sm:flex-row gap-md pt-lg">
@@ -66,9 +66,9 @@ export default function HeroSection() {
             {/* Trust metrics */}
             <motion.div variants={itemVariants} className="flex flex-wrap gap-2xl pt-2xl border-t border-white/10">
               {[
-                { number: '5+', label: 'Завершених проектів' },
-                { number: '$2M+', label: 'Обсяг інвестицій' },
-                { number: '30%+', label: 'Середня ROI' },
+                { number: '25+', label: 'Завершених проектів' },
+                { number: '€5M+', label: 'Обсяг інвестицій' },
+                { number: '€11M+', label: 'Супровід проектів' },
               ].map((metric, idx) => (
                 <div key={idx} className="flex-col">
                   <div className="text-3xl font-serif font-bold text-gold-400">{metric.number}</div>

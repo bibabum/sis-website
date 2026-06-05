@@ -4,14 +4,14 @@ import Navigation from '@/components/Navigation';
 import Footer from '@/components/Footer';
 
 export const metadata: Metadata = {
-  title: 'SIS - Investment Consultancy',
-  description: 'Инвестиционный консалтинг для украинцев. Инвестируйте в недвижимость Варшавы и Украины с полным сопровождением.',
+  title: 'SIS — Інвестиційний консалтинг',
+  description: 'Інвестиційний консалтинг для українців. Інвестуйте в нерухомість Варшави та України з повним супроводом та прозорою структурою.',
   icons: {
     icon: 'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><text y=".9em" font-size="90" font-weight="bold" fill="%231B3A5C">S</text></svg>',
   },
   openGraph: {
-    title: 'SIS - Investment Consultancy',
-    description: 'Grow your capital through property investment in Poland & Ukraine',
+    title: 'SIS — Інвестиційний консалтинг',
+    description: 'Ростіть ваш капітал через інвестиції в нерухомість Польщі та України',
     images: [
       {
         url: 'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=1200&h=630&fit=crop',
