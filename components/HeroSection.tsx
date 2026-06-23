@@ -47,11 +47,11 @@ export default function HeroSection() {
             </motion.div>
 
             <motion.h1 variants={itemVariants} className="text-5xl lg:text-6xl font-serif font-bold text-white leading-tight">
-              Ростіть<br />ваш капітал<br />через<br /><span className="text-gold-400">нерухомість</span>
+              Збільшуйте<br />Вашу<br />капіталізацію<br />через <span className="text-gold-400">нерухомість</span>
             </motion.h1>
 
             <motion.p variants={itemVariants} className="text-lg text-white/80 max-w-md leading-relaxed">
-              Інвестуйте в польські та українські проекти без ризику та стресу. Повний супровід, прозора структура.
+              Інвестуйте в міжнародні та українські проекти без ризику та стресу. Повний супровід, прозора структура.
             </motion.p>
 
             <motion.div variants={itemVariants} className="flex flex-col sm:flex-row gap-md pt-lg">
