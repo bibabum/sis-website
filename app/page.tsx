@@ -468,8 +468,10 @@ export default function Home() {
                 <Image
                   src="/igor.png"
                   alt="Igor"
-                  fill
-                  className="object-cover"
+                  width={600}
+                  height={600}
+                  className="w-full h-full object-cover"
+                  priority
                 />
               </div>
             </motion.div>
