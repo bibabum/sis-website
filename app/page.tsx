@@ -465,13 +465,10 @@ export default function Home() {
 
             <motion.div variants={itemVariants} className="relative">
               <div className="relative h-96 rounded-xl overflow-hidden">
-                <Image
-                  src="/igor.png"
+                <img
+                  src="/igor.png?v=1"
                   alt="Igor"
-                  width={600}
-                  height={600}
                   className="w-full h-full object-cover"
-                  priority
                 />
               </div>
             </motion.div>
