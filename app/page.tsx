@@ -24,6 +24,45 @@ export default function Home() {
 
   const projects = [
     {
+      id: 5,
+      name: 'Квартира на Академмістечку',
+      location: 'Київ, вул. Осіння, 33',
+      image: 'https://images.unsplash.com/photo-1512207736139-afb2dcc54e72?w=500&h=400&fit=crop',
+      area: '55 м²',
+      units: '1 квартира',
+      investment: '$60,000',
+      roi: '25%',
+      status: 'Завершено',
+      timeline: '1 місяць',
+      description: 'Клієнт придбав дворівневу квартиру за нашою рекомендацією через терміновий продаж з незначними документальними проблемами, які ми вирішили.',
+    },
+    {
+      id: 4,
+      name: 'Квартири на Академмістечку',
+      location: 'Київ, вул. Осіння, 33',
+      image: 'https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?w=500&h=400&fit=crop',
+      area: '56 м²',
+      units: '2 квартири',
+      investment: '$60,000',
+      roi: '20%',
+      status: 'Завершено',
+      timeline: '5 місяців',
+      description: 'Клієнт придбав дворівневу квартиру. Ми розробили проект розділення на 2 об\'єкти та виконали переплануванння з дизайнерським ремонтом.',
+    },
+    {
+      id: 3,
+      name: 'Сталинка в центрі',
+      location: 'Київ, вул. Тарасовська, 2/21',
+      image: 'https://images.unsplash.com/photo-1554995207-c18c203602cb?w=500&h=400&fit=crop',
+      area: '50 м²',
+      units: '1 квартира',
+      investment: '$100,000',
+      roi: '10.5%',
+      status: 'Завершено',
+      timeline: '6 місяців',
+      description: 'Клієнт у 2020 році придбав цей об\'єкт площею 50м². Він приносив всього 300$ від здачі в оренду. Ми розробили дизайн-проект з переплануванням та заміною всіх комунікацій.',
+    },
+    {
       id: 1,
       name: 'ЖК "River Stone"',
       location: 'Київ, вул. Днепровська Набережна, 14',
@@ -48,45 +87,6 @@ export default function Home() {
       status: 'Завершено',
       timeline: '4 місяці',
       description: 'Придбали квартиру 40м² у забудовника за програмою єОселя, зробили дизайнерський ремонт, здали в оренду. Орендна плата покриває щомісячний платіж власнику.',
-    },
-    {
-      id: 3,
-      name: 'Сталинка в центрі',
-      location: 'Київ, вул. Тарасовська, 2/21',
-      image: 'https://images.unsplash.com/photo-1554995207-c18c203602cb?w=500&h=400&fit=crop',
-      area: '50 м²',
-      units: '1 квартира',
-      investment: '$100,000',
-      roi: '10.5%',
-      status: 'Завершено',
-      timeline: '6 місяців',
-      description: 'Клієнт у 2020 році придбав цей об\'єкт площею 50м². Він приносив всього 300$ від здачі в оренду. Ми розробили дизайн-проект з переплануванням та заміною всіх комунікацій.',
-    },
-    {
-      id: 4,
-      name: 'Квартири на Академмістечку',
-      location: 'Київ, вул. Осіння, 33',
-      image: 'https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?w=500&h=400&fit=crop',
-      area: '56 м²',
-      units: '2 квартири',
-      investment: '$60,000',
-      roi: '20%',
-      status: 'Завершено',
-      timeline: '5 місяців',
-      description: 'Клієнт придбав дворівневу квартиру. Ми розробили проект розділення на 2 об\'єкти та виконали переплануванння з дизайнерським ремонтом.',
-    },
-    {
-      id: 5,
-      name: 'Квартира на Академмістечку',
-      location: 'Київ, вул. Осіння, 33',
-      image: 'https://images.unsplash.com/photo-1512207736139-afb2dcc54e72?w=500&h=400&fit=crop',
-      area: '55 м²',
-      units: '1 квартира',
-      investment: '$60,000',
-      roi: '25%',
-      status: 'Завершено',
-      timeline: '1 місяць',
-      description: 'Клієнт придбав дворівневу квартиру за нашою рекомендацією через терміновий продаж з незначними документальними проблемами, які ми вирішили.',
     },
   ];
 
@@ -392,7 +392,7 @@ export default function Home() {
                       fill
                       className="object-cover group-hover:scale-110 transition-transform duration-300"
                     />
-                    <div className="absolute top-3 right-3 px-md py-sm bg-gold-600 text-white rounded-full text-xs font-bold">
+                    <div className="absolute top-3 right-3 px-lg py-md bg-gold-600 text-white rounded-full text-sm font-bold shadow-lg">
                       {project.roi} ROI
                     </div>
                   </div>
