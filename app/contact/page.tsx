@@ -250,7 +250,14 @@ export default function ContactPage() {
                 {step > 1 && (
                   <button
                     type="button"
-                    onClick={() => setStep(step - 1)}
+                    onClick={() => {
+                      const serviceType = watch('serviceType');
+                      if (step === 3 && serviceType === 'tax') {
+                        setStep(1);
+                      } else {
+                        setStep(step - 1);
+                      }
+                    }}
                     className="btn-secondary flex-1"
                   >
                     Назад
