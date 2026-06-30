@@ -678,54 +678,35 @@ export default function Home() {
           >
             <motion.div variants={itemVariants} className="flex-between">
               <h2>Корисні матеріали</h2>
-              <a href="#" className="text-sm text-gold-600 hover:text-gold-700 font-medium transition-colors">
+              <Link href="/blog" className="text-sm text-gold-600 hover:text-gold-700 font-medium transition-colors">
                 Всі статті →
-              </a>
+              </Link>
             </motion.div>
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-lg">
-              {[
-                {
-                  title: 'Повний гайд: як українцю купити нерухомість у Польщі 2026',
-                  category: 'Правова база',
-                  readTime: '7 хв',
-                  img: 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=400&h=200&fit=crop',
-                },
-                {
-                  title: 'Реальний ROI у Варшаві: чого очікувати від інвестицій у нерухомість',
-                  category: 'Аналіз ринку',
-                  readTime: '5 хв',
-                  img: 'https://images.unsplash.com/photo-1551836022-d5d88e9218df?w=400&h=200&fit=crop',
-                },
-                {
-                  title: '5 податкових пасток для українців при інвестиціях за кордоном',
-                  category: 'Податки',
-                  readTime: '6 хв',
-                  img: 'https://images.unsplash.com/photo-1450101499163-c8848c66ca85?w=400&h=200&fit=crop',
-                },
-              ].map((article, idx) => (
-                <motion.a
+              {projects.slice(0, 3).map((article, idx) => (
+                <motion.div
                   key={idx}
-                  href="#"
                   variants={itemVariants}
-                  className="card-base overflow-hidden group cursor-pointer"
                 >
-                  <div className="relative h-40 overflow-hidden bg-navy-100">
-                    <Image
-                      src={article.img}
-                      alt={article.title}
-                      fill
-                      className="object-cover group-hover:scale-105 transition-transform duration-300"
-                    />
-                  </div>
-                  <div className="p-lg space-y-sm">
-                    <div className="flex gap-sm items-center">
-                      <span className="text-xs font-bold text-gold-600 bg-gold-50 px-sm py-xs rounded-full">{article.category}</span>
-                      <span className="text-xs text-text-secondary">{article.readTime}</span>
+                  <Link href={`/blog/${['ukrainian-buy-property-poland-2026', 'realistic-roi-warsaw-real-estate', 'five-tax-traps-ukrainian-investors'][idx]}`} className="card-base overflow-hidden group cursor-pointer block">
+                    <div className="relative h-40 overflow-hidden bg-navy-100">
+                      <Image
+                        src={['https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=400&h=200&fit=crop', 'https://images.unsplash.com/photo-1551836022-d5d88e9218df?w=400&h=200&fit=crop', 'https://images.unsplash.com/photo-1450101499163-c8848c66ca85?w=400&h=200&fit=crop'][idx]}
+                        alt="article"
+                        fill
+                        className="object-cover group-hover:scale-105 transition-transform duration-300"
+                      />
                     </div>
-                    <h4 className="text-navy-600 group-hover:text-gold-600 transition-colors leading-snug">{article.title}</h4>
-                  </div>
-                </motion.a>
+                    <div className="p-lg space-y-sm">
+                      <div className="flex gap-sm items-center">
+                        <span className="text-xs font-bold text-gold-600 bg-gold-50 px-sm py-xs rounded-full">{['Правова база', 'Аналіз ринку', 'Податки'][idx]}</span>
+                        <span className="text-xs text-text-secondary">{['7 хв', '5 хв', '6 хв'][idx]}</span>
+                      </div>
+                      <h4 className="text-navy-600 group-hover:text-gold-600 transition-colors leading-snug">{['Повний гайд: як українцю купити нерухомість у Польщі 2026', 'Реальний ROI у Варшаві: чого очікувати від інвестицій у нерухомість', '5 податкових пасток для українців при інвестиціях за кордоном'][idx]}</h4>
+                    </div>
+                  </Link>
+                </motion.div>
               ))}
             </div>
           </motion.div>
