@@ -66,7 +66,7 @@ export default function ContactPage() {
           <motion.div variants={itemVariants} className="text-center mb-3xl">
             <h1 className="mb-lg">Запишіться на консультацію</h1>
             <p className="text-lg text-text-secondary">
-              Перша консультація даром. 15-20 хвилин щоб зрозуміти ваші цілі.
+              Перша консультація. 15 хвилин для розуміння ваших цілей.
             </p>
           </motion.div>
 
