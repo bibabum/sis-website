@@ -8,6 +8,7 @@ import Link from 'next/link';
 type FormData = {
   serviceType: string;
   budgetRange: string;
+  properties: string;
   name: string;
   contact: string;
   contactMethod: string;
@@ -137,7 +138,7 @@ export default function ContactPage() {
                 </motion.div>
               )}
 
-              {/* Step 2: Budget */}
+              {/* Step 2: Budget or Properties */}
               {step === 2 && (
                 <motion.div
                   variants={itemVariants}
@@ -147,18 +148,36 @@ export default function ContactPage() {
                   exit={{ opacity: 0, x: -20 }}
                   className="space-y-lg"
                 >
-                  <h3>Приблизний бюджет?</h3>
-                  <select
-                    {...register('budgetRange', { required: true })}
-                    className="input-base"
-                  >
-                    <option value="">Виберіть діапазон</option>
-                    <option value="under-50k">До $50,000</option>
-                    <option value="50-150k">$50,000 - $150,000</option>
-                    <option value="150-500k">$150,000 - $500,000</option>
-                    <option value="over-500k">$500,000+</option>
-                    <option value="exploring">Тільки розглядаю</option>
-                  </select>
+                  {watch('serviceType') === 'management' ? (
+                    <>
+                      <h3>Скільки у вас нерухомостей?</h3>
+                      <select
+                        {...register('properties', { required: true })}
+                        className="input-base"
+                      >
+                        <option value="">Виберіть кількість</option>
+                        <option value="1">1 нерухомість</option>
+                        <option value="2-3">2-3 нерухомості</option>
+                        <option value="4-5">4-5 нерухомостей</option>
+                        <option value="more">Більше 5</option>
+                      </select>
+                    </>
+                  ) : (
+                    <>
+                      <h3>Приблизний бюджет?</h3>
+                      <select
+                        {...register('budgetRange', { required: true })}
+                        className="input-base"
+                      >
+                        <option value="">Виберіть діапазон</option>
+                        <option value="under-50k">До $50,000</option>
+                        <option value="50-150k">$50,000 - $150,000</option>
+                        <option value="150-500k">$150,000 - $500,000</option>
+                        <option value="over-500k">$500,000+</option>
+                        <option value="exploring">Тільки розглядаю</option>
+                      </select>
+                    </>
+                  )}
                 </motion.div>
               )}
 
@@ -237,7 +256,22 @@ export default function ContactPage() {
                     Назад
                   </button>
                 )}
-                {step < 3 ? (
+                {step === 1 ? (
+                  <button
+                    type="button"
+                    onClick={() => {
+                      const serviceType = watch('serviceType');
+                      if (serviceType === 'tax') {
+                        setStep(3);
+                      } else {
+                        setStep(2);
+                      }
+                    }}
+                    className="btn-primary flex-1"
+                  >
+                    Далі
+                  </button>
+                ) : step < 3 ? (
                   <button
                     type="button"
                     onClick={() => setStep(step + 1)}
