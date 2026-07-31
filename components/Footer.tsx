@@ -36,8 +36,8 @@ export default function Footer() {
           >
             <h4 className="font-sans font-bold mb-md text-navy-600">Навігація</h4>
             <ul className="space-y-sm text-sm text-text-secondary">
-              <li><a href="#services" className="hover:text-navy-600 transition-colors">Послуги</a></li>
-              <li><a href="#projects" className="hover:text-navy-600 transition-colors">Проєкти</a></li>
+              <li><Link href="/#services" className="hover:text-navy-600 transition-colors">Послуги</Link></li>
+              <li><Link href="/#projects" className="hover:text-navy-600 transition-colors">Проєкти</Link></li>
               <li><Link href="/contact" className="hover:text-navy-600 transition-colors">Контакти</Link></li>
             </ul>
           </motion.div>
@@ -51,9 +51,9 @@ export default function Footer() {
           >
             <h4 className="font-sans font-bold mb-md text-navy-600">Послуги</h4>
             <ul className="space-y-sm text-sm text-text-secondary">
-              <li><a href="#services" className="hover:text-navy-600 transition-colors">Інвестиційне партнерство</a></li>
-              <li><a href="#services" className="hover:text-navy-600 transition-colors">Консультація</a></li>
-              <li><a href="#services" className="hover:text-navy-600 transition-colors">Управління активами</a></li>
+              <li><Link href="/#services" className="hover:text-navy-600 transition-colors">Інвестиційне партнерство</Link></li>
+              <li><Link href="/#services" className="hover:text-navy-600 transition-colors">Консультація</Link></li>
+              <li><Link href="/#services" className="hover:text-navy-600 transition-colors">Управління активами</Link></li>
             </ul>
           </motion.div>
 

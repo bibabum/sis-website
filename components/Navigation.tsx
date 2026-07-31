@@ -8,10 +8,10 @@ export default function Navigation() {
   const [isOpen, setIsOpen] = useState(false);
 
   const navItems = [
-    { href: '#services', label: 'Послуги' },
-    { href: '#projects', label: 'Проєкти' },
-    { href: '#process', label: 'Процес' },
-    { href: '#about', label: 'Про нас' },
+    { href: '/#services', label: 'Послуги' },
+    { href: '/#projects', label: 'Проєкти' },
+    { href: '/#process', label: 'Процес' },
+    { href: '/#about', label: 'Про нас' },
     { href: '/contact', label: 'Контакти' },
   ];
 
@@ -28,13 +28,13 @@ export default function Navigation() {
         {/* Desktop Menu */}
         <div className="hidden md:flex gap-xl">
           {navItems.map((item) => (
-            <a
+            <Link
               key={item.href}
               href={item.href}
               className="text-text-secondary hover:text-navy-600 transition-colors duration-200 font-sans font-medium text-sm"
             >
               {item.label}
-            </a>
+            </Link>
           ))}
         </div>
 
@@ -79,17 +79,20 @@ export default function Navigation() {
         >
           <div className="container-responsive py-lg flex flex-col gap-md">
             {navItems.map((item, idx) => (
-              <motion.a
+              <motion.div
                 key={item.href}
-                href={item.href}
-                onClick={() => setIsOpen(false)}
                 initial={{ opacity: 0, x: -10 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ delay: idx * 0.05 }}
-                className="text-text-secondary hover:text-navy-600 transition-colors font-sans font-medium"
               >
-                {item.label}
-              </motion.a>
+                <Link
+                  href={item.href}
+                  onClick={() => setIsOpen(false)}
+                  className="block text-text-secondary hover:text-navy-600 transition-colors font-sans font-medium"
+                >
+                  {item.label}
+                </Link>
+              </motion.div>
             ))}
             <Link href="/contact" className="btn-primary w-full text-center">
               Консультація
