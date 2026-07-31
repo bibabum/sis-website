@@ -4,9 +4,9 @@ import { motion } from 'framer-motion';
 import Link from 'next/link';
 import Image from 'next/image';
 import HeroSection from '@/components/HeroSection';
-import ImageCarousel from '@/components/ImageCarousel';
-import PolandPortfolio from '@/components/PolandPortfolio';
 import CurrentProject from '@/components/CurrentProject';
+import Projects from '@/components/Projects';
+import { articles } from '@/data/articles';
 import { useState } from 'react';
 
 const containerVariants = {
@@ -25,109 +25,6 @@ const itemVariants = {
 export default function Home() {
   const [selectedService, setSelectedService] = useState<string | null>(null);
 
-  const projects = [
-    {
-      id: 5,
-      name: 'Квартира на Академмістечку',
-      location: 'Київ, вул. Осіння, 33',
-      image: '/images/akadem-1/akadem-1-1.jpg',
-      images: [
-        '/images/akadem-1/akadem-1-1.jpg',
-        '/images/akadem-1/akadem-1-2.jpg',
-        '/images/akadem-1/akadem-1-3.jpg',
-        '/images/akadem-1/akadem-1-4.jpg',
-      ],
-      area: '55 м²',
-      units: '1 квартира',
-      investment: '$60,000',
-      roi: '25%',
-      status: 'Завершено',
-      timeline: '1 місяць',
-      description: 'Клієнт придбав дворівневу квартиру за нашою рекомендацією через терміновий продаж з незначними документальними проблемами, які ми вирішили.',
-    },
-    {
-      id: 4,
-      name: 'Квартири на Академмістечку',
-      location: 'Київ, вул. Осіння, 33',
-      image: '/images/akadem-2/akadem-2-1.jpg',
-      images: [
-        '/images/akadem-2/akadem-2-1.jpg',
-        '/images/akadem-2/akadem-2-2.jpg',
-        '/images/akadem-2/akadem-2-3.jpg',
-        '/images/akadem-2/akadem-2-4.jpg',
-        '/images/akadem-2/akadem-2-5.jpg',
-        '/images/akadem-2/akadem-2-6.jpg',
-      ],
-      area: '56 м²',
-      units: '2 квартири',
-      investment: '$60,000',
-      roi: '20%',
-      status: 'Завершено',
-      timeline: '5 місяців',
-      description: 'Клієнт придбав дворівневу квартиру. Ми розробили проект розділення на 2 об\'єкти та виконали переплануванння з дизайнерським ремонтом.',
-    },
-    {
-      id: 3,
-      name: 'Сталинка в центрі',
-      location: 'Київ, вул. Тарасовська, 2/21',
-      image: '/images/stalinka/stalinka-1.jpg',
-      images: [
-        '/images/stalinka/stalinka-1.jpg',
-        '/images/stalinka/stalinka-2.jpg',
-        '/images/stalinka/stalinka-3.jpg',
-        '/images/stalinka/stalinka-4.jpg',
-        '/images/stalinka/stalinka-5.jpg',
-        '/images/stalinka/stalinka-6.jpg',
-      ],
-      area: '50 м²',
-      units: '1 квартира',
-      investment: '$100,000',
-      roi: '10.5%',
-      status: 'Завершено',
-      timeline: '6 місяців',
-      description: 'Клієнт у 2020 році придбав цей об\'єкт площею 50м². Він приносив всього 300$ від здачі в оренду. Ми розробили дизайн-проект з переплануванням та заміною всіх комунікацій.',
-    },
-    {
-      id: 1,
-      name: 'ЖК "River Stone"',
-      location: 'Київ, вул. Днепровська Набережна, 14',
-      image: '/images/river-stone/river-stone-1.jpg',
-      images: [
-        '/images/river-stone/river-stone-1.jpg',
-        '/images/river-stone/river-stone-2.jpg',
-        '/images/river-stone/river-stone-3.jpg',
-        '/images/river-stone/river-stone-4.jpg',
-      ],
-      area: '95 м²',
-      units: '2 квартири',
-      investment: '$130,000',
-      roi: '8% та 12%',
-      status: 'Завершено',
-      timeline: '6 місяців',
-      description: 'Розділення однієї великої квартири. Загальна площа була 95м², після переплануванння отримали 2 автономних об\'єкти: євродвушка 50м² та студія 31м² з дизайнерським ремонтом.',
-    },
-    {
-      id: 2,
-      name: 'ЖК "Варшавський"',
-      location: 'Київ, вул. Всеволода Змієнко, 34/21',
-      image: '/images/varshavskyi/varshavskyi-1.jpg',
-      images: [
-        '/images/varshavskyi/varshavskyi-1.jpg',
-        '/images/varshavskyi/varshavskyi-2.jpg',
-        '/images/varshavskyi/varshavskyi-3.jpg',
-        '/images/varshavskyi/varshavskyi-4.jpg',
-        '/images/varshavskyi/varshavskyi-5.jpg',
-      ],
-      area: '40 м²',
-      units: '1 квартира',
-      investment: '$56,000',
-      roi: '6.5%',
-      status: 'Завершено',
-      timeline: '4 місяці',
-      description: 'Придбали квартиру 40м² у забудовника за програмою єОселя, зробили дизайнерський ремонт, здали в оренду. Орендна плата покриває щомісячний платіж власнику.',
-    },
-  ];
-
   const services = [
     {
       id: 1,
@@ -142,19 +39,6 @@ export default function Home() {
       icon: '📊',
     },
     {
-      id: 2,
-      title: 'Персональна консультація',
-      description: 'Експертний аналіз вашого фінансового стану і оцінка ваших можливостей',
-      features: [
-        'Індивідуальний план розвитку',
-        'Податкова оптимізація',
-        'Зменшення податкового навантаження',
-        'Легальна перевірка угод',
-        'Бізнес-стратегія',
-      ],
-      icon: '👨‍💼',
-    },
-    {
       id: 3,
       title: 'Управління активами',
       description: 'Ми управляємо вашою нерухомістю для максимальної прибутковості',
@@ -167,6 +51,19 @@ export default function Home() {
         'Фінансова звітність',
       ],
       icon: '🏢',
+    },
+    {
+      id: 2,
+      title: 'Персональна консультація',
+      description: 'Експертний аналіз вашого фінансового стану і оцінка ваших можливостей',
+      features: [
+        'Індивідуальний план розвитку',
+        'Податкова оптимізація',
+        'Зменшення податкового навантаження',
+        'Легальна перевірка угод',
+        'Бізнес-стратегія',
+      ],
+      icon: '👨‍💼',
     },
   ];
 
@@ -389,7 +286,12 @@ export default function Home() {
                       </div>
                     ))}
                   </div>
-                  <div className="border-t border-white/20 pt-md">
+                  <div className="border-t border-white/20 pt-md space-y-sm">
+                    <p className="text-white/80 text-sm text-center">
+                      Разом по двох будинках у Варшаві:{' '}
+                      <span className="font-bold text-gold-400">$860,000</span> інвестовано →{' '}
+                      <span className="font-bold text-gold-400">$1,140,000</span> отримано
+                    </p>
                     <p className="text-white/60 text-xs text-center mb-md">
                       Юридичний партнер: Axellegal · Всі договори нотаріально засвідчені
                     </p>
@@ -404,84 +306,9 @@ export default function Home() {
         </div>
       </section>
 
-      <PolandPortfolio />
-
       <CurrentProject />
 
-      {/* Projects Section */}
-      <section id="projects" className="py-3xl bg-white">
-        <div className="container-responsive">
-          <motion.div
-            variants={containerVariants}
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true }}
-            className="space-y-3xl"
-          >
-            <motion.h2 variants={itemVariants}>Проєкти в Україні</motion.h2>
-
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-lg">
-              {projects.map((project, idx) => (
-                <motion.div
-                  key={project.id}
-                  variants={itemVariants}
-                  className="card-base overflow-hidden group"
-                >
-                  <div className="relative">
-                    {project.images ? (
-                      <ImageCarousel images={project.images} title={project.name} />
-                    ) : (
-                      <div className="relative h-48 overflow-hidden bg-navy-100">
-                        <Image
-                          src={project.image}
-                          alt={project.name}
-                          fill
-                          className="object-cover group-hover:scale-110 transition-transform duration-300"
-                        />
-                      </div>
-                    )}
-                    <div className="absolute top-3 right-3 px-lg py-md bg-gold-600 text-white rounded-full text-sm font-bold shadow-lg">
-                      {project.roi} ROI
-                    </div>
-                  </div>
-
-                  <div className="p-lg space-y-md">
-                    <div>
-                      <h3 className="text-navy-600">{project.name}</h3>
-                      <p className="text-sm text-text-secondary">{project.location}</p>
-                    </div>
-
-                    <div className="grid grid-cols-2 gap-sm py-md border-y border-border text-sm">
-                      <div>
-                        <p className="text-text-secondary text-xs">Площа</p>
-                        <p className="font-bold text-navy-600">{project.area}</p>
-                      </div>
-                      <div>
-                        <p className="text-text-secondary text-xs">Одиниці</p>
-                        <p className="font-bold text-navy-600">{project.units}</p>
-                      </div>
-                      <div>
-                        <p className="text-text-secondary text-xs">Інвестиція</p>
-                        <p className="font-bold text-navy-600">{project.investment}</p>
-                      </div>
-                      <div>
-                        <p className="text-text-secondary text-xs">Термін</p>
-                        <p className="font-bold text-navy-600">{project.timeline}</p>
-                      </div>
-                    </div>
-
-                    {project.description && (
-                      <div className="pt-md border-t border-border">
-                        <p className="text-sm text-text-secondary leading-relaxed">{project.description}</p>
-                      </div>
-                    )}
-                  </div>
-                </motion.div>
-              ))}
-            </div>
-          </motion.div>
-        </div>
-      </section>
+      <Projects />
 
       {/* Process Section */}
       <section id="process" className="py-3xl bg-navy-50">
@@ -743,26 +570,32 @@ export default function Home() {
             </motion.div>
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-lg">
-              {projects.slice(0, 3).map((article, idx) => (
-                <motion.div
-                  key={idx}
-                  variants={itemVariants}
-                >
-                  <Link href={`/blog/${['ukrainian-buy-property-poland-2026', 'realistic-roi-warsaw-real-estate', 'five-tax-traps-ukrainian-investors'][idx]}`} className="card-base overflow-hidden group cursor-pointer block">
+              {articles.slice(0, 3).map((article) => (
+                <motion.div key={article.id} variants={itemVariants}>
+                  <Link
+                    href={`/blog/${article.slug}`}
+                    className="card-base overflow-hidden group cursor-pointer block"
+                  >
                     <div className="relative h-40 overflow-hidden bg-navy-100">
                       <Image
-                        src={['https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=400&h=200&fit=crop', 'https://images.unsplash.com/photo-1551836022-d5d88e9218df?w=400&h=200&fit=crop', 'https://images.unsplash.com/photo-1450101499163-c8848c66ca85?w=400&h=200&fit=crop'][idx]}
-                        alt="article"
+                        src={article.image}
+                        alt={article.title}
                         fill
                         className="object-cover group-hover:scale-105 transition-transform duration-300"
                       />
                     </div>
                     <div className="p-lg space-y-sm">
                       <div className="flex gap-sm items-center">
-                        <span className="text-xs font-bold text-gold-600 bg-gold-50 px-sm py-xs rounded-full">{['Правова база', 'Аналіз ринку', 'Податки'][idx]}</span>
-                        <span className="text-xs text-text-secondary">{['7 хв', '5 хв', '6 хв'][idx]}</span>
+                        <span className="text-xs font-bold text-gold-600 bg-gold-50 px-sm py-xs rounded-full">
+                          {article.category}
+                        </span>
+                        <span className="text-xs text-text-secondary">
+                          {article.readTime}
+                        </span>
                       </div>
-                      <h4 className="text-navy-600 group-hover:text-gold-600 transition-colors leading-snug">{['Повний гайд: як українцю купити нерухомість у Польщі 2026', 'Реальний ROI у Варшаві: чого очікувати від інвестицій у нерухомість', '5 податкових пасток для українців при інвестиціях за кордоном'][idx]}</h4>
+                      <h4 className="text-navy-600 group-hover:text-gold-600 transition-colors leading-snug">
+                        {article.title}
+                      </h4>
                     </div>
                   </Link>
                 </motion.div>

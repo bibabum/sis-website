@@ -22,6 +22,8 @@ export interface Scenario {
 }
 
 export const currentProject = {
+  /** Shown above the heading -- frames this as one of an ongoing pipeline. */
+  eyebrow: 'Поточний проект',
   status: 'Відкрито для інвестицій',
   name: 'Будинок у Zakręt під Варшавою',
   location: '05-077 Zakręt, гміна Wiązowna · ~15 км від центру Варшави',

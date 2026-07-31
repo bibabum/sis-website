@@ -60,6 +60,9 @@ export default function CurrentProject() {
               <span className="w-2 h-2 rounded-full bg-gold-400 animate-pulse" />
               {currentProject.status.toUpperCase()}
             </span>
+            <p className="text-white/50 text-sm mb-sm">
+              {currentProject.eyebrow}
+            </p>
             <h2 className="text-white mb-md">{currentProject.name}</h2>
             <p className="text-white/60 text-sm mb-lg">
               {currentProject.location}
