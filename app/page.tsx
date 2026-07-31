@@ -5,6 +5,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import HeroSection from '@/components/HeroSection';
 import ImageCarousel from '@/components/ImageCarousel';
+import PolandPortfolio from '@/components/PolandPortfolio';
 import { useState } from 'react';
 
 const containerVariants = {
@@ -402,6 +403,8 @@ export default function Home() {
         </div>
       </section>
 
+      <PolandPortfolio />
+
       {/* Projects Section */}
       <section id="projects" className="py-3xl bg-white">
         <div className="container-responsive">
@@ -412,7 +415,7 @@ export default function Home() {
             viewport={{ once: true }}
             className="space-y-3xl"
           >
-            <motion.h2 variants={itemVariants}>Наші проєкти</motion.h2>
+            <motion.h2 variants={itemVariants}>Проєкти в Україні</motion.h2>
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-lg">
               {projects.map((project, idx) => (
