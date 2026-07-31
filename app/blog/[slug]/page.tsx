@@ -4,6 +4,7 @@ import { motion } from 'framer-motion';
 import Link from 'next/link';
 import Image from 'next/image';
 import { articles } from '@/data/articles';
+import { renderArticle } from '@/lib/renderArticle';
 import { notFound } from 'next/navigation';
 
 const itemVariants = {
@@ -81,30 +82,8 @@ export default function ArticlePage({ params }: { params: { slug: string } }) {
               initial="hidden"
               whileInView="visible"
               viewport={{ once: true }}
-              className="text-text leading-relaxed space-y-lg"
-              dangerouslySetInnerHTML={{
-                __html: article.content
-                  .split('\n')
-                  .map((line, idx) => {
-                    if (line.startsWith('# ')) {
-                      return `<h1 key=${idx} class="text-4xl font-serif font-bold text-navy-600 mt-2xl mb-lg">${line.substring(2)}</h1>`;
-                    }
-                    if (line.startsWith('## ')) {
-                      return `<h2 key=${idx} class="text-2xl font-serif font-bold text-navy-600 mt-xl mb-md">${line.substring(3)}</h2>`;
-                    }
-                    if (line.startsWith('### ')) {
-                      return `<h3 key=${idx} class="text-xl font-bold text-navy-600 mt-lg mb-sm">${line.substring(4)}</h3>`;
-                    }
-                    if (line.startsWith('- ')) {
-                      return `<li key=${idx} class="ml-lg">${line.substring(2)}</li>`;
-                    }
-                    if (line.trim() === '') {
-                      return `<br key=${idx} />`;
-                    }
-                    return `<p key=${idx} class="text-text-secondary">${line}</p>`;
-                  })
-                  .join(''),
-              }}
+              className="text-text leading-relaxed"
+              dangerouslySetInnerHTML={{ __html: renderArticle(article.content) }}
             />
           </div>
         </div>
