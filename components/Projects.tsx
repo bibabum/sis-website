@@ -89,11 +89,19 @@ export default function Projects() {
             })}
           </motion.div>
 
+          {/* Cards carry no entrance animation on purpose.
+              The wrapper above uses whileInView + staggerChildren with
+              once:true. That orchestration gates children declaring
+              `variants`, and once it has completed it never releases cards
+              that mount later -- so filtering left them stuck at opacity 0
+              and the grid rendered blank.
+              Card visibility must not depend on an animation firing. The
+              wrapper already fades the whole section in, so filtered
+              results simply appear. */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-lg items-start">
             {visible.map((p) => (
-              <motion.div
+              <div
                 key={p.id}
-                variants={itemVariants}
                 className="card-base p-lg flex flex-col"
               >
                 <div className="relative">
@@ -133,7 +141,7 @@ export default function Projects() {
                     {p.description}
                   </p>
                 )}
-              </motion.div>
+              </div>
             ))}
           </div>
         </motion.div>
