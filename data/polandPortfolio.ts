@@ -1,13 +1,15 @@
 /**
  * Completed Warsaw projects. Presented as track record, not as an open
- * offer -- both buildings are sold.
+ * offer -- everything here is sold.
  *
- * Будинок №1 is deliberately not a card here: the case study section
- * directly above already covers it in full. This section shows the
- * second building plus the apartment-level entry point.
+ * Будинок №1 is deliberately absent: the case study section directly
+ * above already covers it in full. This section shows the apartment
+ * entry point and the second building.
+ *
+ * Both cards share one shape so they render identically.
  */
 
-export interface PolandBuilding {
+export interface PolandCard {
   id: number;
   name: string;
   status: string;
@@ -15,16 +17,6 @@ export interface PolandBuilding {
   rows: { label: string; value: string }[];
   roi: string;
   /** Optional photos. When present the card shows a carousel. */
-  images?: string[];
-}
-
-export interface PolandUnit {
-  name: string;
-  subtitle: string;
-  entry: string;
-  entryLabel: string;
-  roi: string;
-  rows: { label: string; value: string }[];
   images?: string[];
 }
 
@@ -36,22 +28,21 @@ export const polandSummary = [
   { label: 'Отримано', value: '$1,140,000' },
 ];
 
-/** The accessible entry point -- a quarter of a whole building. */
-export const polandUnit: PolandUnit = {
-  name: 'Одна квартира',
-  subtitle: 'Найдоступніший вхід у польський проект',
-  entry: '$102,500',
-  entryLabel: 'Початкові інвестиції',
-  roi: '32%',
-  rows: [
-    { label: 'Площа', value: '53,31 м²' },
-    { label: 'До введення в експлуатацію', value: '6 місяців' },
-    { label: 'Ремонт (опційно)', value: '+$38,000' },
-    { label: 'До готовності з ремонтом', value: '10 місяців' },
-  ],
-};
-
-export const polandBuildings: PolandBuilding[] = [
+export const polandCards: PolandCard[] = [
+  {
+    id: 1,
+    name: 'Одна квартира',
+    status: 'Збудовано',
+    location: 'Варшава',
+    roi: '32%',
+    rows: [
+      { label: 'Площа', value: '53,31 м²' },
+      { label: 'Початкові інвестиції', value: '$102,500' },
+      { label: 'Термін будівництва', value: '6 місяців' },
+      { label: 'Ремонт (опційно)', value: '+$38,000' },
+      { label: 'Термін з ремонтом', value: '10 місяців' },
+    ],
+  },
   {
     id: 2,
     name: 'Будинок №2',

@@ -2,11 +2,7 @@
 
 import { motion } from 'framer-motion';
 import ImageCarousel from '@/components/ImageCarousel';
-import {
-  polandBuildings,
-  polandSummary,
-  polandUnit,
-} from '@/data/polandPortfolio';
+import { polandCards, polandSummary } from '@/data/polandPortfolio';
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -23,27 +19,13 @@ const itemVariants = {
  * otherwise holds the same space with a placeholder, so adding photos
  * later does not shift the layout.
  */
-function PhotoSlot({
-  images,
-  title,
-  dark = false,
-}: {
-  images?: string[];
-  title: string;
-  dark?: boolean;
-}) {
+function PhotoSlot({ images, title }: { images?: string[]; title: string }) {
   if (images && images.length > 0) {
     return <ImageCarousel images={images} title={title} />;
   }
 
   return (
-    <div
-      className={`h-64 flex flex-col items-center justify-center gap-sm rounded-lg border-2 border-dashed ${
-        dark
-          ? 'border-white/25 bg-white/5 text-white/50'
-          : 'border-border bg-surface-alt text-text-secondary'
-      }`}
-    >
+    <div className="h-64 flex flex-col items-center justify-center gap-sm rounded-lg border-2 border-dashed border-border bg-surface-alt text-text-secondary">
       <span className="text-3xl leading-none">🏠</span>
       <span className="text-xs">Фото проекту</span>
     </div>
@@ -91,71 +73,28 @@ export default function PolandPortfolio() {
             ))}
           </motion.div>
 
+          {/* Cards -- one shape, so both render identically */}
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-lg items-start">
-            {/* Apartment — the accessible entry point */}
-            <motion.div
-              variants={itemVariants}
-              className="rounded-xl p-lg bg-navy-600 text-white border-2 border-gold-600 flex flex-col"
-            >
-              <PhotoSlot images={polandUnit.images} title={polandUnit.name} dark />
-
-              <div className="mt-lg">
-                <h3 className="text-white">{polandUnit.name}</h3>
-                <p className="text-sm text-white/70 mt-xs">
-                  {polandUnit.subtitle}
-                </p>
-              </div>
-
-              <div className="flex items-end gap-lg mt-lg pb-lg mb-lg border-b border-white/20">
-                <div>
-                  <p className="text-xs text-white/60 mb-xs">
-                    {polandUnit.entryLabel}
-                  </p>
-                  <p className="text-3xl font-serif font-bold text-gold-400">
-                    {polandUnit.entry}
-                  </p>
-                </div>
-                <div className="ml-auto text-right">
-                  <p className="text-xs text-white/60 mb-xs">Дохідність</p>
-                  <p className="text-3xl font-serif font-bold text-gold-400">
-                    {polandUnit.roi}
-                  </p>
-                </div>
-              </div>
-
-              <dl className="space-y-sm text-sm">
-                {polandUnit.rows.map((row) => (
-                  <div key={row.label} className="flex justify-between gap-md">
-                    <dt className="text-white/70">{row.label}</dt>
-                    <dd className="font-medium text-white text-right">
-                      {row.value}
-                    </dd>
-                  </div>
-                ))}
-              </dl>
-            </motion.div>
-
-            {/* Whole buildings */}
-            {polandBuildings.map((b) => (
+            {polandCards.map((card) => (
               <motion.div
-                key={b.id}
+                key={card.id}
                 variants={itemVariants}
                 className="card-base p-lg flex flex-col"
               >
-                <PhotoSlot images={b.images} title={b.name} />
+                <PhotoSlot images={card.images} title={card.name} />
 
                 <div className="flex flex-wrap items-center gap-sm mt-lg mb-lg">
-                  <h3 className="text-navy-600 mr-auto">{b.name}</h3>
+                  <h3 className="text-navy-600 mr-auto">{card.name}</h3>
                   <span className="text-xs font-bold text-green bg-green/10 px-sm py-xs rounded-full">
-                    ✓ {b.status}
+                    ✓ {card.status}
                   </span>
                   <span className="text-xs text-text-secondary bg-surface-alt px-sm py-xs rounded-full">
-                    {b.location}
+                    {card.location}
                   </span>
                 </div>
 
                 <dl className="space-y-md text-sm">
-                  {b.rows.map((row) => (
+                  {card.rows.map((row) => (
                     <div
                       key={row.label}
                       className="flex justify-between gap-md border-b border-border pb-sm"
@@ -171,7 +110,7 @@ export default function PolandPortfolio() {
                 <div className="flex items-baseline justify-between mt-lg pt-md">
                   <span className="text-sm text-text-secondary">Дохідність</span>
                   <span className="text-3xl font-serif font-bold text-gold-600">
-                    {b.roi}
+                    {card.roi}
                   </span>
                 </div>
               </motion.div>
