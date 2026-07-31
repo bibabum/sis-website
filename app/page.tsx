@@ -4,6 +4,7 @@ import { motion } from 'framer-motion';
 import Link from 'next/link';
 import Image from 'next/image';
 import HeroSection from '@/components/HeroSection';
+import ImageCarousel from '@/components/ImageCarousel';
 import { useState } from 'react';
 
 const containerVariants = {
@@ -66,7 +67,13 @@ export default function Home() {
       id: 1,
       name: 'ЖК "River Stone"',
       location: 'Київ, вул. Днепровська Набережна, 14',
-      image: 'https://images.unsplash.com/photo-1512207736139-afb2dcc54e72?w=500&h=400&fit=crop',
+      image: '/images/river-stone/river-stone-1.jpg',
+      images: [
+        '/images/river-stone/river-stone-1.jpg',
+        '/images/river-stone/river-stone-2.jpg',
+        '/images/river-stone/river-stone-3.jpg',
+        '/images/river-stone/river-stone-4.jpg',
+      ],
       area: '95 м²',
       units: '2 квартири',
       investment: '$130,000',
@@ -385,13 +392,19 @@ export default function Home() {
                   variants={itemVariants}
                   className="card-base overflow-hidden group"
                 >
-                  <div className="relative h-48 overflow-hidden bg-navy-100">
-                    <Image
-                      src={project.image}
-                      alt={project.name}
-                      fill
-                      className="object-cover group-hover:scale-110 transition-transform duration-300"
-                    />
+                  <div className="relative">
+                    {project.images ? (
+                      <ImageCarousel images={project.images} title={project.name} />
+                    ) : (
+                      <div className="relative h-48 overflow-hidden bg-navy-100">
+                        <Image
+                          src={project.image}
+                          alt={project.name}
+                          fill
+                          className="object-cover group-hover:scale-110 transition-transform duration-300"
+                        />
+                      </div>
+                    )}
                     <div className="absolute top-3 right-3 px-lg py-md bg-gold-600 text-white rounded-full text-sm font-bold shadow-lg">
                       {project.roi} ROI
                     </div>
