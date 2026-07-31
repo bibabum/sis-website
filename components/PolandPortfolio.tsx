@@ -184,7 +184,7 @@ export default function PolandPortfolio() {
             className="text-sm text-text-secondary text-center"
           >
             Обидва проекти завершені та продані. Документи, дозволи та договори
-            надаємо на консультації. Юридичний партнер — Mitrax.
+            надаємо на консультації. Юридичний партнер — Axellegal.
           </motion.p>
         </motion.div>
       </div>

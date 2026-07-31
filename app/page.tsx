@@ -362,7 +362,7 @@ export default function Home() {
                   },
                   {
                     label: 'ЩО МИ ЗРОБИЛИ',
-                    text: 'Разом з юридичним партнером Mitrax знайшли земельну ділянку у Варшаві. Отримали дозвіл на будівництво. Збудували 4-квартирний будинок за 6 місяців. Продали всі квартири з прибутком.',
+                    text: 'Разом з юридичним партнером Axellegal знайшли земельну ділянку у Варшаві. Отримали дозвіл на будівництво. Збудували 4-квартирний будинок за 6 місяців. Продали всі квартири з прибутком.',
                   },
                 ].map((item, idx) => (
                   <div key={idx} className="border-l-4 border-gold-400 pl-lg">
@@ -390,7 +390,7 @@ export default function Home() {
                   </div>
                   <div className="border-t border-white/20 pt-md">
                     <p className="text-white/60 text-xs text-center mb-md">
-                      Юридичний партнер: Mitrax · Всі договори нотаріально засвідчені
+                      Юридичний партнер: Axellegal · Всі договори нотаріально засвідчені
                     </p>
                   </div>
                   <Link href="/contact" className="btn-primary w-full text-center block">
@@ -570,14 +570,25 @@ export default function Home() {
             </motion.p>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-2xl text-center">
               {[
-                { icon: '⚖️', title: 'Mitrax', desc: 'Юридичний партнер' },
+                { icon: '⚖️', title: 'Axellegal', desc: 'Юридичний партнер', href: 'https://axellegal.com.ua/' },
                 { icon: '📋', title: 'Нотаріат', desc: 'Всі договори засвідчені' },
                 { icon: '🏛️', title: 'Польська юрисдикція', desc: 'Реєстрація та захист' },
                 { icon: '🔒', title: 'Повна прозорість', desc: 'Всі документи доступні' },
               ].map((item, idx) => (
                 <motion.div key={idx} variants={itemVariants} className="flex flex-col items-center gap-sm">
                   <span className="text-3xl">{item.icon}</span>
-                  <p className="font-bold text-navy-600 text-sm">{item.title}</p>
+                  {item.href ? (
+                    <a
+                      href={item.href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="font-bold text-navy-600 text-sm hover:text-gold-600 transition-colors underline decoration-dotted underline-offset-4"
+                    >
+                      {item.title}
+                    </a>
+                  ) : (
+                    <p className="font-bold text-navy-600 text-sm">{item.title}</p>
+                  )}
                   <p className="text-xs text-text-secondary">{item.desc}</p>
                 </motion.div>
               ))}
@@ -615,7 +626,7 @@ export default function Home() {
                   tag: 'Податкова оптимізація',
                 },
                 {
-                  text: 'Скептично ставився до 30%+ ROI — думав, це маркетинг. Але Ігор показав усі документи, дозволи, контракти. Юридичний партнер Mitrax дав впевненість. Вклав $75K — результатом дуже задоволений.',
+                  text: 'Скептично ставився до 30%+ ROI — думав, це маркетинг. Але Ігор показав усі документи, дозволи, контракти. Юридичний партнер Axellegal дав впевненість. Вклав $75K — результатом дуже задоволений.',
                   name: 'Сергій В.',
                   city: 'Дніпро',
                   tag: 'Інвестиційне партнерство',
