@@ -1,12 +1,11 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import Link from 'next/link';
 import ImageCarousel from '@/components/ImageCarousel';
 import {
   polandBuildings,
-  polandEntryTiers,
   polandSummary,
+  polandUnit,
 } from '@/data/polandPortfolio';
 
 const containerVariants = {
@@ -18,6 +17,38 @@ const itemVariants = {
   hidden: { opacity: 0, y: 24 },
   visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: 'easeOut' } },
 };
+
+/**
+ * Photo slot for a card. Renders the carousel once images exist and
+ * otherwise holds the same space with a placeholder, so adding photos
+ * later does not shift the layout.
+ */
+function PhotoSlot({
+  images,
+  title,
+  dark = false,
+}: {
+  images?: string[];
+  title: string;
+  dark?: boolean;
+}) {
+  if (images && images.length > 0) {
+    return <ImageCarousel images={images} title={title} />;
+  }
+
+  return (
+    <div
+      className={`h-64 flex flex-col items-center justify-center gap-sm rounded-lg border-2 border-dashed ${
+        dark
+          ? 'border-white/25 bg-white/5 text-white/50'
+          : 'border-border bg-surface-alt text-text-secondary'
+      }`}
+    >
+      <span className="text-3xl leading-none">🏠</span>
+      <span className="text-xs">Фото проекту</span>
+    </div>
+  );
+}
 
 export default function PolandPortfolio() {
   return (
@@ -37,8 +68,8 @@ export default function PolandPortfolio() {
             </span>
             <h2 className="mb-md">Збудовано та продано у Варшаві</h2>
             <p className="text-lg text-text-secondary">
-              Два будинки, вісім квартир, усі продані. Нижче — фактичні цифри
-              по кожному проекту, а не прогнози.
+              Два будинки, вісім квартир — усі продані. Увійти можна в цілу
+              будівлю або в одну квартиру.
             </p>
           </motion.div>
 
@@ -60,176 +91,89 @@ export default function PolandPortfolio() {
             ))}
           </motion.div>
 
-          {/* Buildings */}
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-lg">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-lg items-start">
+            {/* Apartment — the accessible entry point */}
+            <motion.div
+              variants={itemVariants}
+              className="rounded-xl p-lg bg-navy-600 text-white border-2 border-gold-600 flex flex-col"
+            >
+              <PhotoSlot images={polandUnit.images} title={polandUnit.name} dark />
+
+              <div className="mt-lg">
+                <h3 className="text-white">{polandUnit.name}</h3>
+                <p className="text-sm text-white/70 mt-xs">
+                  {polandUnit.subtitle}
+                </p>
+              </div>
+
+              <div className="flex items-end gap-lg mt-lg pb-lg mb-lg border-b border-white/20">
+                <div>
+                  <p className="text-xs text-white/60 mb-xs">
+                    {polandUnit.entryLabel}
+                  </p>
+                  <p className="text-3xl font-serif font-bold text-gold-400">
+                    {polandUnit.entry}
+                  </p>
+                </div>
+                <div className="ml-auto text-right">
+                  <p className="text-xs text-white/60 mb-xs">Дохідність</p>
+                  <p className="text-3xl font-serif font-bold text-gold-400">
+                    {polandUnit.roi}
+                  </p>
+                </div>
+              </div>
+
+              <dl className="space-y-sm text-sm">
+                {polandUnit.rows.map((row) => (
+                  <div key={row.label} className="flex justify-between gap-md">
+                    <dt className="text-white/70">{row.label}</dt>
+                    <dd className="font-medium text-white text-right">
+                      {row.value}
+                    </dd>
+                  </div>
+                ))}
+              </dl>
+            </motion.div>
+
+            {/* Whole buildings */}
             {polandBuildings.map((b) => (
               <motion.div
                 key={b.id}
                 variants={itemVariants}
-                className="card-base overflow-hidden flex flex-col"
+                className="card-base p-lg flex flex-col"
               >
-                {b.images && b.images.length > 0 && (
-                  <ImageCarousel images={b.images} title={b.name} />
-                )}
+                <PhotoSlot images={b.images} title={b.name} />
 
-                <div className="p-lg flex flex-col flex-grow">
-                  <div className="flex flex-wrap items-center gap-sm mb-lg">
-                    <h3 className="text-navy-600 mr-auto">{b.name}</h3>
-                    <span className="text-xs font-bold text-green bg-green/10 px-sm py-xs rounded-full">
-                      ✓ {b.status}
-                    </span>
-                    <span className="text-xs text-text-secondary bg-surface-alt px-sm py-xs rounded-full">
-                      {b.location}
-                    </span>
-                  </div>
-
-                  <dl className="space-y-md text-sm flex-grow">
-                    {[
-                      { label: 'Площа', value: b.area },
-                      { label: 'Кількість квартир', value: b.units },
-                      { label: 'Початкові інвестиції', value: b.investment },
-                      { label: 'Термін будівництва', value: b.timeline },
-                      { label: 'Вартість продажу', value: b.saleTotal },
-                    ].map((row) => (
-                      <div
-                        key={row.label}
-                        className="flex justify-between gap-md border-b border-border pb-sm"
-                      >
-                        <dt className="text-text-secondary">{row.label}</dt>
-                        <dd className="font-bold text-navy-600 text-right">
-                          {row.value}
-                        </dd>
-                      </div>
-                    ))}
-                  </dl>
-
-                  <div className="flex items-baseline justify-between mt-lg pt-md">
-                    <span className="text-sm text-text-secondary">
-                      Дохідність
-                    </span>
-                    <span className="text-3xl font-serif font-bold text-gold-600">
-                      {b.roi}
-                    </span>
-                  </div>
-                </div>
-              </motion.div>
-            ))}
-          </div>
-
-          {/* Entry tiers */}
-          <motion.div variants={itemVariants} className="max-w-2xl">
-            <h3 className="text-navy-600 mb-sm">Два способи увійти в проект</h3>
-            <p className="text-text-secondary">
-              Не обов&apos;язково фінансувати будинок цілком — можна зайти в
-              одну квартиру.
-            </p>
-          </motion.div>
-
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-lg">
-            {polandEntryTiers.map((tier) => (
-              <motion.div
-                key={tier.id}
-                variants={itemVariants}
-                className={`rounded-xl p-2xl flex flex-col ${
-                  tier.featured
-                    ? 'bg-navy-600 text-white border-2 border-gold-600'
-                    : 'bg-surface border border-border'
-                }`}
-              >
-                <div className="flex items-start justify-between gap-md mb-lg">
-                  <div>
-                    <h4
-                      className={
-                        tier.featured ? 'text-white' : 'text-navy-600'
-                      }
-                    >
-                      {tier.name}
-                    </h4>
-                    <p
-                      className={`text-sm mt-xs ${
-                        tier.featured ? 'text-white/70' : 'text-text-secondary'
-                      }`}
-                    >
-                      {tier.subtitle}
-                    </p>
-                  </div>
-                  {tier.featured && (
-                    <span className="shrink-0 text-xs font-bold text-navy-600 bg-gold-400 px-sm py-xs rounded-full">
-                      Від $102.5K
-                    </span>
-                  )}
+                <div className="flex flex-wrap items-center gap-sm mt-lg mb-lg">
+                  <h3 className="text-navy-600 mr-auto">{b.name}</h3>
+                  <span className="text-xs font-bold text-green bg-green/10 px-sm py-xs rounded-full">
+                    ✓ {b.status}
+                  </span>
+                  <span className="text-xs text-text-secondary bg-surface-alt px-sm py-xs rounded-full">
+                    {b.location}
+                  </span>
                 </div>
 
-                <div
-                  className={`flex items-end gap-lg pb-lg mb-lg border-b ${
-                    tier.featured ? 'border-white/20' : 'border-border'
-                  }`}
-                >
-                  <div>
-                    <p
-                      className={`text-xs mb-xs ${
-                        tier.featured ? 'text-white/60' : 'text-text-secondary'
-                      }`}
+                <dl className="space-y-md text-sm">
+                  {b.rows.map((row) => (
+                    <div
+                      key={row.label}
+                      className="flex justify-between gap-md border-b border-border pb-sm"
                     >
-                      {tier.entryLabel}
-                    </p>
-                    <p
-                      className={`text-3xl font-serif font-bold ${
-                        tier.featured ? 'text-gold-400' : 'text-navy-600'
-                      }`}
-                    >
-                      {tier.entry}
-                    </p>
-                  </div>
-                  <div className="ml-auto text-right">
-                    <p
-                      className={`text-xs mb-xs ${
-                        tier.featured ? 'text-white/60' : 'text-text-secondary'
-                      }`}
-                    >
-                      Дохідність
-                    </p>
-                    <p
-                      className={`text-3xl font-serif font-bold ${
-                        tier.featured ? 'text-gold-400' : 'text-gold-600'
-                      }`}
-                    >
-                      {tier.roi}
-                    </p>
-                  </div>
-                </div>
-
-                <dl className="space-y-sm text-sm flex-grow">
-                  {tier.rows.map((row) => (
-                    <div key={row.label} className="flex justify-between gap-md">
-                      <dt
-                        className={
-                          tier.featured ? 'text-white/70' : 'text-text-secondary'
-                        }
-                      >
-                        {row.label}
-                      </dt>
-                      <dd
-                        className={`font-medium text-right ${
-                          tier.featured ? 'text-white' : 'text-navy-600'
-                        }`}
-                      >
+                      <dt className="text-text-secondary">{row.label}</dt>
+                      <dd className="font-bold text-navy-600 text-right">
                         {row.value}
                       </dd>
                     </div>
                   ))}
                 </dl>
 
-                <Link
-                  href="/contact"
-                  className={`mt-2xl text-center block ${
-                    tier.featured
-                      ? 'btn-base bg-gold-400 text-navy-600 hover:bg-gold-500 font-bold'
-                      : 'btn-secondary'
-                  }`}
-                >
-                  Обговорити цей варіант
-                </Link>
+                <div className="flex items-baseline justify-between mt-lg pt-md">
+                  <span className="text-sm text-text-secondary">Дохідність</span>
+                  <span className="text-3xl font-serif font-bold text-gold-600">
+                    {b.roi}
+                  </span>
+                </div>
               </motion.div>
             ))}
           </div>
