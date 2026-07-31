@@ -77,12 +77,6 @@ export default function ImageCarousel({ images, title }: ImageCarouselProps) {
         </>
       )}
 
-      {/* Counter */}
-      {images.length > 1 && (
-        <div className="absolute top-2 right-2 bg-black/50 text-white text-xs px-2 py-1 rounded">
-          {current + 1} / {images.length}
-        </div>
-      )}
     </div>
   );
 }
