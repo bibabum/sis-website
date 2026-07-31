@@ -233,7 +233,7 @@ export default function ContactPage() {
 
                   <div>
                     <label className="block text-sm font-medium text-navy-600 mb-sm">
-                      Удобний час
+                      Зручний час
                     </label>
                     <select {...register('preferredTime', { required: true })} className="input-base">
                       <option value="">Виберіть час</option>
