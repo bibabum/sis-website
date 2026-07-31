@@ -100,7 +100,7 @@ export const marketStats = [
  * contrast on the navy surface. Both are existing palette tokens.
  */
 export const priceGrowthComparison = {
-  title: 'Річне зростання цін на житло, 2025',
+  title: 'Річне зростання цін на житло',
   max: 10,
   bars: [
     { label: 'Польща', value: 8.3, color: '#b8860b' },
