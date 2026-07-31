@@ -47,8 +47,27 @@ export const projects: Project[] = [
     ],
   },
   {
+    id: 'pl-house-1',
+    name: 'Будинок №1',
+    country: 'pl',
+    location: 'Варшава',
+    status: 'Завершено',
+    roi: '32%',
+    // Sorts just above the unit below, which is one apartment inside it.
+    roiSort: 32.5,
+    rows: [
+      { label: 'Площа', value: '284 м²' },
+      { label: 'Кількість квартир', value: '4 квартири: 53 м², 53 м², 80 м², 80 м²' },
+      { label: 'Початкові інвестиції', value: '$410,000' },
+      { label: 'Термін будівництва', value: '6 місяців' },
+      { label: 'Вартість продажу', value: '$540,000' },
+    ],
+    description:
+      'Перший проект SIS у Польщі — на власні кошти засновника та його польського партнера. Детально розібраний у кейс-стаді вище.',
+  },
+  {
     id: 'pl-unit-1',
-    name: 'Одна квартира',
+    name: 'Одна квартира у Будинку №1',
     country: 'pl',
     location: 'Варшава',
     status: 'Завершено',
@@ -61,6 +80,8 @@ export const projects: Project[] = [
       { label: 'Ремонт (опційно)', value: '+$38,000' },
       { label: 'Термін з ремонтом', value: '10 місяців' },
     ],
+    description:
+      'Приклад входу в проект на рівні однієї квартири — чверть вартості будинку замість повного фінансування.',
   },
   {
     id: 'ua-akadem-1',
