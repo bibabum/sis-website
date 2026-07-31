@@ -123,7 +123,7 @@ export default function PolandPortfolio() {
             className="text-sm text-text-secondary text-center"
           >
             Обидва проекти завершені та продані. Документи, дозволи та договори
-            надаємо на консультації. Юридичний партнер — Axellegal.
+            надаємо на консультації.
           </motion.p>
         </motion.div>
       </div>
