@@ -6,6 +6,7 @@ import Image from 'next/image';
 import HeroSection from '@/components/HeroSection';
 import ImageCarousel from '@/components/ImageCarousel';
 import PolandPortfolio from '@/components/PolandPortfolio';
+import CurrentProject from '@/components/CurrentProject';
 import { useState } from 'react';
 
 const containerVariants = {
@@ -404,6 +405,8 @@ export default function Home() {
       </section>
 
       <PolandPortfolio />
+
+      <CurrentProject />
 
       {/* Projects Section */}
       <section id="projects" className="py-3xl bg-white">
