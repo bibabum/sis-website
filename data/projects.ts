@@ -5,8 +5,10 @@
  * and a single portfolio shows that directly instead of leaving the
  * visitor to infer it from two separate sections.
  *
- * Sorted by return, highest first. `roiSort` exists because some
- * projects report two figures ("8% та 12%") and cannot be parsed.
+ * Array order is display order. Poland comes first, and within it the
+ * two houses run in build order with the unit example last -- ROI alone
+ * would sort them wrongly, since Будинок №2 returned more than №1.
+ * Ukraine follows, by return.
  */
 
 export type Country = 'ua' | 'pl';
@@ -18,7 +20,6 @@ export interface Project {
   location: string;
   status: string;
   roi: string;
-  roiSort: number;
   rows: { label: string; value: string }[];
   description?: string;
   images?: string[];
@@ -29,23 +30,14 @@ export const countryLabels: Record<Country, string> = {
   pl: 'Польща',
 };
 
+/**
+ * Both Warsaw houses are one project, so they carry the same note rather
+ * than it reading as if it applied to Будинок №1 alone.
+ */
+const WARSAW_PROJECT_NOTE =
+  'Частина першого проекту SIS у Польщі: два будинки на власні кошти засновника та його польського партнера. Детально — у кейс-стаді вище.';
+
 export const projects: Project[] = [
-  {
-    id: 'pl-house-2',
-    name: 'Будинок №2',
-    country: 'pl',
-    location: 'Варшава',
-    status: 'Завершено',
-    roi: '33%',
-    roiSort: 33,
-    rows: [
-      { label: 'Площа', value: '344 м²' },
-      { label: 'Кількість квартир', value: '4 квартири: 63 м², 63 м², 94 м², 94 м²' },
-      { label: 'Початкові інвестиції', value: '$450,000' },
-      { label: 'Термін будівництва', value: '7 місяців' },
-      { label: 'Вартість продажу', value: '$600,000' },
-    ],
-  },
   {
     id: 'pl-house-1',
     name: 'Будинок №1',
@@ -53,8 +45,6 @@ export const projects: Project[] = [
     location: 'Варшава',
     status: 'Завершено',
     roi: '32%',
-    // Sorts just above the unit below, which is one apartment inside it.
-    roiSort: 32.5,
     rows: [
       { label: 'Площа', value: '284 м²' },
       { label: 'Кількість квартир', value: '4 квартири: 53 м², 53 м², 80 м², 80 м²' },
@@ -62,17 +52,31 @@ export const projects: Project[] = [
       { label: 'Термін будівництва', value: '6 місяців' },
       { label: 'Вартість продажу', value: '$540,000' },
     ],
-    description:
-      'Перший проект SIS у Польщі — на власні кошти засновника та його польського партнера. Детально розібраний у кейс-стаді вище.',
+    description: WARSAW_PROJECT_NOTE,
+  },
+  {
+    id: 'pl-house-2',
+    name: 'Будинок №2',
+    country: 'pl',
+    location: 'Варшава',
+    status: 'Завершено',
+    roi: '33%',
+    rows: [
+      { label: 'Площа', value: '344 м²' },
+      { label: 'Кількість квартир', value: '4 квартири: 63 м², 63 м², 94 м², 94 м²' },
+      { label: 'Початкові інвестиції', value: '$450,000' },
+      { label: 'Термін будівництва', value: '7 місяців' },
+      { label: 'Вартість продажу', value: '$600,000' },
+    ],
+    description: WARSAW_PROJECT_NOTE,
   },
   {
     id: 'pl-unit-1',
-    name: 'Одна квартира у Будинку №1',
+    name: 'Квартира у Будинку №1',
     country: 'pl',
     location: 'Варшава',
     status: 'Завершено',
     roi: '32%',
-    roiSort: 32,
     rows: [
       { label: 'Площа', value: '53,31 м²' },
       { label: 'Початкові інвестиції', value: '$102,500' },
@@ -90,7 +94,6 @@ export const projects: Project[] = [
     location: 'Київ, вул. Осіння, 33',
     status: 'Завершено',
     roi: '25%',
-    roiSort: 25,
     rows: [
       { label: 'Площа', value: '55 м²' },
       { label: 'Одиниці', value: '1 квартира' },
@@ -113,7 +116,6 @@ export const projects: Project[] = [
     location: 'Київ, вул. Осіння, 33',
     status: 'Завершено',
     roi: '20%',
-    roiSort: 20,
     rows: [
       { label: 'Площа', value: '56 м²' },
       { label: 'Одиниці', value: '2 квартири' },
@@ -138,7 +140,6 @@ export const projects: Project[] = [
     location: 'Київ, вул. Тарасовська, 2/21',
     status: 'Завершено',
     roi: '10.5%',
-    roiSort: 10.5,
     rows: [
       { label: 'Площа', value: '50 м²' },
       { label: 'Одиниці', value: '1 квартира' },
@@ -163,7 +164,6 @@ export const projects: Project[] = [
     location: 'Київ, вул. Днепровська Набережна, 14',
     status: 'Завершено',
     roi: '8% та 12%',
-    roiSort: 12,
     rows: [
       { label: 'Площа', value: '95 м²' },
       { label: 'Одиниці', value: '2 квартири' },
@@ -186,7 +186,6 @@ export const projects: Project[] = [
     location: 'Київ, вул. Всеволода Змієнко, 34/21',
     status: 'Завершено',
     roi: '6.5%',
-    roiSort: 6.5,
     rows: [
       { label: 'Площа', value: '40 м²' },
       { label: 'Одиниці', value: '1 квартира' },

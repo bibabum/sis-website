@@ -38,9 +38,9 @@ function PhotoSlot({ images, title }: { images?: string[]; title: string }) {
 export default function Projects() {
   const [filter, setFilter] = useState<Filter>('all');
 
-  const sorted = [...projects].sort((a, b) => b.roiSort - a.roiSort);
+  // Array order in data/projects.ts is the display order.
   const visible =
-    filter === 'all' ? sorted : sorted.filter((p) => p.country === filter);
+    filter === 'all' ? projects : projects.filter((p) => p.country === filter);
 
   return (
     <section id="projects" className="py-3xl bg-white">
