@@ -7,6 +7,7 @@ import {
   currentProject,
   marketSources,
   marketStats,
+  priceGrowthComparison,
   scenarios,
 } from '@/data/currentProject';
 
@@ -190,6 +191,48 @@ export default function CurrentProject() {
               Чому польська нерухомість зараз цікава для орендної стратегії.
             </p>
           </motion.div>
+
+          {/* Price growth: one measure, two categories -- direct-labelled,
+              so identity never rests on colour alone and no legend is needed. */}
+          <motion.figure
+            variants={itemVariants}
+            className="rounded-xl bg-white/5 border border-white/15 p-lg md:p-2xl"
+          >
+            <figcaption className="text-sm font-medium text-white mb-lg">
+              {priceGrowthComparison.title}
+            </figcaption>
+
+            <div className="space-y-md">
+              {priceGrowthComparison.bars.map((bar) => (
+                <div key={bar.label} className="flex items-center gap-md">
+                  <span className="w-16 md:w-20 shrink-0 text-sm text-white/70">
+                    {bar.label}
+                  </span>
+                  <div className="flex-grow h-6 bg-white/5 rounded-r-sm overflow-hidden">
+                    <div
+                      className="h-full rounded-r-sm"
+                      style={{
+                        width: `${Number(
+                          ((bar.value / priceGrowthComparison.max) * 100).toFixed(1)
+                        )}%`,
+                        backgroundColor: bar.color,
+                      }}
+                    />
+                  </div>
+                  <span className="w-12 md:w-14 shrink-0 text-sm font-bold text-white text-right tabular-nums">
+                    {bar.value.toLocaleString('uk-UA', {
+                      minimumFractionDigits: 1,
+                    })}
+                    %
+                  </span>
+                </div>
+              ))}
+            </div>
+
+            <p className="text-xs text-white/50 mt-lg">
+              {priceGrowthComparison.caption}
+            </p>
+          </motion.figure>
 
           <motion.div
             variants={itemVariants}

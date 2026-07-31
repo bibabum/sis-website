@@ -75,6 +75,11 @@ export const scenarios: Scenario[] = [
  */
 export const marketStats = [
   {
+    value: '×2,2',
+    label: 'Індекс цін на житло в Польщі',
+    note: '220,8 у Q4 2025 при базі 2015 = 100 (Eurostat)',
+  },
+  {
     value: '5,3–6,8%',
     label: 'Валова дохідність оренди у Варшаві',
     note: 'залежно від типу житла та району',
@@ -84,20 +89,34 @@ export const marketStats = [
     label: 'Ставка НБП',
     note: 'знижена з 5,75% з травня 2025 — дешевша іпотека',
   },
-  {
-    value: '2–5%',
-    label: 'Прогноз зростання цін на 2026',
-    note: 'НБП очікує динаміку на рівні інфляції',
-  },
 ];
+
+/**
+ * One measure (annual price growth, 2025) across two categories, so a
+ * single series -- each bar is directly labelled and needs no legend.
+ *
+ * Colours are validated for dark mode: #b8860b / #5a8ac4 pass the
+ * lightness band, chroma floor, CVD separation (ΔE 22.1 protan) and
+ * contrast on the navy surface. Both are existing palette tokens.
+ */
+export const priceGrowthComparison = {
+  title: 'Річне зростання цін на житло, 2025',
+  max: 10,
+  bars: [
+    { label: 'Польща', value: 8.3, color: '#b8860b' },
+    { label: 'ЄС-27', value: 5.5, color: '#5a8ac4' },
+  ],
+  caption:
+    'Польський ринок росте швидше за середній показник ЄС уже понад десять років. У 2026 темпи сповільнюються — НБП прогнозує зростання на рівні інфляції.',
+};
 
 export const marketSources = [
   {
-    label: 'Global Property Guide — дохідність оренди в Польщі',
-    href: 'https://www.globalpropertyguide.com/europe/poland/rental-yields',
+    label: 'Eurostat — індекс цін на житло',
+    href: 'https://ec.europa.eu/eurostat/databrowser/view/prc_hpi_q/default/table?lang=en',
   },
   {
-    label: 'Global Property Guide — динаміка цін',
-    href: 'https://www.globalpropertyguide.com/europe/poland/price-history',
+    label: 'Global Property Guide — дохідність оренди в Польщі',
+    href: 'https://www.globalpropertyguide.com/europe/poland/rental-yields',
   },
 ];
