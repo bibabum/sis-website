@@ -118,8 +118,8 @@ export default function ContactPage() {
                   <h3>Що вас цікавить?</h3>
                   {[
                     { value: 'invest', label: 'Інвестувати в проєкт' },
-                    { value: 'consultation', label: 'Консультація по моїм інвестиціям' },
-                    { value: 'tax', label: 'Податкова оптимізація' },
+                    { value: 'consultation', label: 'Консультація з приводу власних інвестицій' },
+                    { value: 'tax', label: 'Зменшення податкового навантаження' },
                     { value: 'management', label: 'Управління нерухомістю' },
                   ].map((option) => (
                     <label
