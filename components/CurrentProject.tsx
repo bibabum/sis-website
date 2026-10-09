@@ -169,7 +169,7 @@ export default function CurrentProject() {
                   </span>
                   <Figure
                     value={s.headline.value}
-                    className="text-3xl font-serif font-bold text-gold-400"
+                    className="text-3xl font-serif font-bold text-gold-400 text-right"
                   />
                 </div>
 
