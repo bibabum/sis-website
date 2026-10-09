@@ -39,7 +39,7 @@ export const currentProject = {
     { label: 'Тип', value: 'Дуплекс (bliźniak)' },
     { label: 'Стан', value: 'Deweloperski (чорнове оздоблення)' },
   ],
-  images: [] as string[],
+  images: ['/images/zakret/zakret-1.jpg'] as string[],
 };
 
 export const scenarios: Scenario[] = [
@@ -47,24 +47,24 @@ export const scenarios: Scenario[] = [
     id: 'rent',
     name: 'Здавати в оренду',
     tagline: 'Щомісячний дохід і актив, який лишається у вашій власності',
-    headline: { label: 'Очікувана дохідність', value: TBD },
+    headline: { label: 'Очікувана дохідність', value: '5,5–6,5% річних (брутто)' },
     rows: [
-      { label: 'Вартість ремонту', value: TBD },
-      { label: 'Термін ремонту', value: TBD },
-      { label: 'Очікувана оренда', value: TBD },
-      { label: 'Загальні вкладення', value: TBD },
+      { label: 'Вартість ремонту', value: '150 000–180 000 zł' },
+      { label: 'Термін ремонту', value: '2,5–3 місяці' },
+      { label: 'Очікувана оренда', value: '5 500–6 500 zł / міс' },
+      { label: 'Загальні вкладення', value: '≈ 1 130 000–1 150 000 zł' },
     ],
   },
   {
     id: 'flip',
     name: 'Ремонт і перепродаж',
-    tagline: 'Разовий прибуток після завершення робіт',
-    headline: { label: 'Очікуваний прибуток', value: TBD },
+    tagline: 'Разовий прибуток після завершення робіт (до податку)',
+    headline: { label: 'Очікуваний прибуток', value: '60 000–120 000 zł' },
     rows: [
-      { label: 'Вартість ремонту', value: TBD },
-      { label: 'Термін ремонту', value: TBD },
-      { label: 'Очікувана ціна продажу', value: TBD },
-      { label: 'Загальні вкладення', value: TBD },
+      { label: 'Вартість ремонту', value: '180 000–220 000 zł' },
+      { label: 'Термін ремонту', value: '3–4 міс (+ 2–4 міс на продаж)' },
+      { label: 'Очікувана ціна продажу', value: '1 250 000–1 300 000 zł' },
+      { label: 'Загальні вкладення', value: '≈ 1 150 000–1 190 000 zł' },
     ],
   },
 ];
