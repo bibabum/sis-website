@@ -86,6 +86,13 @@ export const projects: Project[] = [
     ],
     description:
       'Приклад входу в проект на рівні однієї квартири — чверть вартості будинку замість повного фінансування.',
+    images: [
+      '/images/unit-1/unit-1-1.jpg',
+      '/images/unit-1/unit-1-2.jpg',
+      '/images/unit-1/unit-1-3.jpg',
+      '/images/unit-1/unit-1-4.jpg',
+      '/images/unit-1/unit-1-5.jpg',
+    ],
   },
   {
     id: 'ua-akadem-1',
