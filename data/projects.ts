@@ -53,6 +53,7 @@ export const projects: Project[] = [
       { label: 'Вартість продажу', value: '$540,000' },
     ],
     description: WARSAW_PROJECT_NOTE,
+    images: ['/images/house-1/house-1-1.jpg'],
   },
   {
     id: 'pl-house-2',
@@ -69,6 +70,7 @@ export const projects: Project[] = [
       { label: 'Вартість продажу', value: '$600,000' },
     ],
     description: WARSAW_PROJECT_NOTE,
+    images: ['/images/house-2/house-2-1.jpg'],
   },
   {
     id: 'pl-unit-1',
