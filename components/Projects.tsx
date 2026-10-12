@@ -23,9 +23,23 @@ const filters: { id: Filter; label: string }[] = [
   { id: 'pl', label: 'Польща' },
 ];
 
-function PhotoSlot({ images, title }: { images?: string[]; title: string }) {
+function PhotoSlot({
+  images,
+  title,
+  objectPosition,
+}: {
+  images?: string[];
+  title: string;
+  objectPosition?: string;
+}) {
   if (images && images.length > 0) {
-    return <ImageCarousel images={images} title={title} />;
+    return (
+      <ImageCarousel
+        images={images}
+        title={title}
+        objectPosition={objectPosition}
+      />
+    );
   }
   return (
     <div className="h-64 flex flex-col items-center justify-center gap-sm rounded-lg border-2 border-dashed border-border bg-surface-alt text-text-secondary">
@@ -105,7 +119,11 @@ export default function Projects() {
                 className="card-base p-lg flex flex-col"
               >
                 <div className="relative">
-                  <PhotoSlot images={p.images} title={p.name} />
+                  <PhotoSlot
+                    images={p.images}
+                    title={p.name}
+                    objectPosition={p.imageObjectPosition}
+                  />
                   <div className="absolute top-3 right-3 px-lg py-md bg-gold-600 text-white rounded-full text-sm font-bold shadow-lg">
                     {p.roi} ROI
                   </div>

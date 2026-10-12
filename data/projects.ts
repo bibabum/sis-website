@@ -23,6 +23,12 @@ export interface Project {
   rows: { label: string; value: string }[];
   description?: string;
   images?: string[];
+  /**
+   * CSS object-position for the card photo. Used when a shot has
+   * dead space (sky, grass, etc.) that would otherwise dominate the
+   * cropped tile. Only set this when the default center crop is wrong.
+   */
+  imageObjectPosition?: string;
 }
 
 export const countryLabels: Record<Country, string> = {
@@ -71,6 +77,8 @@ export const projects: Project[] = [
     ],
     description: WARSAW_PROJECT_NOTE,
     images: ['/images/house-2/house-2-1.jpg'],
+    // Shot has a lot of lawn below the house -- bias the crop toward the top.
+    imageObjectPosition: 'center 25%',
   },
   {
     id: 'pl-unit-1',

@@ -7,9 +7,20 @@ import { motion } from 'framer-motion';
 interface ImageCarouselProps {
   images: string[];
   title: string;
+  /**
+   * CSS object-position for the image inside the fixed-height viewport
+   * (same value, e.g. "center 25%", applied to every image in the set).
+   * Default "center" works for most shots; override when the subject
+   * sits above or below centre and a chunk gets cropped unflatteringly.
+   */
+  objectPosition?: string;
 }
 
-export default function ImageCarousel({ images, title }: ImageCarouselProps) {
+export default function ImageCarousel({
+  images,
+  title,
+  objectPosition = 'center',
+}: ImageCarouselProps) {
   const [current, setCurrent] = useState(0);
 
   const next = (e: React.MouseEvent) => {
@@ -39,6 +50,7 @@ export default function ImageCarousel({ images, title }: ImageCarouselProps) {
           alt={`${title} - ${current + 1}`}
           fill
           className="object-cover"
+          style={{ objectPosition }}
         />
       </motion.div>
 
