@@ -9,7 +9,7 @@ export default function Navigation() {
 
   const navItems = [
     { href: '/#services', label: 'Послуги' },
-    { href: '/#poland', label: 'Проєкти' },
+    { href: '/#projects', label: 'Проєкти' },
     { href: '/#process', label: 'Процес' },
     { href: '/#about', label: 'Про нас' },
     { href: '/contact', label: 'Контакти' },
