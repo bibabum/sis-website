@@ -71,17 +71,24 @@ export default function ContactPage() {
           </motion.div>
 
           {submitted ? (
+            // Explicit initial/animate -- the parent uses whileInView with
+            // once:true, which has already fired by the time submitted flips.
+            // Named variants on a child that mounts late would inherit "hidden"
+            // and never animate in; the card would render at opacity 0.
             <motion.div
-              variants={itemVariants}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, ease: 'easeOut' }}
               className="card-base p-3xl text-center"
             >
               <div className="text-5xl mb-lg">✓</div>
-              <h2 className="text-navy-600 mb-lg">Спасибі!</h2>
+              <h2 className="text-navy-600 mb-lg">Дякуємо за заявку!</h2>
               <p className="text-text-secondary mb-lg">
-                Ігор зв'яжеться з вами протягом 24 годин через обраний вами канал.
+                Ми зв&apos;яжемось з вами найближчим часом — Ігор особисто передзвонить
+                протягом 24 годин через обраний вами канал.
               </p>
               <p className="text-sm text-text-secondary mb-2xl">
-                Примітка: перша розмова — 15–20 хвилин, щоб зрозуміти ваші цілі.
+                Перша розмова — 15–20 хвилин, щоб зрозуміти ваші цілі.
               </p>
               <Link href="/" className="btn-primary">
                 Повернутися на головну
