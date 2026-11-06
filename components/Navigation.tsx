@@ -4,11 +4,10 @@ import Link from 'next/link';
 import { useState } from 'react';
 
 const navItems = [
-  { href: '/#projects', label: 'Проєкти' },
   { href: '/#services', label: 'Послуги' },
+  { href: '/#projects', label: 'Проєкти' },
   { href: '/#process', label: 'Процес' },
-  { href: '/about', label: 'Про засновника' },
-  { href: '/blog', label: 'Матеріали' },
+  { href: '/about', label: 'Про нас' },
   { href: '/contact', label: 'Контакти' },
 ];
 

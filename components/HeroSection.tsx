@@ -10,20 +10,20 @@ export default function HeroSection() {
         <div className="lg:col-span-6">
           <p className="eyebrow">Інвестиційний консалтинг</p>
           <div className="mt-4 h-px w-10 bg-brass" aria-hidden />
-          <h1 className="mt-8 text-[2.625rem] leading-[1.05] sm:text-[3.5rem] lg:text-[4.5rem] xl:text-[5rem]">
-            Ми інвестуємо разом з вами.{' '}
-            <span className="italic">Власними грошима.</span>
+          <h1 className="mt-8 text-[2.5rem] leading-[1.06] sm:text-[3.25rem] lg:text-[3.75rem] xl:text-[4.25rem]">
+            Інвестиції в нерухомість — від першої консультації{' '}
+            <span className="italic">до стабільного доходу</span>
           </h1>
           <p className="mt-8 max-w-[34rem] text-body-lg text-muted">
-            У кожен проєкт SIS вкладає щонайменше 50% власних коштів. Ви бачите документи, розрахунки та
-            результат кожного завершеного об&apos;єкта.
+            Консультуємо, підбираємо проєкти, супроводжуємо угоди та управляємо активами в Польщі та Україні. У
+            проєкти, які рекомендуємо, SIS вкладає щонайменше 50% власних коштів.
           </p>
           <div className="mt-10 flex flex-col gap-3 sm:flex-row">
             <Link href="/contact" className="btn-primary">
-              Обговорити інвестицію
+              Отримати консультацію
             </Link>
-            <Link href="/#projects" className="btn-secondary">
-              Дивитись проєкти
+            <Link href="/#services" className="btn-secondary">
+              Формати співпраці
             </Link>
           </div>
         </div>

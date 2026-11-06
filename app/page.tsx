@@ -12,7 +12,7 @@ import igor from '@/public/igor.jpg';
 
 const trust = [
   { figure: '8', label: 'завершених проєктів з цифрами' },
-  { figure: '$860K → $1,14M', label: 'два будинки у Варшаві' },
+  { figure: 'Польща та Україна', label: 'проєкти, супровід і управління активами', small: true },
   { figure: '≥50%', label: 'власних коштів SIS у кожному проєкті' },
   { figure: 'Нотаріальні договори', label: 'юридичний партнер Axellegal', small: true },
 ];
@@ -25,31 +25,38 @@ const trustCell = [
   'border-l border-t border-line-navy pl-5 sm:pl-8 lg:border-t-0',
 ];
 
+// Full feature lists from the original site ("до 30% очікувана ROI" removed on purpose).
 const services = [
   {
     title: 'Інвестування в проєкти',
     description: 'Приєднайтесь до готових проєктів з повним супроводом.',
     features: ['Мінімальна сума входу $50K+', 'Повний правовий захист', 'Регулярна звітність'],
+    audience: 'для тих, хто хоче вкласти від $50K у готовий проєкт із повним супроводом',
   },
   {
     title: 'Управління активами',
     description: 'Ми управляємо вашою нерухомістю для максимальної прибутковості.',
     features: [
       'Купівля-продаж',
-      'Оренда та технічне обслуговування',
-      'Юридичний супровід і страхування',
+      'Оренда',
+      'Технічне обслуговування',
+      'Юридичний супровід',
+      'Страхування',
       'Фінансова звітність',
     ],
+    audience: 'для власників нерухомості, які хочуть отримувати дохід без власної участі',
   },
   {
     title: 'Персональна консультація',
     description: 'Експертний аналіз вашого фінансового стану і оцінка ваших можливостей.',
     features: [
       'Індивідуальний план розвитку',
+      'Податкова оптимізація',
       'Зменшення податкового навантаження',
       'Юридична перевірка угод',
       'Бізнес-стратегія',
     ],
+    audience: 'для тих, хто ще обирає стратегію або хоче перевірити угоду',
   },
 ];
 
@@ -144,7 +151,36 @@ export default function Home() {
         </div>
       </section>
 
-      {/* 3. Founder */}
+      {/* 3. Formats of cooperation -- three equal cards */}
+      <section id="services" className="section border-t border-line bg-ivory-deep">
+        <div className="container-site">
+          <Reveal>
+            <SectionHeading eyebrow="Формати співпраці" title="Три шляхи до зростання вашого капіталу" />
+          </Reveal>
+          <div className="mt-14 grid grid-cols-1 gap-6 md:grid-cols-3">
+            {services.map((s, i) => (
+              <Reveal key={s.title} delay={i * 0.08} as="article" className="flex h-full flex-col border border-line bg-ivory p-8">
+                <p className="numeral text-sm text-brass-deep">0{i + 1}</p>
+                <h3 className="mt-3 text-[1.75rem] leading-tight">{s.title}</h3>
+                <p className="mt-3 text-muted">{s.description}</p>
+                <ul className="dash-list mt-6 space-y-2 text-[0.9375rem] text-ink">
+                  {s.features.map((f) => (
+                    <li key={f}>{f}</li>
+                  ))}
+                </ul>
+                <p className="mt-auto border-t border-line pt-5 text-[0.9375rem] text-ink">
+                  <span className="text-brass-deep">Для кого:</span> {s.audience}
+                </p>
+                <Link href="/contact" className="btn-secondary mt-6 w-full">
+                  Обговорити
+                </Link>
+              </Reveal>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* 4. Founder */}
       <section id="about" className="section bg-ivory">
         <div className="container-site grid grid-cols-1 items-center gap-12 lg:grid-cols-12 lg:gap-16">
           <Reveal className="lg:col-span-6">
@@ -173,37 +209,11 @@ export default function Home() {
         </div>
       </section>
 
-      {/* 4. Current project */}
-      <CurrentProject />
-
       {/* 5. Track record */}
       <Projects />
 
-      {/* 6. Services */}
-      <section id="services" className="section border-t border-line bg-ivory-deep">
-        <div className="container-site">
-          <Reveal>
-            <SectionHeading eyebrow="Послуги" title="Три шляхи до зростання вашого капіталу" />
-          </Reveal>
-          <div className="mt-14 grid grid-cols-1 gap-y-12 border-t border-navy/20 md:grid-cols-3 md:gap-x-12">
-            {services.map((s, i) => (
-              <Reveal key={s.title} delay={i * 0.08} className="flex flex-col pt-8">
-                <p className="numeral text-sm text-brass-deep">0{i + 1}</p>
-                <h3 className="mt-3 text-[1.75rem] leading-tight">{s.title}</h3>
-                <p className="mt-3 text-muted">{s.description}</p>
-                <ul className="dash-list mt-6 space-y-2 text-[0.9375rem] text-ink">
-                  {s.features.map((f) => (
-                    <li key={f}>{f}</li>
-                  ))}
-                </ul>
-                <Link href="/contact" className="link mt-8 self-start">
-                  Обговорити
-                </Link>
-              </Reveal>
-            ))}
-          </div>
-        </div>
-      </section>
+      {/* 6. Open for investment -- example of the first format */}
+      <CurrentProject />
 
       {/* 7. Process -- all 7 steps, texts unchanged */}
       <section id="process" className="on-navy section bg-navy text-on-navy">

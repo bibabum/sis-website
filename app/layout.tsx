@@ -23,7 +23,7 @@ const sans = Onest({
 });
 
 const description =
-  'Інвестиційний консалтинг SIS: нерухомість у Варшаві та Києві. У кожен проєкт SIS вкладає щонайменше 50% власних коштів. Документи, розрахунки та результат кожного завершеного об’єкта.';
+  'Консультуємо, підбираємо проєкти, супроводжуємо угоди та управляємо активами в Польщі та Україні. У проєкти, які рекомендуємо, SIS вкладає щонайменше 50% власних коштів.';
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://sis.pl.ua'),
@@ -39,7 +39,7 @@ export const metadata: Metadata = {
     type: 'website',
     locale: 'uk_UA',
     siteName: 'SIS',
-    title: 'SIS — Ми інвестуємо разом з вами. Власними грошима.',
+    title: 'SIS — Інвестиції в нерухомість від першої консультації до стабільного доходу',
     description,
     images: [
       {
@@ -52,7 +52,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'SIS — Ми інвестуємо разом з вами. Власними грошима.',
+    title: 'SIS — Інвестиції в нерухомість від першої консультації до стабільного доходу',
     description,
     images: ['/og.jpg'],
   },
