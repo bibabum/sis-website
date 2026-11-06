@@ -1,14 +1,13 @@
 /**
  * The full track record -- Ukraine and Poland in one list.
  *
- * Kept together deliberately: the offer is "invest abroad or at home",
- * and a single portfolio shows that directly instead of leaving the
- * visitor to infer it from two separate sections.
- *
  * Array order is display order. Poland comes first, and within it the
  * two houses run in build order with the unit example last -- ROI alone
  * would sort them wrongly, since Будинок №2 returned more than №1.
  * Ukraine follows, by return.
+ *
+ * The card shows `invested`, `result` (if any) and `term`; everything in
+ * `details` and `description` sits behind "Детальніше".
  */
 
 export type Country = 'ua' | 'pl';
@@ -17,18 +16,21 @@ export interface Project {
   id: string;
   name: string;
   country: Country;
-  location: string;
+  city: string;
+  address?: string;
   status: string;
   roi: string;
-  rows: { label: string; value: string }[];
+  invested: string;
+  /** Sale value or outcome; omitted when the asset was kept (rent). */
+  result?: string;
+  term: string;
+  details: { label: string; value: string }[];
   description?: string;
   images?: string[];
-  /**
-   * CSS object-position for the card photo. Used when a shot has
-   * dead space (sky, grass, etc.) that would otherwise dominate the
-   * cropped tile. Only set this when the default center crop is wrong.
-   */
+  /** CSS object-position for the card photo, when centre crop is wrong. */
   imageObjectPosition?: string;
+  /** Link to a full case study page. */
+  caseHref?: string;
 }
 
 export const countryLabels: Record<Country, string> = {
@@ -36,44 +38,42 @@ export const countryLabels: Record<Country, string> = {
   pl: 'Польща',
 };
 
-/**
- * Both Warsaw houses are one project, so they carry the same note rather
- * than it reading as if it applied to Будинок №1 alone.
- */
+/** Both Warsaw houses are one project, so they carry the same note. */
 const WARSAW_PROJECT_NOTE =
-  'Частина першого проекту SIS у Польщі: два будинки на власні кошти засновника та його польського партнера. Детально — у кейс-стаді вище.';
+  'Частина першого проєкту SIS у Польщі: два будинки на власні кошти засновника та його польського партнера.';
 
 export const projects: Project[] = [
   {
     id: 'pl-house-1',
     name: 'Будинок №1',
     country: 'pl',
-    location: 'Варшава',
+    city: 'Варшава',
     status: 'Завершено',
     roi: '32%',
-    rows: [
+    invested: '$410,000',
+    result: '$540,000',
+    term: '6 місяців',
+    details: [
       { label: 'Площа', value: '284 м²' },
       { label: 'Кількість квартир', value: '4 квартири: 53 м², 53 м², 80 м², 80 м²' },
-      { label: 'Початкові інвестиції', value: '$410,000' },
-      { label: 'Термін будівництва', value: '6 місяців' },
-      { label: 'Вартість продажу', value: '$540,000' },
     ],
     description: WARSAW_PROJECT_NOTE,
     images: ['/images/house-1/house-1-1.jpg'],
+    caseHref: '/cases/budynok-1',
   },
   {
     id: 'pl-house-2',
     name: 'Будинок №2',
     country: 'pl',
-    location: 'Варшава',
+    city: 'Варшава',
     status: 'Завершено',
     roi: '33%',
-    rows: [
+    invested: '$450,000',
+    result: '$600,000',
+    term: '7 місяців',
+    details: [
       { label: 'Площа', value: '344 м²' },
       { label: 'Кількість квартир', value: '4 квартири: 63 м², 63 м², 94 м², 94 м²' },
-      { label: 'Початкові інвестиції', value: '$450,000' },
-      { label: 'Термін будівництва', value: '7 місяців' },
-      { label: 'Вартість продажу', value: '$600,000' },
     ],
     description: WARSAW_PROJECT_NOTE,
     images: ['/images/house-2/house-2-1.jpg'],
@@ -84,18 +84,18 @@ export const projects: Project[] = [
     id: 'pl-unit-1',
     name: 'Квартира у Будинку №1',
     country: 'pl',
-    location: 'Варшава',
+    city: 'Варшава',
     status: 'Завершено',
     roi: '32%',
-    rows: [
+    invested: '$102,500',
+    term: '6 місяців',
+    details: [
       { label: 'Площа', value: '53,31 м²' },
-      { label: 'Початкові інвестиції', value: '$102,500' },
-      { label: 'Термін будівництва', value: '6 місяців' },
       { label: 'Ремонт (опційно)', value: '+$38,000' },
       { label: 'Термін з ремонтом', value: '10 місяців' },
     ],
     description:
-      'Приклад входу в проект на рівні однієї квартири — чверть вартості будинку замість повного фінансування.',
+      'Приклад входу в проєкт на рівні однієї квартири — чверть вартості будинку замість повного фінансування.',
     images: [
       '/images/unit-1/unit-1-1.jpg',
       '/images/unit-1/unit-1-2.jpg',
@@ -108,14 +108,15 @@ export const projects: Project[] = [
     id: 'ua-akadem-1',
     name: 'Квартира на Академмістечку',
     country: 'ua',
-    location: 'Київ, вул. Осіння, 33',
+    city: 'Київ',
+    address: 'вул. Осіння, 33',
     status: 'Завершено',
     roi: '25%',
-    rows: [
+    invested: '$60,000',
+    term: '1 місяць',
+    details: [
       { label: 'Площа', value: '55 м²' },
       { label: 'Одиниці', value: '1 квартира' },
-      { label: 'Інвестиції', value: '$60,000' },
-      { label: 'Термін', value: '1 місяць' },
     ],
     description:
       'Клієнт придбав дворівневу квартиру за нашою рекомендацією через терміновий продаж з незначними документальними проблемами, які ми вирішили.',
@@ -130,17 +131,18 @@ export const projects: Project[] = [
     id: 'ua-akadem-2',
     name: 'Квартири на Академмістечку',
     country: 'ua',
-    location: 'Київ, вул. Осіння, 33',
+    city: 'Київ',
+    address: 'вул. Осіння, 33',
     status: 'Завершено',
     roi: '20%',
-    rows: [
+    invested: '$60,000',
+    term: '5 місяців',
+    details: [
       { label: 'Площа', value: '56 м²' },
       { label: 'Одиниці', value: '2 квартири' },
-      { label: 'Інвестиції', value: '$60,000' },
-      { label: 'Термін', value: '5 місяців' },
     ],
     description:
-      'Клієнт придбав дворівневу квартиру. Ми розробили проект розділення на 2 об\'єкти та виконали переплануванння з дизайнерським ремонтом.',
+      'Клієнт придбав дворівневу квартиру. Ми розробили проєкт розділення на 2 об’єкти та виконали перепланування з дизайнерським ремонтом.',
     images: [
       '/images/akadem-2/akadem-2-1.jpg',
       '/images/akadem-2/akadem-2-2.jpg',
@@ -152,19 +154,20 @@ export const projects: Project[] = [
   },
   {
     id: 'ua-stalinka',
-    name: 'Сталинка в центрі',
+    name: 'Сталінка в центрі',
     country: 'ua',
-    location: 'Київ, вул. Тарасовська, 2/21',
+    city: 'Київ',
+    address: 'вул. Тарасівська, 2/21',
     status: 'Завершено',
-    roi: '10.5%',
-    rows: [
+    roi: '10,5%',
+    invested: '$100,000',
+    term: '6 місяців',
+    details: [
       { label: 'Площа', value: '50 м²' },
       { label: 'Одиниці', value: '1 квартира' },
-      { label: 'Інвестиції', value: '$100,000' },
-      { label: 'Термін', value: '6 місяців' },
     ],
     description:
-      'Клієнт у 2020 році придбав цей об\'єкт площею 50м². Він приносив всього 300$ від здачі в оренду. Ми розробили дизайн-проект з переплануванням та заміною всіх комунікацій.',
+      'Клієнт у 2020 році придбав цей об’єкт площею 50 м². Він приносив лише $300 від здачі в оренду. Ми розробили дизайн-проєкт з переплануванням та заміною всіх комунікацій.',
     images: [
       '/images/stalinka/stalinka-1.jpg',
       '/images/stalinka/stalinka-2.jpg',
@@ -176,19 +179,20 @@ export const projects: Project[] = [
   },
   {
     id: 'ua-river-stone',
-    name: 'ЖК "River Stone"',
+    name: 'ЖК «River Stone»',
     country: 'ua',
-    location: 'Київ, вул. Днепровська Набережна, 14',
+    city: 'Київ',
+    address: 'Дніпровська набережна, 14',
     status: 'Завершено',
     roi: '8% та 12%',
-    rows: [
+    invested: '$130,000',
+    term: '6 місяців',
+    details: [
       { label: 'Площа', value: '95 м²' },
       { label: 'Одиниці', value: '2 квартири' },
-      { label: 'Інвестиції', value: '$130,000' },
-      { label: 'Термін', value: '6 місяців' },
     ],
     description:
-      'Розділення однієї великої квартири. Загальна площа була 95м², після переплануванння отримали 2 автономних об\'єкти: євродвушка 50м² та студія 31м² з дизайнерським ремонтом.',
+      'Розділення однієї великої квартири. Загальна площа була 95 м², після перепланування отримали 2 автономних об’єкти: євродвушку 50 м² та студію 31 м² з дизайнерським ремонтом.',
     images: [
       '/images/river-stone/river-stone-1.jpg',
       '/images/river-stone/river-stone-2.jpg',
@@ -198,19 +202,20 @@ export const projects: Project[] = [
   },
   {
     id: 'ua-varshavskyi',
-    name: 'ЖК "Варшавський"',
+    name: 'ЖК «Варшавський»',
     country: 'ua',
-    location: 'Київ, вул. Всеволода Змієнко, 34/21',
+    city: 'Київ',
+    address: 'вул. Всеволода Змієнка, 34/21',
     status: 'Завершено',
-    roi: '6.5%',
-    rows: [
+    roi: '6,5%',
+    invested: '$56,000',
+    term: '4 місяці',
+    details: [
       { label: 'Площа', value: '40 м²' },
       { label: 'Одиниці', value: '1 квартира' },
-      { label: 'Інвестиції', value: '$56,000' },
-      { label: 'Термін', value: '4 місяці' },
     ],
     description:
-      'Придбали квартиру 40м² у забудовника за програмою єОселя, зробили дизайнерський ремонт, здали в оренду. Орендна плата покриває щомісячний платіж власнику.',
+      'Придбали квартиру 40 м² у забудовника за програмою «єОселя», зробили дизайнерський ремонт, здали в оренду. Орендна плата покриває щомісячний платіж власнику.',
     images: [
       '/images/varshavskyi/varshavskyi-1.jpg',
       '/images/varshavskyi/varshavskyi-2.jpg',

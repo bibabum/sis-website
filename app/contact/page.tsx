@@ -4,6 +4,7 @@ import { motion } from 'framer-motion';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import Link from 'next/link';
+import { contacts } from '@/data/contacts';
 
 type FormData = {
   serviceType: string;
@@ -39,36 +40,19 @@ export default function ContactPage() {
     }
   };
 
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: { staggerChildren: 0.1 },
-    },
-  };
-
-  const itemVariants = {
-    hidden: { opacity: 0, y: 20 },
-    visible: { opacity: 1, y: 0, transition: { duration: 0.6 } },
-  };
-
   return (
-    <div className="min-h-screen bg-gradient-to-br from-cream to-surface pt-20 pb-3xl">
-      <div className="container-responsive">
-        <motion.div
-          variants={containerVariants}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true }}
-          className="max-w-2xl mx-auto"
-        >
+    <div className="section bg-ivory">
+      <div className="container-site">
+        <div className="mx-auto max-w-2xl">
           {/* Header */}
-          <motion.div variants={itemVariants} className="text-center mb-3xl">
-            <h1 className="mb-lg">Запишіться на консультацію</h1>
-            <p className="text-lg text-text-secondary">
-              15-20 хвилин щоб зрозуміти ваші цілі.
+          <div className="mb-12">
+            <p className="eyebrow">Консультація</p>
+            <div className="mt-4 h-px w-10 bg-brass" aria-hidden />
+            <h1 className="h-section mt-6">Запишіться на консультацію</h1>
+            <p className="mt-5 text-body-lg text-muted">
+              Перша консультація безкоштовна. 15–20 хвилин, щоб зрозуміти ваші цілі.
             </p>
-          </motion.div>
+          </div>
 
           {submitted ? (
             // Explicit initial/animate -- the parent uses whileInView with
@@ -76,18 +60,18 @@ export default function ContactPage() {
             // Named variants on a child that mounts late would inherit "hidden"
             // and never animate in; the card would render at opacity 0.
             <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
               transition={{ duration: 0.5, ease: 'easeOut' }}
-              className="card-base p-3xl text-center"
+              className="border border-line p-10 text-center"
             >
-              <div className="text-5xl mb-lg">✓</div>
-              <h2 className="text-navy-600 mb-lg">Дякуємо за заявку!</h2>
-              <p className="text-text-secondary mb-lg">
+              <div className="mx-auto h-px w-10 bg-brass" aria-hidden />
+              <h2 className="h-section mt-8">Дякуємо за заявку!</h2>
+              <p className="mt-5 text-muted">
                 Ми зв&apos;яжемось з вами найближчим часом — Ігор особисто передзвонить
                 протягом 24 годин через обраний вами канал.
               </p>
-              <p className="text-sm text-text-secondary mb-2xl">
+              <p className="mt-3 mb-10 text-sm text-muted">
                 Перша розмова — 15–20 хвилин, щоб зрозуміти ваші цілі.
               </p>
               <Link href="/" className="btn-primary">
@@ -95,34 +79,29 @@ export default function ContactPage() {
               </Link>
             </motion.div>
           ) : (
-            <motion.form
-              variants={itemVariants}
+            <form
               onSubmit={handleSubmit(onSubmit)}
-              className="card-base p-2xl space-y-2xl"
+              className="space-y-10 border border-line p-6 sm:p-10"
             >
               {/* Progress indicator */}
-              <div className="flex justify-between mb-3xl">
-                {[1, 2, 3].map((s) => (
-                  <div
-                    key={s}
-                    className={`flex-1 h-1 rounded-full mx-sm transition-colors ${
-                      s <= step ? 'bg-gold-600' : 'bg-border'
-                    }`}
-                  />
-                ))}
+              <div className="flex items-center gap-4">
+                <p className="numeral text-sm text-muted">Крок {step} з 3</p>
+                <div className="flex flex-1 gap-1" aria-hidden>
+                  {[1, 2, 3].map((s) => (
+                    <div key={s} className={`h-px flex-1 ${s <= step ? 'bg-navy' : 'bg-line'}`} />
+                  ))}
+                </div>
               </div>
 
               {/* Step 1: Service Type */}
               {step === 1 && (
                 <motion.div
-                  variants={itemVariants}
                   key="step1"
-                  initial={{ opacity: 0, x: 20 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  exit={{ opacity: 0, x: -20 }}
-                  className="space-y-lg"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  className="space-y-4"
                 >
-                  <h3>Що вас цікавить?</h3>
+                  <h3 className="text-[1.75rem]">Що вас цікавить?</h3>
                   {[
                     { value: 'invest', label: 'Інвестувати в проєкт' },
                     { value: 'consultation', label: 'Консультація з приводу власних інвестицій' },
@@ -131,15 +110,15 @@ export default function ContactPage() {
                   ].map((option) => (
                     <label
                       key={option.value}
-                      className="flex items-center p-md rounded-lg border-2 border-border hover:border-gold-300 cursor-pointer transition-colors"
+                      className="flex min-h-[56px] cursor-pointer items-center rounded border border-line px-4 transition-colors hover:border-navy has-[:checked]:border-navy has-[:checked]:bg-ivory-deep"
                     >
                       <input
                         type="radio"
                         value={option.value}
                         {...register('serviceType', { required: true })}
-                        className="w-4 h-4 cursor-pointer"
+                        className="h-4 w-4 cursor-pointer accent-navy"
                       />
-                      <span className="ml-md font-medium text-text">{option.label}</span>
+                      <span className="ml-4 text-ink">{option.label}</span>
                     </label>
                   ))}
                 </motion.div>
@@ -148,16 +127,14 @@ export default function ContactPage() {
               {/* Step 2: Budget or Properties */}
               {step === 2 && (
                 <motion.div
-                  variants={itemVariants}
                   key="step2"
-                  initial={{ opacity: 0, x: 20 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  exit={{ opacity: 0, x: -20 }}
-                  className="space-y-lg"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  className="space-y-4"
                 >
                   {watch('serviceType') === 'management' ? (
                     <>
-                      <h3>Скільки у вас нерухомостей?</h3>
+                      <h3 className="text-[1.75rem]">Скільки у вас нерухомостей?</h3>
                       <select
                         {...register('properties', { required: true })}
                         className="input-base"
@@ -171,7 +148,7 @@ export default function ContactPage() {
                     </>
                   ) : (
                     <>
-                      <h3>Приблизний бюджет?</h3>
+                      <h3 className="text-[1.75rem]">Приблизний бюджет?</h3>
                       <select
                         {...register('budgetRange', { required: true })}
                         className="input-base"
@@ -191,17 +168,15 @@ export default function ContactPage() {
               {/* Step 3: Contact Details */}
               {step === 3 && (
                 <motion.div
-                  variants={itemVariants}
                   key="step3"
-                  initial={{ opacity: 0, x: 20 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  exit={{ opacity: 0, x: -20 }}
-                  className="space-y-lg"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  className="space-y-4"
                 >
-                  <h3>Ваші дані</h3>
+                  <h3 className="text-[1.75rem]">Ваші дані</h3>
                   
                   <div>
-                    <label className="block text-sm font-medium text-navy-600 mb-sm">
+                    <label className="mb-2 block text-sm font-medium text-navy">
                       Ім'я
                     </label>
                     <input
@@ -210,12 +185,12 @@ export default function ContactPage() {
                       className="input-base"
                       placeholder="Ваше ім'я"
                     />
-                    {errors.name && <p className="text-red-600 text-sm">{errors.name.message}</p>}
+                    {errors.name && <p className="mt-1 text-sm text-navy">{errors.name.message}</p>}
                   </div>
 
                   <div>
-                    <label className="block text-sm font-medium text-navy-600 mb-sm">
-                      Телефон або мессенджер
+                    <label className="mb-2 block text-sm font-medium text-navy">
+                      Телефон або месенджер
                     </label>
                     <input
                       type="text"
@@ -226,7 +201,7 @@ export default function ContactPage() {
                   </div>
 
                   <div>
-                    <label className="block text-sm font-medium text-navy-600 mb-sm">
+                    <label className="mb-2 block text-sm font-medium text-navy">
                       Спосіб зв'язку
                     </label>
                     <select {...register('contactMethod', { required: true })} className="input-base">
@@ -239,7 +214,7 @@ export default function ContactPage() {
                   </div>
 
                   <div>
-                    <label className="block text-sm font-medium text-navy-600 mb-sm">
+                    <label className="mb-2 block text-sm font-medium text-navy">
                       Зручний час
                     </label>
                     <select {...register('preferredTime', { required: true })} className="input-base">
@@ -253,7 +228,7 @@ export default function ContactPage() {
               )}
 
               {/* Buttons */}
-              <div className="flex gap-md pt-lg">
+              <div className="flex gap-3 pt-2">
                 {step > 1 && (
                   <button
                     type="button"
@@ -300,34 +275,34 @@ export default function ContactPage() {
                 )}
               </div>
 
-              <p className="text-center text-xs text-text-secondary">
+              <p className="text-center text-sm text-muted">
                 Ми поважаємо вашу приватність. Дані не передаються третім сторонам.
               </p>
-            </motion.form>
+            </form>
           )}
 
           {/* Contact Info */}
-          <motion.div
-            variants={itemVariants}
-            className="grid grid-cols-1 md:grid-cols-3 gap-lg mt-3xl"
-          >
+          <dl className="mt-12 grid grid-cols-1 border-t border-line md:grid-cols-3">
             {[
-              { icon: '📞', label: 'Телефон', value: '+38 096 008-28-84', href: 'tel:+380960082884' },
-              { icon: '✉️', label: 'Email', value: 'mail@sis.pl.ua', href: 'mailto:mail@sis.pl.ua' },
-              { icon: '📍', label: 'Адреса', value: 'м. Київ, вул. Володимирська, 4', href: '#' },
-            ].map((contact, idx) => (
-              <a
-                key={idx}
-                href={contact.href}
-                className="card-base p-lg text-center hover:border-gold-600 transition-colors"
-              >
-                <div className="text-3xl mb-sm">{contact.icon}</div>
-                <p className="text-sm text-text-secondary mb-sm">{contact.label}</p>
-                <p className="font-medium text-navy-600">{contact.value}</p>
-              </a>
+              { label: 'Телефон', value: contacts.phone, href: contacts.phoneHref },
+              { label: 'Email', value: contacts.email, href: contacts.emailHref },
+              { label: 'Адреса', value: contacts.address, href: contacts.mapHref, external: true },
+            ].map((c, i) => (
+              <div key={c.label} className={`border-b border-line py-6 md:border-b-0 ${i > 0 ? 'md:border-l md:pl-6' : ''}`}>
+                <dt className="eyebrow">{c.label}</dt>
+                <dd className="mt-2">
+                  <a
+                    href={c.href}
+                    className="link"
+                    {...(c.external ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
+                  >
+                    {c.value}
+                  </a>
+                </dd>
+              </div>
             ))}
-          </motion.div>
-        </motion.div>
+          </dl>
+        </div>
       </div>
     </div>
   );

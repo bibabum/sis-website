@@ -1,10 +1,10 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   images: {
-    domains: ['images.unsplash.com', 'via.placeholder.com'],
-    unoptimized: false,
+    // Blog article covers are still hosted on Unsplash.
+    remotePatterns: [{ protocol: 'https', hostname: 'images.unsplash.com' }],
+    formats: ['image/avif', 'image/webp'],
   },
-  swcMinify: true,
 };
 
 module.exports = nextConfig;

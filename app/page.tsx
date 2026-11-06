@@ -1,664 +1,351 @@
-'use client';
-
-import { motion } from 'framer-motion';
-import Link from 'next/link';
 import Image from 'next/image';
+import Link from 'next/link';
 import HeroSection from '@/components/HeroSection';
 import CurrentProject from '@/components/CurrentProject';
 import Projects from '@/components/Projects';
+import Reveal from '@/components/Reveal';
+import SectionHeading from '@/components/SectionHeading';
 import { articles } from '@/data/articles';
-import { useState } from 'react';
+import { contacts } from '@/data/contacts';
+import { founderParagraphs } from '@/data/founder';
+import igor from '@/public/igor.jpg';
 
-const containerVariants = {
-  hidden: { opacity: 0 },
-  visible: {
-    opacity: 1,
-    transition: { staggerChildren: 0.1, delayChildren: 0 },
+const trust = [
+  { figure: '8', label: 'завершених проєктів з цифрами' },
+  { figure: '$860K → $1,14M', label: 'два будинки у Варшаві' },
+  { figure: '≥50%', label: 'власних коштів SIS у кожному проєкті' },
+  { figure: 'Нотаріальні договори', label: 'юридичний партнер Axellegal', small: true },
+];
+
+// Border/padding per cell: 2×2 on mobile, one row on desktop.
+const trustCell = [
+  'pr-5 sm:pr-8',
+  'border-l border-line-navy pl-5 sm:pl-8',
+  'border-t border-line-navy pr-5 sm:pr-8 lg:border-l lg:border-t-0 lg:pl-8',
+  'border-l border-t border-line-navy pl-5 sm:pl-8 lg:border-t-0',
+];
+
+const services = [
+  {
+    title: 'Інвестування в проєкти',
+    description: 'Приєднайтесь до готових проєктів з повним супроводом.',
+    features: ['Мінімальна сума входу $50K+', 'Повний правовий захист', 'Регулярна звітність'],
   },
-};
+  {
+    title: 'Управління активами',
+    description: 'Ми управляємо вашою нерухомістю для максимальної прибутковості.',
+    features: [
+      'Купівля-продаж',
+      'Оренда та технічне обслуговування',
+      'Юридичний супровід і страхування',
+      'Фінансова звітність',
+    ],
+  },
+  {
+    title: 'Персональна консультація',
+    description: 'Експертний аналіз вашого фінансового стану і оцінка ваших можливостей.',
+    features: [
+      'Індивідуальний план розвитку',
+      'Зменшення податкового навантаження',
+      'Юридична перевірка угод',
+      'Бізнес-стратегія',
+    ],
+  },
+];
 
-const itemVariants = {
-  hidden: { opacity: 0, y: 30 },
-  visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: 'easeOut' } },
-};
+const processSteps = [
+  { title: 'Перша консультація', description: 'Розмова про ваші цілі та можливості. Обговорення стратегії розвитку.' },
+  { title: 'Аналіз ситуації', description: 'Детальний огляд ваших поточних активів та потенціалу.' },
+  { title: 'Пропозиція плану', description: 'Аналітичний відділ створює найкращий сценарій для вас.' },
+  { title: 'Договір', description: 'Юридичне оформлення всіх умов та термінів.' },
+  { title: 'Підготовка', description: 'Пошук та аналіз відповідних варіантів.' },
+  { title: 'Реалізація', description: 'Повний супровід до завершення проєкту.' },
+  { title: 'Управління (опційно)', description: 'Постійний контроль, звітність та оптимізація.' },
+];
+
+const partners = [
+  { title: 'Axellegal', desc: 'Юридичний партнер', href: 'https://axellegal.com.ua/' },
+  { title: 'Нотаріат', desc: 'Всі договори засвідчені' },
+  { title: 'Польська юрисдикція', desc: 'Реєстрація та захист' },
+  { title: 'Повна прозорість', desc: 'Всі документи доступні' },
+];
+
+// Testimonial text is kept exactly as supplied -- do not edit here.
+const testimonials = [
+  {
+    text: 'Ігор провів нас через весь процес — від пошуку об\'єкту до підписання контракту. Ми нічого не розуміли в польському ринку, але він пояснив усе кроково. Реальний ROI 28% — підтверджено документами.',
+    name: 'Дмитро К.',
+    city: 'Київ',
+    tag: 'Будинок №1',
+  },
+  {
+    text: 'Я живу у Варшаві вже 3 роки і хотів інвестувати тут, але не розумів польського податкового закону. Консультація з Ігором відкрила очі на стратегії, про які я навіть не знав. Зекономив значну суму вже в перший рік.',
+    name: 'Олена М.',
+    city: 'Варшава',
+    tag: 'Податкова оптимізація',
+  },
+  {
+    text: 'Скептично ставився до 30%+ ROI — думав, це маркетинг. Але Ігор показав усі документи, дозволи, контракти. Юридичний партнер Axellegal дав впевненість. Вклав $75K — результатом дуже задоволений.',
+    name: 'Сергій В.',
+    city: 'Дніпро',
+    tag: 'Інвестиційне партнерство',
+  },
+];
+
+const faq = [
+  {
+    q: 'Чи можу я як українець купити нерухомість за кордоном?',
+    a: 'Так. Українці можуть купувати нерухомість за кордоном. Придбання земельних ділянок — залежно від законодавства конкретної країни.',
+  },
+  {
+    q: 'Яка мінімальна сума для інвестування?',
+    a: 'Готові проєкти SIS — від $50,000. Якщо це індивідуальний проєкт — сума прораховується індивідуально.',
+  },
+  {
+    q: 'Скільки часу потрібно від рішення до першого доходу?',
+    a: 'Від 6 місяців — залежно від проєкту. Ви отримуєте детальний план для кожного.',
+  },
+  { q: 'Який юридичний захист я маю як інвестор?', a: 'Всі інвестиції оформлюються належним юридичним чином.' },
+  {
+    q: 'Як оподатковується нерухомість за кордоном?',
+    a: 'Нерухомість за кордоном оподатковується згідно з місцевим законодавством. Діють міжнародні договори про уникнення подвійного оподаткування.',
+  },
+  {
+    q: 'Чи можу я переглянути проєкти перед тим, як інвестувати?',
+    a: 'Так, приїхати та подивитися на об’єкти можна без будь-яких проблем.',
+  },
+];
 
 export default function Home() {
-  const [selectedService, setSelectedService] = useState<string | null>(null);
-
-  const services = [
-    {
-      id: 1,
-      title: 'Інвестування в проєкти',
-      description: 'Приєднайтесь до готових проектів з повним супроводом',
-      features: [
-        'Мінімальна сума входу $50K+',
-        'до 30% очікувана ROI',
-        'Повна правова захист',
-        'Регулярна звітність',
-      ],
-      icon: '📊',
-    },
-    {
-      id: 3,
-      title: 'Управління активами',
-      description: 'Ми управляємо вашою нерухомістю для максимальної прибутковості',
-      features: [
-        'Купівля-продаж',
-        'Оренда',
-        'Технічне обслуговування',
-        'Юридичний супровід',
-        'Страхування',
-        'Фінансова звітність',
-      ],
-      icon: '🏢',
-    },
-    {
-      id: 2,
-      title: 'Персональна консультація',
-      description: 'Експертний аналіз вашого фінансового стану і оцінка ваших можливостей',
-      features: [
-        'Індивідуальний план розвитку',
-        'Податкова оптимізація',
-        'Зменшення податкового навантаження',
-        'Легальна перевірка угод',
-        'Бізнес-стратегія',
-      ],
-      icon: '👨‍💼',
-    },
-  ];
-
-  const teamMembers = [
-    {
-      name: 'Ігор',
-      title: 'Засновник & Інвестиційний консультант',
-      bio: 'Розпочав у фінансах, став експертом в нерухомості. Всі проекти SIS — його особисті інвестиції.',
-      image: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=400&fit=crop',
-    },
-  ];
-
-  const processSteps = [
-    {
-      num: 1,
-      title: 'Перша консультація',
-      description: 'Розмова про ваші цілі та можливості. Обговорення стратегії розвитку.',
-    },
-    {
-      num: 2,
-      title: 'Аналіз ситуації',
-      description: 'Детальний огляд ваших поточних активів та потенціалу.',
-    },
-    {
-      num: 3,
-      title: 'Пропозиція плану',
-      description: 'Аналітичний відділ створює найкращий сценарій для вас.',
-    },
-    {
-      num: 4,
-      title: 'Договір',
-      description: 'Юридичне оформлення всіх умов та термінів.',
-    },
-    {
-      num: 5,
-      title: 'Підготовка',
-      description: 'Пошук та аналіз відповідних варіантів',
-    },
-    {
-      num: 6,
-      title: 'Реалізація',
-      description: 'Повний супровід до завершення проєкту.',
-    },
-    {
-      num: 7,
-      title: 'Управління (опційно)',
-      description: 'Постійний контроль, звітність та оптимізація.',
-    },
-  ];
-
   return (
     <>
       <HeroSection />
 
-      {/* Problems Section */}
-      <section className="py-3xl bg-white">
-        <div className="container-responsive">
-          <motion.div
-            variants={containerVariants}
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true }}
-            className="grid grid-cols-1 lg:grid-cols-2 gap-3xl items-center"
-          >
-            <div>
-              <motion.h2 variants={itemVariants} className="mb-3xl">
-                Ваша ситуація
-              </motion.h2>
-
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-lg">
-                {[
-                  '💰 Ваші заощадження знецінюються у зв\'язку з інфляцією',
-                  '🌍 Заради збереження Вашого капіталу, Ви хочете диверсифікувати ризики',
-                  '❓ Ви чули про інвестування за кордоном, але не знаєте з чого почати',
-                  '⏰ Ви хочете отримувати пасивний дохід',
-                ].map((problem, idx) => (
-                  <motion.div
-                    key={idx}
-                    variants={itemVariants}
-                    className="p-lg rounded-lg bg-navy-50 border border-navy-100"
-                  >
-                    <p className="text-text-secondary">{problem}</p>
-                  </motion.div>
-                ))}
+      {/* 2. Trust strip */}
+      <section aria-label="Ключові факти" className="on-navy bg-navy-deep text-on-navy">
+        <div className="container-site">
+          <dl className="grid grid-cols-2 lg:grid-cols-4">
+            {trust.map((t, i) => (
+              <div
+                key={t.label}
+                className={`flex flex-col justify-between gap-3 py-8 lg:py-12 ${trustCell[i]}`}
+              >
+                <dt className="order-2 text-sm text-on-navy-muted sm:text-[0.9375rem]">{t.label}</dt>
+                <dd
+                  className={`numeral order-1 leading-[1.05] text-brass-light ${
+                    t.small ? 'text-[1.5rem] sm:text-[1.875rem]' : 'text-[2rem] sm:text-[2.5rem] lg:text-[2.25rem] xl:text-[2.75rem]'
+                  }`}
+                >
+                  {t.figure}
+                </dd>
               </div>
-            </div>
-
-            <motion.div variants={itemVariants} className="lg:pl-2xl">
-              <div className="bg-gradient-to-br from-navy-600 to-navy-800 rounded-2xl p-2xl text-white space-y-2xl">
-                <h3 className="text-white text-2xl font-bold">SIS вирішує це</h3>
-                <div className="space-y-lg">
-                  {[
-                    { icon: '📈', title: 'Реальний трекрекорд', desc: 'Завершені проекти по Україні та за кордоном з документально підтвердженими результатами' },
-                    { icon: '🛡️', title: 'Юридичний захист', desc: 'Допомога кваліфікованих юристів' },
-                    { icon: '🤝', title: 'Гроші в грі', desc: 'В усі рекомендовані проекти SIS залучає власні інвестиції в розмірі не менше ніж 50% від проектної вартості' },
-                    { icon: '🗺️', title: 'Під ключ', desc: 'Розробка індивідуальних інвестиційних проектів — від вибору об\'єкту до отримання доходу з повним супроводом' },
-                  ].map((item, idx) => (
-                    <div key={idx} className="flex gap-md items-start">
-                      <span className="text-2xl flex-shrink-0">{item.icon}</span>
-                      <div>
-                        <p className="font-bold text-gold-400">{item.title}</p>
-                        <p className="text-sm text-white/70">{item.desc}</p>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-                <Link href="/contact" className="btn-primary w-full text-center block">
-                  Безкоштовна консультація
-                </Link>
-              </div>
-            </motion.div>
-          </motion.div>
+            ))}
+          </dl>
         </div>
       </section>
 
-      {/* Services Section */}
-      <section id="services" className="py-3xl bg-gradient-to-br from-navy-50 to-cream">
-        <div className="container-responsive">
-          <motion.div
-            variants={containerVariants}
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true }}
-            className="space-y-3xl"
-          >
-            <motion.div variants={itemVariants} className="text-center max-w-2xl mx-auto">
-              <h2 className="mb-lg">Наші послуги</h2>
-              <p className="text-lg text-text-secondary">
-                Три шляхи до зростання вашого капіталу
-              </p>
-            </motion.div>
-
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-lg">
-              {services.map((service, idx) => (
-                <motion.button
-                  key={service.id}
-                  variants={itemVariants}
-                  onClick={() => setSelectedService(service.id.toString())}
-                  className="card-base p-lg text-left h-full hover:border-gold-600 group cursor-pointer flex flex-col overflow-visible"
-                >
-                  <div className="text-4xl mb-md">{service.icon}</div>
-                  <h3 className="mb-md group-hover:text-gold-600 transition-colors">{service.title}</h3>
-                  <p className="text-sm text-text-secondary mb-lg">{service.description}</p>
-                  <ul className="space-y-sm text-sm flex-grow mb-lg">
-                    {service.features.map((feat, fidx) => (
-                      <li key={fidx} className="flex gap-sm text-text-secondary">
-                        <span className="text-gold-600 flex-shrink-0">✓</span>
-                        <span>{feat}</span>
-                      </li>
-                    ))}
-                  </ul>
-                  <Link href="/contact" className="btn-primary w-full text-center mt-auto">
-                    Дізнатись більше
-                  </Link>
-                </motion.button>
+      {/* 3. Founder */}
+      <section id="about" className="section bg-ivory">
+        <div className="container-site grid grid-cols-1 items-center gap-12 lg:grid-cols-12 lg:gap-16">
+          <Reveal className="lg:col-span-6">
+            <div className="relative aspect-[5/4] overflow-hidden bg-ivory-deep">
+              <Image
+                src={igor}
+                alt="Ігор — засновник SIS"
+                fill
+                placeholder="blur"
+                sizes="(min-width: 1024px) 50vw, 100vw"
+                className="object-cover object-[65%_center]"
+              />
+            </div>
+          </Reveal>
+          <Reveal className="lg:col-span-6">
+            <SectionHeading eyebrow="Про засновника" title="Ігор, засновник SIS" />
+            <div className="mt-8 space-y-5 text-body-lg text-ink/85">
+              {founderParagraphs.map((p) => (
+                <p key={p.slice(0, 24)}>{p}</p>
               ))}
             </div>
-          </motion.div>
+            <Link href="/about" className="link mt-8 inline-block">
+              Повна історія
+            </Link>
+          </Reveal>
         </div>
       </section>
 
-      {/* Featured Case Study */}
-      <section className="py-3xl bg-gradient-to-br from-navy-700 to-navy-800 text-white">
-        <div className="container-responsive">
-          <motion.div
-            variants={containerVariants}
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true }}
-            className="space-y-3xl"
-          >
-            <motion.div variants={itemVariants}>
-              <span className="inline-block px-md py-sm rounded-full bg-gold-400/20 border border-gold-400/30 text-gold-300 text-xs font-bold tracking-widest mb-lg">
-                КЕЙС-СТАДІ
-              </span>
-              <h2 className="text-white mb-md">
-                Як $410,000 перетворились на $540,000 за 6 місяців
-              </h2>
-              <p className="text-white/70 max-w-2xl">
-                Власний проект SIS у Варшаві — на кошти засновника та його польського партнера. Всі документи, дозволи та контракти у нас є.
-              </p>
-            </motion.div>
-
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-3xl items-start">
-              <motion.div variants={itemVariants} className="space-y-lg">
-                {[
-                  {
-                    label: 'МОЖЛИВІСТЬ',
-                    text: 'Ігор побачив зростання польського ринку нерухомості й вирішив зайти в нього не як консультант, а як інвестор — власними коштами.',
-                  },
-                  {
-                    label: 'ВИКЛИК',
-                    text: 'Чужий ринок: інша правова база, дозвільна система та будівельні норми. Заходити без сильного місцевого партнера означало б працювати наосліп.',
-                  },
-                  {
-                    label: 'ЩО МИ ЗРОБИЛИ',
-                    text: 'Разом із партнером у Польщі та юристами Axellegal знайшли земельну ділянку у Варшаві, отримали дозвіл на будівництво, звели 4-квартирний будинок за 6 місяців і продали всі квартири.',
-                  },
-                ].map((item, idx) => (
-                  <div key={idx} className="border-l-4 border-gold-400 pl-lg">
-                    <h4 className="text-gold-400 text-xs font-bold tracking-wider mb-sm">{item.label}</h4>
-                    <p className="text-white/80 text-sm leading-relaxed">{item.text}</p>
-                  </div>
-                ))}
-              </motion.div>
-
-              <motion.div variants={itemVariants}>
-                <div className="bg-white/10 backdrop-blur rounded-2xl p-2xl border border-white/20 space-y-lg">
-                  <h3 className="text-white text-center">Результат: Будинок №1</h3>
-                  <div className="grid grid-cols-2 gap-lg">
-                    {[
-                      { label: 'Інвестовано', value: '$410,000' },
-                      { label: 'Отримано', value: '$540,000' },
-                      { label: 'ROI', value: '32%' },
-                      { label: 'Термін', value: '6 міс.' },
-                    ].map((stat, idx) => (
-                      <div key={idx} className="text-center">
-                        <p className="text-3xl font-serif font-bold text-gold-400">{stat.value}</p>
-                        <p className="text-white/60 text-xs mt-xs">{stat.label}</p>
-                      </div>
-                    ))}
-                  </div>
-                  <div className="border-t border-white/20 pt-md space-y-sm">
-                    <p className="text-white/80 text-sm text-center">
-                      Разом по двох будинках у Варшаві:{' '}
-                      <span className="font-bold text-gold-400">$860,000</span> інвестовано →{' '}
-                      <span className="font-bold text-gold-400">$1,140,000</span> отримано
-                    </p>
-                    <p className="text-white/60 text-xs text-center mb-md">
-                      Юридичний партнер: Axellegal · Всі договори нотаріально засвідчені
-                    </p>
-                  </div>
-                  <Link href="/contact" className="btn-primary w-full text-center block">
-                    Обговорити схожий проект
-                  </Link>
-                </div>
-              </motion.div>
-            </div>
-          </motion.div>
-        </div>
-      </section>
-
+      {/* 4. Current project */}
       <CurrentProject />
 
+      {/* 5. Track record */}
       <Projects />
 
-      {/* Process Section */}
-      <section id="process" className="py-3xl bg-navy-50">
-        <div className="container-responsive">
-          <motion.div
-            variants={containerVariants}
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true }}
-            className="space-y-3xl"
-          >
-            <motion.h2 variants={itemVariants}>Процес роботи</motion.h2>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-lg">
-              {processSteps.map((step, idx) => (
-                <motion.div
-                  key={step.num}
-                  variants={itemVariants}
-                  className="card-base p-lg"
-                >
-                  <div className="w-10 h-10 rounded-full bg-gold-600 text-white flex-center text-lg font-bold mb-md">
-                    {step.num}
-                  </div>
-                  <h4 className="mb-sm">{step.title}</h4>
-                  <p className="text-sm text-text-secondary">{step.description}</p>
-                </motion.div>
-              ))}
-            </div>
-          </motion.div>
-        </div>
-      </section>
-
-      {/* About Section */}
-      <section id="about" className="py-3xl bg-white">
-        <div className="container-responsive">
-          <motion.div
-            variants={containerVariants}
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true }}
-            className="grid grid-cols-1 lg:grid-cols-2 gap-3xl items-center"
-          >
-            <motion.div variants={itemVariants}>
-              <h2 className="mb-lg">Про засновника</h2>
-              <div className="space-y-md text-text-secondary">
-                <p>
-                  Більше 20 років у сфері фінансів. Був засновником та очолював будівельний холдинг та за 4 роки збільшив оборот компанії до 300 млн грн на рік.
-                </p>
-                <p>
-                  Після продажу компанії, Ігор почав інвестувати тому, що зрозумів аби заробити багато грошей — потрібно багато працювати, але якщо хочеш примножувати статки — потрібно інвестувати.
-                </p>
-                <p>
-                  Засновуючи SIS, він вирішив просту річ: я будую проекти, які інвестую сам. Це означає, що його клієнти мали його як спів-інвестор. Ігор ніколи не пропонує проєкти, в яких не впевнений сам.
-                </p>
-                <p>
-                  Кожен завершений проект як у Польщі, так і в Україні — це не просто є портфелем для клієнтів. Це його визитівна картка та особиста репутація.
-                </p>
-              </div>
-              <Link href="/about" className="btn-primary mt-2xl block w-fit">
-                Повна історія
-              </Link>
-            </motion.div>
-
-            <motion.div variants={itemVariants} className="relative">
-              <div className="relative h-96 rounded-xl overflow-hidden">
-                <img
-                  src="/igor.jpg"
-                  alt="Ігор — засновник SIS"
-                  className="w-full h-full object-cover"
-                />
-              </div>
-            </motion.div>
-          </motion.div>
-        </div>
-      </section>
-
-      {/* Trust Strip */}
-      <section className="py-2xl bg-navy-50 border-y border-border">
-        <div className="container-responsive">
-          <motion.div
-            variants={containerVariants}
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true }}
-            className="space-y-2xl"
-          >
-            <motion.p variants={itemVariants} className="text-center text-xs font-bold tracking-widest uppercase text-text-secondary">
-              Партнери та гарантії
-            </motion.p>
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-2xl text-center">
-              {[
-                { icon: '⚖️', title: 'Axellegal', desc: 'Юридичний партнер', href: 'https://axellegal.com.ua/' },
-                { icon: '📋', title: 'Нотаріат', desc: 'Всі договори засвідчені' },
-                { icon: '🏛️', title: 'Польська юрисдикція', desc: 'Реєстрація та захист' },
-                { icon: '🔒', title: 'Повна прозорість', desc: 'Всі документи доступні' },
-              ].map((item, idx) => (
-                <motion.div key={idx} variants={itemVariants} className="flex flex-col items-center gap-sm">
-                  <span className="text-3xl">{item.icon}</span>
-                  {item.href ? (
-                    <a
-                      href={item.href}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="font-bold text-navy-600 text-sm hover:text-gold-600 transition-colors underline decoration-dotted underline-offset-4"
-                    >
-                      {item.title}
-                    </a>
-                  ) : (
-                    <p className="font-bold text-navy-600 text-sm">{item.title}</p>
-                  )}
-                  <p className="text-xs text-text-secondary">{item.desc}</p>
-                </motion.div>
-              ))}
-            </div>
-          </motion.div>
-        </div>
-      </section>
-
-      {/* Testimonials Section */}
-      <section className="py-3xl bg-white">
-        <div className="container-responsive">
-          <motion.div
-            variants={containerVariants}
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true }}
-            className="space-y-3xl"
-          >
-            <motion.div variants={itemVariants} className="text-center max-w-2xl mx-auto">
-              <h2 className="mb-lg">Що кажуть наші клієнти</h2>
-            </motion.div>
-
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-lg">
-              {[
-                {
-                  text: 'Ігор провів нас через весь процес — від пошуку об\'єкту до підписання контракту. Ми нічого не розуміли в польському ринку, але він пояснив усе кроково. Реальний ROI 28% — підтверджено документами.',
-                  name: 'Дмитро К.',
-                  city: 'Київ',
-                  tag: 'Будинок №1',
-                },
-                {
-                  text: 'Я живу у Варшаві вже 3 роки і хотів інвестувати тут, але не розумів польського податкового закону. Консультація з Ігором відкрила очі на стратегії, про які я навіть не знав. Зекономив значну суму вже в перший рік.',
-                  name: 'Олена М.',
-                  city: 'Варшава',
-                  tag: 'Податкова оптимізація',
-                },
-                {
-                  text: 'Скептично ставився до 30%+ ROI — думав, це маркетинг. Але Ігор показав усі документи, дозволи, контракти. Юридичний партнер Axellegal дав впевненість. Вклав $75K — результатом дуже задоволений.',
-                  name: 'Сергій В.',
-                  city: 'Дніпро',
-                  tag: 'Інвестиційне партнерство',
-                },
-              ].map((testimonial, idx) => (
-                <motion.div key={idx} variants={itemVariants} className="card-base p-lg flex flex-col gap-md">
-                  <div className="text-gold-500 text-4xl leading-none font-serif">&ldquo;</div>
-                  <p className="text-text-secondary text-sm leading-relaxed flex-grow">{testimonial.text}</p>
-                  <div className="border-t border-border pt-md">
-                    <p className="font-bold text-navy-600">{testimonial.name}</p>
-                    <p className="text-sm text-text-secondary">{testimonial.city}</p>
-                    <span className="inline-block mt-sm text-xs px-sm py-xs bg-gold-100 text-gold-700 rounded-full font-medium">{testimonial.tag}</span>
-                  </div>
-                </motion.div>
-              ))}
-            </div>
-          </motion.div>
-        </div>
-      </section>
-
-      {/* Lead Magnet Section */}
-      <section className="py-3xl bg-gradient-to-br from-gold-50 to-cream">
-        <div className="container-responsive">
-          <motion.div
-            variants={containerVariants}
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true }}
-            className="max-w-2xl mx-auto text-center space-y-lg"
-          >
-            <motion.div variants={itemVariants}>
-              <span className="inline-block px-md py-sm rounded-full bg-gold-500/10 border border-gold-400/30 text-gold-700 text-xs font-bold tracking-widest mb-lg">
-                БЕЗКОШТОВНО
-              </span>
-              <h2 className="mb-md">5 речей, які треба знати перед інвестицією в нерухомість Польщі</h2>
-              <p className="text-text-secondary">
-                Практичний гайд для українців: юридична база, податкові стратегії та типові помилки, яких варто уникати.
-              </p>
-            </motion.div>
-
-            <motion.div variants={itemVariants} className="card-base p-2xl space-y-md">
-              <div className="flex flex-col sm:flex-row gap-md">
-                <input
-                  type="email"
-                  placeholder="Ваш email"
-                  className="input-base flex-grow"
-                  aria-label="Email для отримання гайду"
-                />
-                <Link href="/contact" className="btn-primary whitespace-nowrap">
-                  Отримати гайд
+      {/* 6. Services */}
+      <section id="services" className="section border-t border-line bg-ivory-deep">
+        <div className="container-site">
+          <Reveal>
+            <SectionHeading eyebrow="Послуги" title="Три шляхи до зростання вашого капіталу" />
+          </Reveal>
+          <div className="mt-14 grid grid-cols-1 gap-y-12 border-t border-navy/20 md:grid-cols-3 md:gap-x-12">
+            {services.map((s, i) => (
+              <Reveal key={s.title} delay={i * 0.08} className="flex flex-col pt-8">
+                <p className="numeral text-sm text-brass-deep">0{i + 1}</p>
+                <h3 className="mt-3 text-[1.75rem] leading-tight">{s.title}</h3>
+                <p className="mt-3 text-muted">{s.description}</p>
+                <ul className="dash-list mt-6 space-y-2 text-[0.9375rem] text-ink">
+                  {s.features.map((f) => (
+                    <li key={f}>{f}</li>
+                  ))}
+                </ul>
+                <Link href="/contact" className="link mt-8 self-start">
+                  Обговорити
                 </Link>
-              </div>
-              <p className="text-xs text-text-secondary">
-                Надсилаємо одразу. Жодного спаму — тільки корисні матеріали про інвестиції.
-              </p>
-            </motion.div>
-          </motion.div>
+              </Reveal>
+            ))}
+          </div>
         </div>
       </section>
 
-      {/* CTA Section */}
-      <section className="py-3xl bg-gradient-to-br from-navy-600 to-navy-800 text-white">
-        <div className="container-responsive">
-          <motion.div
-            variants={containerVariants}
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true }}
-            className="max-w-2xl"
-          >
-            <motion.h2 variants={itemVariants} className="text-white mb-lg">
-              Готові до розмови?
-            </motion.h2>
-            <motion.p variants={itemVariants} className="text-lg text-white/80 mb-lg">
-              Перша консультація даром. 15-20 хвилин для розуміння ваших цілей.
-            </motion.p>
-            <motion.div variants={itemVariants} className="inline-flex items-center gap-sm bg-white/10 border border-white/20 rounded-lg px-md py-sm mb-2xl">
-              <span className="w-2 h-2 rounded-full bg-green flex-shrink-0 animate-pulse"></span>
-              <span className="text-sm text-white/80">Зараз приймаємо 3 нових інвестиційних партнери для проекту Q3 2026</span>
-            </motion.div>
-            <motion.div variants={itemVariants} className="flex flex-col sm:flex-row gap-md">
-              <Link href="/contact" className="btn-primary">
-                Записатися
+      {/* 7. Process -- all 7 steps, texts unchanged */}
+      <section id="process" className="on-navy section bg-navy text-on-navy">
+        <div className="container-site">
+          <Reveal>
+            <SectionHeading inverse eyebrow="Як ми працюємо" title="Процес роботи" />
+          </Reveal>
+          <ol className="mt-14 grid grid-cols-1 border-t border-line-navy sm:grid-cols-2 lg:grid-cols-4">
+            {processSteps.map((step, i) => (
+              <li key={step.title} className="border-b border-line-navy py-8 sm:pr-8">
+                <p className="numeral text-[2rem] leading-none text-brass-light">{String(i + 1).padStart(2, '0')}</p>
+                <h3 className="mt-5 font-sans text-[1.0625rem] font-medium tracking-normal text-ivory">{step.title}</h3>
+                <p className="mt-2 text-[0.9375rem] text-on-navy-muted">{step.description}</p>
+              </li>
+            ))}
+          </ol>
+        </div>
+      </section>
+
+      {/* 8. Partners */}
+      <section aria-labelledby="partners-title" className="border-b border-line bg-ivory">
+        <div className="container-site py-12">
+          <p id="partners-title" className="eyebrow">
+            Партнери та гарантії
+          </p>
+          <ul className="mt-6 grid grid-cols-2 gap-y-6 md:grid-cols-4">
+            {partners.map((p, i) => (
+              <li key={p.title} className={`pr-4 ${i > 0 ? 'md:border-l md:border-line md:pl-6' : ''} ${i % 2 === 1 ? 'border-l border-line pl-4 md:pl-6' : ''}`}>
+                {p.href ? (
+                  <a href={p.href} target="_blank" rel="noopener noreferrer" className="link font-serif text-[1.375rem]">
+                    {p.title}
+                  </a>
+                ) : (
+                  <p className="font-serif text-[1.375rem] text-navy">{p.title}</p>
+                )}
+                <p className="mt-1 text-sm text-muted">{p.desc}</p>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </section>
+
+      {/* 9. Testimonials */}
+      <section className="section bg-ivory">
+        <div className="container-site">
+          <Reveal>
+            <SectionHeading eyebrow="Відгуки" title="Що кажуть наші клієнти" />
+          </Reveal>
+          <div className="mt-14 grid grid-cols-1 gap-6 md:grid-cols-3">
+            {testimonials.map((t, i) => (
+              <Reveal key={t.name} delay={i * 0.08} as="article" className="flex flex-col border border-line p-8">
+                <blockquote className="flex-grow font-serif text-[1.3125rem] italic leading-[1.45] text-navy">
+                  «{t.text}»
+                </blockquote>
+                <footer className="mt-8 border-t border-line pt-5">
+                  <p className="font-medium text-navy">{t.name}</p>
+                  <p className="text-sm text-muted">
+                    {t.city} · {t.tag}
+                  </p>
+                </footer>
+              </Reveal>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* 10. Blog */}
+      <section className="section border-t border-line bg-ivory-deep">
+        <div className="container-site">
+          <Reveal className="flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
+            <SectionHeading eyebrow="Матеріали" title="Корисні матеріали" />
+            <Link href="/blog" className="link shrink-0">
+              Всі статті
+            </Link>
+          </Reveal>
+          <div className="mt-14 grid grid-cols-1 gap-8 md:grid-cols-3">
+            {articles.slice(0, 3).map((article) => (
+              <Link key={article.id} href={`/blog/${article.slug}`} className="group block">
+                <div className="relative aspect-[16/10] overflow-hidden bg-ivory">
+                  <Image
+                    src={article.image}
+                    alt=""
+                    fill
+                    sizes="(min-width: 768px) 33vw, 100vw"
+                    className="object-cover"
+                  />
+                </div>
+                <p className="mt-5 text-sm text-muted">
+                  <span className="text-brass-deep">{article.category}</span> · {article.readTime}
+                </p>
+                <h3 className="mt-2 text-[1.5rem] leading-snug group-hover:underline group-hover:decoration-brass group-hover:decoration-1 group-hover:underline-offset-[6px]">
+                  {article.title}
+                </h3>
               </Link>
-              <a href="https://t.me/+380960082884" className="btn-base border-2 border-white text-white bg-transparent hover:bg-white/15">
-                Телеграм
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* 11. FAQ */}
+      <section className="section bg-ivory">
+        <div className="container-site grid grid-cols-1 gap-12 lg:grid-cols-12">
+          <Reveal className="lg:col-span-4">
+            <SectionHeading eyebrow="Питання" title="Часті запитання" />
+          </Reveal>
+          <div className="border-t border-line lg:col-span-8">
+            {faq.map((item) => (
+              <details key={item.q} className="group border-b border-line">
+                <summary className="flex min-h-[64px] items-center justify-between gap-6 py-5 text-body-lg text-navy">
+                  <span>{item.q}</span>
+                  <span className="text-2xl leading-none text-brass transition-transform group-open:rotate-45" aria-hidden>
+                    +
+                  </span>
+                </summary>
+                <p className="max-w-prose pb-6 text-muted">{item.a}</p>
+              </details>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* 12. Final CTA */}
+      <section className="on-navy section bg-navy text-on-navy">
+        <div className="container-site">
+          <Reveal className="max-w-2xl">
+            <div className="h-px w-10 bg-brass-light" aria-hidden />
+            <h2 className="h-section mt-8 text-ivory">Готові до розмови?</h2>
+            <p className="mt-5 text-body-lg text-on-navy-muted">
+              Перша консультація безкоштовна. 15–20 хвилин, щоб зрозуміти ваші цілі.
+            </p>
+            <div className="mt-10 flex flex-col gap-3 sm:flex-row">
+              <Link href="/contact" className="btn-primary-inverse">
+                Записатися на консультацію
+              </Link>
+              <a href={contacts.telegram} className="btn-secondary-inverse">
+                Telegram
               </a>
-              <a href="https://wa.me/380960082884" className="btn-base border-2 border-white text-white bg-transparent hover:bg-white/15">
+              <a href={contacts.whatsapp} className="btn-secondary-inverse">
                 WhatsApp
               </a>
-            </motion.div>
-          </motion.div>
-        </div>
-      </section>
-
-      {/* Blog Preview Section */}
-      <section className="py-3xl bg-white">
-        <div className="container-responsive">
-          <motion.div
-            variants={containerVariants}
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true }}
-            className="space-y-3xl"
-          >
-            <motion.div variants={itemVariants} className="flex-between">
-              <h2>Корисні матеріали</h2>
-              <Link href="/blog" className="text-sm text-gold-600 hover:text-gold-700 font-medium transition-colors">
-                Всі статті →
-              </Link>
-            </motion.div>
-
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-lg">
-              {articles.slice(0, 3).map((article) => (
-                <motion.div key={article.id} variants={itemVariants}>
-                  <Link
-                    href={`/blog/${article.slug}`}
-                    className="card-base overflow-hidden group cursor-pointer block"
-                  >
-                    <div className="relative h-40 overflow-hidden bg-navy-100">
-                      <Image
-                        src={article.image}
-                        alt={article.title}
-                        fill
-                        className="object-cover group-hover:scale-105 transition-transform duration-300"
-                      />
-                    </div>
-                    <div className="p-lg space-y-sm">
-                      <div className="flex gap-sm items-center">
-                        <span className="text-xs font-bold text-gold-600 bg-gold-50 px-sm py-xs rounded-full">
-                          {article.category}
-                        </span>
-                        <span className="text-xs text-text-secondary">
-                          {article.readTime}
-                        </span>
-                      </div>
-                      <h4 className="text-navy-600 group-hover:text-gold-600 transition-colors leading-snug">
-                        {article.title}
-                      </h4>
-                    </div>
-                  </Link>
-                </motion.div>
-              ))}
             </div>
-          </motion.div>
-        </div>
-      </section>
-
-      {/* FAQ Section */}
-      <section className="py-3xl bg-cream">
-        <div className="container-responsive">
-          <motion.div
-            variants={containerVariants}
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true }}
-            className="space-y-3xl"
-          >
-            <motion.h2 variants={itemVariants} className="text-center">
-              Часті запитання
-            </motion.h2>
-
-            <div className="max-w-2xl mx-auto space-y-md">
-              {[
-                {
-                  q: 'Чи можу я як українець купити нерухомість за кордоном?',
-                  a: 'Так. Українці можуть купувати нерухомість за кордоном. Придбання земельних ділянок — залежно від законодавства конкретної країни.',
-                },
-                {
-                  q: 'Яка мінімальна сума для інвестування?',
-                  a: 'Готові проекти SIS — від $50,000. Якщо це індивідуальний проект — сума прораховується індивідуально.',
-                },
-                {
-                  q: 'Скільки часу потрібно від рішення до першого доходу?',
-                  a: 'Від 6 місяців — залежно від проекту. Ви отримуєте детальний план для кожного.',
-                },
-                {
-                  q: 'Який юридичний захист я маю як інвестор?',
-                  a: 'Всі інвестиції оформлюються належним юридичним чином.',
-                },
-                {
-                  q: 'Як оподатковується нерухомість за кордоном?',
-                  a: 'Нерухомість за кордоном оподатковується згідно з місцевим законодавством. Діють міжнародні договори про уникнення подвійного оподаткування.',
-                },
-                {
-                  q: 'Чи можу я переглянути проекти перед тим, як інвестувати?',
-                  a: 'Так, приїхати та подивитися на об\'єкти можна без будь-яких проблем.',
-                },
-              ].map((item, idx) => (
-                <motion.details
-                  key={idx}
-                  variants={itemVariants}
-                  className="card-base p-lg cursor-pointer group"
-                >
-                  <summary className="font-bold text-navy-600 group-hover:text-gold-600 transition-colors">
-                    {item.q}
-                  </summary>
-                  <p className="text-text-secondary mt-md text-sm">{item.a}</p>
-                </motion.details>
-              ))}
-            </div>
-          </motion.div>
+          </Reveal>
         </div>
       </section>
     </>

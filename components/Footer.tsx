@@ -1,104 +1,61 @@
-'use client';
-
 import Link from 'next/link';
-import { motion } from 'framer-motion';
+import { contacts } from '@/data/contacts';
 
 export default function Footer() {
-  const currentYear = new Date().getFullYear();
+  const year = new Date().getFullYear();
 
   return (
-    <footer className="border-t border-border bg-navy-50">
-      <div className="container-responsive py-3xl">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-2xl mb-3xl">
-          {/* Brand */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            viewport={{ once: true }}
-          >
-            <div className="mb-lg">
-              <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-navy-600 to-navy-700 flex-center text-white font-serif font-bold">
-                SIS
-              </div>
-            </div>
-            <p className="text-text-secondary text-sm">
-              Інвестиційний консалтинг для українців
+    <footer className="on-navy bg-navy-ink text-on-navy">
+      <div className="container-site py-16 md:py-20">
+        <div className="grid grid-cols-1 gap-12 sm:grid-cols-2 lg:grid-cols-4">
+          <div>
+            <p className="font-serif text-[2rem] font-medium tracking-[0.12em] text-ivory">SIS</p>
+            <p className="mt-4 max-w-xs text-on-navy-muted">
+              Інвестиційний консалтинг. Нерухомість у Варшаві та Києві.
             </p>
-          </motion.div>
+          </div>
 
-          {/* Quick Links */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.1 }}
-            viewport={{ once: true }}
-          >
-            <h4 className="font-sans font-bold mb-md text-navy-600">Навігація</h4>
-            <ul className="space-y-sm text-sm text-text-secondary">
-              <li><Link href="/#services" className="hover:text-navy-600 transition-colors">Послуги</Link></li>
-              <li><Link href="/#projects" className="hover:text-navy-600 transition-colors">Проєкти</Link></li>
-              <li><Link href="/contact" className="hover:text-navy-600 transition-colors">Контакти</Link></li>
+          <div>
+            <p className="eyebrow">Навігація</p>
+            <ul className="mt-5 space-y-3 text-on-navy-muted">
+              <li><Link href="/#projects" className="hover:text-ivory">Проєкти</Link></li>
+              <li><Link href="/#services" className="hover:text-ivory">Послуги</Link></li>
+              <li><Link href="/#process" className="hover:text-ivory">Процес роботи</Link></li>
+              <li><Link href="/about" className="hover:text-ivory">Про засновника</Link></li>
+              <li><Link href="/blog" className="hover:text-ivory">Корисні матеріали</Link></li>
             </ul>
-          </motion.div>
+          </div>
 
-          {/* Services */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.2 }}
-            viewport={{ once: true }}
-          >
-            <h4 className="font-sans font-bold mb-md text-navy-600">Послуги</h4>
-            <ul className="space-y-sm text-sm text-text-secondary">
-              <li><Link href="/#services" className="hover:text-navy-600 transition-colors">Інвестиційне партнерство</Link></li>
-              <li><Link href="/#services" className="hover:text-navy-600 transition-colors">Консультація</Link></li>
-              <li><Link href="/#services" className="hover:text-navy-600 transition-colors">Управління активами</Link></li>
+          <div>
+            <p className="eyebrow">Послуги</p>
+            <ul className="mt-5 space-y-3 text-on-navy-muted">
+              <li><Link href="/#services" className="hover:text-ivory">Інвестування в проєкти</Link></li>
+              <li><Link href="/#services" className="hover:text-ivory">Управління активами</Link></li>
+              <li><Link href="/contact" className="hover:text-ivory">Персональна консультація</Link></li>
             </ul>
-          </motion.div>
+          </div>
 
-          {/* Contact */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.3 }}
-            viewport={{ once: true }}
-          >
-            <h4 className="font-sans font-bold mb-md text-navy-600">Контакти</h4>
-            <ul className="space-y-sm text-sm text-text-secondary">
+          <div>
+            <p className="eyebrow">Контакти</p>
+            <ul className="mt-5 space-y-3 text-on-navy-muted">
+              <li><a href={contacts.phoneHref} className="hover:text-ivory">{contacts.phone}</a></li>
+              <li><a href={contacts.emailHref} className="hover:text-ivory">{contacts.email}</a></li>
+              <li><a href={contacts.whatsapp} className="hover:text-ivory">WhatsApp</a></li>
+              <li><a href={contacts.telegram} className="hover:text-ivory">Telegram</a></li>
               <li>
-                <a href="tel:+380960082884" className="hover:text-navy-600 transition-colors">
-                  +38 096 008-28-84
+                <a href={contacts.mapHref} target="_blank" rel="noopener noreferrer" className="hover:text-ivory">
+                  {contacts.address}
                 </a>
               </li>
-              <li>
-                <a href="mailto:mail@sis.pl.ua" className="hover:text-navy-600 transition-colors">
-                  mail@sis.pl.ua
-                </a>
-              </li>
-              <li>
-                <a href="https://wa.me/380960082884" className="hover:text-navy-600 transition-colors">
-                  WhatsApp
-                </a>
-              </li>
-              <li>
-                <a href="https://t.me/+380960082884" className="hover:text-navy-600 transition-colors">
-                  Telegram
-                </a>
-              </li>
-              <li>м. Київ, вул. Володимирська, 4</li>
             </ul>
-          </motion.div>
+          </div>
         </div>
 
-        {/* Divider */}
-        <div className="border-t border-border pt-lg">
-          <div className="flex flex-col md:flex-row md:flex-between items-center gap-md text-sm text-text-secondary">
-            <p>&copy; {currentYear} SIS. Всі права захищені.</p>
-            <div className="flex gap-lg">
-              <a href="#" className="hover:text-navy-600 transition-colors">Політика конфіденційності</a>
-              <a href="#" className="hover:text-navy-600 transition-colors">Умови використання</a>
-            </div>
+        <div className="mt-16 flex flex-col gap-4 border-t border-line-navy pt-8 text-sm text-on-navy-muted md:flex-row md:items-center md:justify-between">
+          <p>&copy; {year} SIS. Усі права захищені.</p>
+          <div className="flex gap-6">
+            <Link href="/privacy" className="hover:text-ivory">Політика конфіденційності</Link>
+            <Link href="/terms" className="hover:text-ivory">Умови використання</Link>
           </div>
         </div>
       </div>

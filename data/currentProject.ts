@@ -23,7 +23,7 @@ export interface Scenario {
 
 export const currentProject = {
   /** Shown above the heading -- frames this as one of an ongoing pipeline. */
-  eyebrow: 'Поточний проект',
+  eyebrow: 'Поточний проєкт',
   status: 'Відкрито для інвестицій',
   name: 'Будинок у Zakręt під Варшавою',
   location: '05-077 Zakręt, гміна Wiązowna · ~15 км від центру Варшави',
@@ -96,17 +96,16 @@ export const marketStats = [
 /**
  * One measure (annual price growth, 2025) across two categories, so a
  * single series -- each bar is directly labelled and needs no legend.
- *
- * Colours are validated for dark mode: #b8860b / #5a8ac4 pass the
- * lightness band, chroma floor, CVD separation (ΔE 22.1 protan) and
- * contrast on the navy surface. Both are existing palette tokens.
+ * `tone` maps to a colour token in CurrentProject.tsx: Poland gets the
+ * brass accent, the EU baseline a neutral -- identity never rests on
+ * colour alone because every bar carries its label.
  */
 export const priceGrowthComparison = {
   title: 'Річне зростання цін на житло',
   max: 10,
   bars: [
-    { label: 'Польща', value: 8.3, color: '#b8860b' },
-    { label: 'ЄС-27', value: 5.5, color: '#5a8ac4' },
+    { label: 'Польща', value: 8.3, tone: 'accent' as const },
+    { label: 'ЄС-27', value: 5.5, tone: 'neutral' as const },
   ],
   caption:
     'Польський ринок росте швидше за середній показник ЄС уже понад десять років. У 2026 темпи сповільнюються — НБП прогнозує зростання на рівні інфляції.',

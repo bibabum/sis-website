@@ -1,106 +1,56 @@
+// Every colour is a CSS variable defined in app/globals.css (:root).
+// Components use only these tokens -- no raw hex values.
+/** @param {string} name */
+const token = (name) => `rgb(var(--${name}) / <alpha-value>)`;
+
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   content: [
     './app/**/*.{js,ts,jsx,tsx,mdx}',
     './components/**/*.{js,ts,jsx,tsx,mdx}',
+    './lib/**/*.{js,ts}',
   ],
   theme: {
     extend: {
       colors: {
-        'navy': {
-          '50': '#f8f9fc',
-          '100': '#eef3f8',
-          '200': '#d6e3f0',
-          '300': '#bdd2e8',
-          '400': '#5a8ac4',
-          '500': '#2a5a8c',
-          '600': '#1b3a5c',
-          '700': '#152d48',
-          '800': '#0f2236',
-          '900': '#0a1824',
+        // Brand navy -- primary colour: headings, dark sections, footer.
+        navy: {
+          DEFAULT: token('navy'),
+          deep: token('navy-deep'),
+          ink: token('navy-ink'),
         },
-        'gold': {
-          '50': '#fefef8',
-          '100': '#fdfcf0',
-          '200': '#faf8e8',
-          '300': '#f7f5df',
-          '400': '#d4a574',
-          '500': '#b8860b',
-          '600': '#a07809',
-          '700': '#886a07',
-          '800': '#705c05',
-          '900': '#584e04',
+        // Muted brass -- accent only (lines, big numbers, eyebrows, link underlines).
+        brass: {
+          DEFAULT: token('brass'),
+          deep: token('brass-deep'),
+          light: token('brass-light'),
         },
-        'cream': '#fafaf8',
-        'surface': '#ffffff',
-        'surface-alt': '#f3f1ee',
-        'text': '#1a1a1a',
-        'text-secondary': '#5a5a5a',
-        'border': '#e0ddd8',
-        'red': '#b83232',
-        'green': '#2e7d4f',
+        ivory: {
+          DEFAULT: token('ivory'),
+          deep: token('ivory-deep'),
+        },
+        ink: token('ink'),
+        muted: token('muted'),
+        'on-navy': token('on-navy'),
+        'on-navy-muted': token('on-navy-muted'),
+        line: token('line'),
+        'line-navy': token('line-navy'),
       },
       fontFamily: {
-        'serif': ['Playfair Display', 'serif'],
-        'sans': ['DM Sans', 'sans-serif'],
-        'mono': ['Courier New', 'monospace'],
+        serif: ['var(--font-serif)', 'Georgia', 'serif'],
+        sans: ['var(--font-sans)', 'system-ui', 'sans-serif'],
       },
       fontSize: {
-        'xs': ['12px', '16px'],
-        'sm': ['14px', '18px'],
-        'base': ['16px', '24px'],
-        'lg': ['18px', '28px'],
-        'xl': ['20px', '28px'],
-        '2xl': ['24px', '32px'],
-        '3xl': ['32px', '40px'],
-        '4xl': ['48px', '56px'],
-      },
-      spacing: {
-        '0': '0',
-        'xs': '4px',
-        'sm': '8px',
-        'md': '16px',
-        'lg': '24px',
-        'xl': '32px',
-        '2xl': '48px',
-        '3xl': '64px',
-      },
-      animation: {
-        'fade-in': 'fadeIn 0.6s ease-out forwards',
-        'slide-up': 'slideUp 0.7s ease-out forwards',
-        'scale-in': 'scaleIn 0.5s ease-out forwards',
-        'float': 'float 3s ease-in-out infinite',
-      },
-      keyframes: {
-        fadeIn: {
-          '0%': { opacity: '0' },
-          '100%': { opacity: '1' },
-        },
-        slideUp: {
-          '0%': { opacity: '0', transform: 'translateY(20px)' },
-          '100%': { opacity: '1', transform: 'translateY(0)' },
-        },
-        scaleIn: {
-          '0%': { opacity: '0', transform: 'scale(0.95)' },
-          '100%': { opacity: '1', transform: 'scale(1)' },
-        },
-        float: {
-          '0%, 100%': { transform: 'translateY(0px)' },
-          '50%': { transform: 'translateY(-20px)' },
-        },
-      },
-      boxShadow: {
-        'soft': '0 1px 3px rgba(0, 0, 0, 0.06)',
-        'card': '0 4px 6px rgba(0, 0, 0, 0.07), 0 10px 15px rgba(0, 0, 0, 0.05)',
-        'lg': '0 20px 25px rgba(0, 0, 0, 0.1), 0 10px 20px rgba(0, 0, 0, 0.08)',
-        'gold-glow': '0 0 30px rgba(184, 134, 11, 0.3)',
+        eyebrow: ['0.8125rem', { lineHeight: '1.2rem', letterSpacing: '0.08em' }],
+        body: ['1.0625rem', { lineHeight: '1.6' }],
+        'body-lg': ['1.125rem', { lineHeight: '1.6' }],
       },
       borderRadius: {
-        'xs': '4px',
-        'sm': '6px',
-        'md': '8px',
-        'lg': '12px',
-        'xl': '16px',
+        DEFAULT: '4px',
+      },
+      maxWidth: {
+        content: '76rem',
+        prose: '40rem',
       },
     },
   },

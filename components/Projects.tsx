@@ -1,168 +1,133 @@
 'use client';
 
-import { motion } from 'framer-motion';
+import Link from 'next/link';
 import { useState } from 'react';
 import ImageCarousel from '@/components/ImageCarousel';
-import { countryLabels, projects, type Country } from '@/data/projects';
-
-const containerVariants = {
-  hidden: { opacity: 0 },
-  visible: { opacity: 1, transition: { staggerChildren: 0.06 } },
-};
-
-const itemVariants = {
-  hidden: { opacity: 0, y: 24 },
-  visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: 'easeOut' } },
-};
+import SectionHeading from '@/components/SectionHeading';
+import Reveal from '@/components/Reveal';
+import { countryLabels, projects, type Country, type Project } from '@/data/projects';
 
 type Filter = 'all' | Country;
 
 const filters: { id: Filter; label: string }[] = [
-  { id: 'all', label: 'Всі проєкти' },
+  { id: 'all', label: 'Всі' },
   { id: 'ua', label: 'Україна' },
   { id: 'pl', label: 'Польща' },
 ];
 
-function PhotoSlot({
-  images,
-  title,
-  objectPosition,
-}: {
-  images?: string[];
-  title: string;
-  objectPosition?: string;
-}) {
-  if (images && images.length > 0) {
-    return (
-      <ImageCarousel
-        images={images}
-        title={title}
-        objectPosition={objectPosition}
-      />
-    );
-  }
+function ProjectCard({ p }: { p: Project }) {
   return (
-    <div className="h-64 flex flex-col items-center justify-center gap-sm rounded-lg border-2 border-dashed border-border bg-surface-alt text-text-secondary">
-      <span className="text-3xl leading-none">🏠</span>
-      <span className="text-xs">Фото проекту</span>
-    </div>
+    <article className="flex flex-col border border-line bg-ivory">
+      {p.images && p.images.length > 0 && (
+        <ImageCarousel images={p.images} title={p.name} objectPosition={p.imageObjectPosition} />
+      )}
+
+      <div className="flex flex-1 flex-col p-6">
+        <div className="flex items-start justify-between gap-4">
+          <div>
+            <h3 className="text-[1.625rem] leading-tight">{p.name}</h3>
+            <p className="mt-1 text-[0.9375rem] text-muted">
+              {p.city}
+              {p.address ? `, ${p.address}` : ''} · {countryLabels[p.country]}
+            </p>
+          </div>
+          <div className="shrink-0 text-right">
+            <p className="numeral text-[2.25rem] leading-none text-brass">{p.roi}</p>
+            <p className="mt-1 text-xs uppercase tracking-[0.08em] text-muted">ROI</p>
+          </div>
+        </div>
+
+        <dl className="mt-6 space-y-3 border-t border-line pt-5 text-[0.9375rem]">
+          <div className="flex justify-between gap-4">
+            <dt className="text-muted">Інвестиції</dt>
+            <dd className="text-right font-medium tabular-nums text-navy">{p.invested}</dd>
+          </div>
+          {p.result && (
+            <div className="flex justify-between gap-4">
+              <dt className="text-muted">Продаж</dt>
+              <dd className="text-right font-medium tabular-nums text-navy">→ {p.result}</dd>
+            </div>
+          )}
+          <div className="flex justify-between gap-4">
+            <dt className="text-muted">Термін</dt>
+            <dd className="text-right font-medium text-navy">{p.term}</dd>
+          </div>
+        </dl>
+
+        <details className="group mt-5 border-t border-line pt-4">
+          <summary className="flex min-h-[44px] items-center justify-between text-[0.9375rem] text-navy">
+            <span>Детальніше</span>
+            <span className="text-xl leading-none text-brass transition-transform group-open:rotate-45" aria-hidden>
+              +
+            </span>
+          </summary>
+          <dl className="mt-4 space-y-3 text-[0.9375rem]">
+            <div className="flex justify-between gap-4">
+              <dt className="text-muted">Статус</dt>
+              <dd className="text-right text-navy">{p.status}</dd>
+            </div>
+            {p.details.map((row) => (
+              <div key={row.label} className={row.value.length > 18 ? '' : 'flex justify-between gap-4'}>
+                <dt className="text-muted">{row.label}</dt>
+                <dd className={row.value.length > 18 ? 'mt-1 text-navy' : 'text-right text-navy'}>{row.value}</dd>
+              </div>
+            ))}
+          </dl>
+          {p.description && <p className="mt-4 text-[0.9375rem] leading-relaxed text-muted">{p.description}</p>}
+        </details>
+
+        {p.caseHref && (
+          <Link href={p.caseHref} className="link mt-5 self-start text-[0.9375rem]">
+            Читати кейс-стаді
+          </Link>
+        )}
+      </div>
+    </article>
   );
 }
 
 export default function Projects() {
   const [filter, setFilter] = useState<Filter>('all');
-
-  // Array order in data/projects.ts is the display order.
-  const visible =
-    filter === 'all' ? projects : projects.filter((p) => p.country === filter);
+  const visible = filter === 'all' ? projects : projects.filter((p) => p.country === filter);
 
   return (
-    <section id="projects" className="py-3xl bg-white">
-      <div className="container-responsive">
-        <motion.div
-          variants={containerVariants}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true }}
-          className="space-y-2xl"
-        >
-          <motion.div variants={itemVariants} className="max-w-2xl">
-            <h2 className="mb-md">Наші проєкти</h2>
-            <p className="text-lg text-text-secondary">
-              Завершені проекти в Україні та за кордоном — з реальними
-              цифрами по кожному.
-            </p>
-          </motion.div>
+    <section id="projects" className="section bg-ivory">
+      <div className="container-site">
+        <Reveal>
+          <SectionHeading
+            eyebrow="Трек-рекорд"
+            title="Завершені проєкти"
+            lead="Вісім об’єктів у Польщі та Україні — з реальними цифрами по кожному."
+          />
+        </Reveal>
 
-          {/* Filter -- also signals immediately that both countries exist */}
-          <motion.div variants={itemVariants} className="flex flex-wrap gap-sm">
-            {filters.map((f) => {
-              const count =
-                f.id === 'all'
-                  ? projects.length
-                  : projects.filter((p) => p.country === f.id).length;
-              const active = filter === f.id;
-              return (
-                <button
-                  key={f.id}
-                  onClick={() => setFilter(f.id)}
-                  aria-pressed={active}
-                  className={`px-lg py-sm rounded-full text-sm font-medium transition-colors ${
-                    active
-                      ? 'bg-navy-600 text-white'
-                      : 'bg-surface-alt text-text-secondary hover:text-navy-600'
-                  }`}
-                >
-                  {f.label}
-                  <span className={active ? 'text-white/60' : 'text-text-secondary'}>
-                    {' '}
-                    ({count})
-                  </span>
-                </button>
-              );
-            })}
-          </motion.div>
-
-          {/* Cards carry no entrance animation on purpose.
-              The wrapper above uses whileInView + staggerChildren with
-              once:true. That orchestration gates children declaring
-              `variants`, and once it has completed it never releases cards
-              that mount later -- so filtering left them stuck at opacity 0
-              and the grid rendered blank.
-              Card visibility must not depend on an animation firing. The
-              wrapper already fades the whole section in, so filtered
-              results simply appear. */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-lg items-start">
-            {visible.map((p) => (
-              <div
-                key={p.id}
-                className="card-base p-lg flex flex-col"
+        <div className="mt-10 flex flex-wrap gap-2" role="group" aria-label="Фільтр за країною">
+          {filters.map((f) => {
+            const count = f.id === 'all' ? projects.length : projects.filter((p) => p.country === f.id).length;
+            const active = filter === f.id;
+            return (
+              <button
+                key={f.id}
+                type="button"
+                onClick={() => setFilter(f.id)}
+                aria-pressed={active}
+                className={`min-h-[44px] rounded border px-5 text-[0.9375rem] transition-colors ${
+                  active ? 'border-navy bg-navy text-ivory' : 'border-line text-navy hover:border-navy'
+                }`}
               >
-                <div className="relative">
-                  <PhotoSlot
-                    images={p.images}
-                    title={p.name}
-                    objectPosition={p.imageObjectPosition}
-                  />
-                  <div className="absolute top-3 right-3 px-lg py-md bg-gold-600 text-white rounded-full text-sm font-bold shadow-lg">
-                    {p.roi} ROI
-                  </div>
-                </div>
+                {f.label} <span className={active ? 'text-on-navy-muted' : 'text-muted'}>{count}</span>
+              </button>
+            );
+          })}
+        </div>
 
-                <div className="flex flex-wrap items-center gap-sm mt-lg mb-sm">
-                  <h3 className="text-navy-600 mr-auto">{p.name}</h3>
-                  <span className="text-xs font-bold text-green bg-green/10 px-sm py-xs rounded-full">
-                    ✓ {p.status}
-                  </span>
-                  <span className="text-xs text-text-secondary bg-surface-alt px-sm py-xs rounded-full">
-                    {countryLabels[p.country]}
-                  </span>
-                </div>
-                <p className="text-sm text-text-secondary mb-lg">{p.location}</p>
-
-                <dl className="space-y-sm text-sm">
-                  {p.rows.map((row) => (
-                    <div
-                      key={row.label}
-                      className="flex justify-between gap-md border-b border-border pb-sm"
-                    >
-                      <dt className="text-text-secondary">{row.label}</dt>
-                      <dd className="font-bold text-navy-600 text-right">
-                        {row.value}
-                      </dd>
-                    </div>
-                  ))}
-                </dl>
-
-                {p.description && (
-                  <p className="text-sm text-text-secondary mt-lg leading-relaxed">
-                    {p.description}
-                  </p>
-                )}
-              </div>
-            ))}
-          </div>
-        </motion.div>
+        {/* Cards are not animated individually: they remount on filter
+            change and must never depend on an entrance animation. */}
+        <div className="mt-10 grid grid-cols-1 items-start gap-6 md:grid-cols-2 lg:grid-cols-3">
+          {visible.map((p) => (
+            <ProjectCard key={p.id} p={p} />
+          ))}
+        </div>
       </div>
     </section>
   );

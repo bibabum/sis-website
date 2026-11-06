@@ -2,104 +2,76 @@
 
 import Link from 'next/link';
 import { useState } from 'react';
-import { motion } from 'framer-motion';
+
+const navItems = [
+  { href: '/#projects', label: 'Проєкти' },
+  { href: '/#services', label: 'Послуги' },
+  { href: '/#process', label: 'Процес' },
+  { href: '/about', label: 'Про засновника' },
+  { href: '/blog', label: 'Матеріали' },
+  { href: '/contact', label: 'Контакти' },
+];
 
 export default function Navigation() {
   const [isOpen, setIsOpen] = useState(false);
 
-  const navItems = [
-    { href: '/#services', label: 'Послуги' },
-    { href: '/#projects', label: 'Проєкти' },
-    { href: '/#process', label: 'Процес' },
-    { href: '/#about', label: 'Про нас' },
-    { href: '/contact', label: 'Контакти' },
-  ];
-
   return (
-    <nav className="sticky top-0 z-50 bg-surface/95 backdrop-blur-sm border-b border-border">
-      <div className="container-responsive flex-between py-md">
-        {/* Logo */}
-        <Link href="/" className="flex items-center group">
-          <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-navy-600 to-navy-700 flex-center text-white font-serif font-bold text-lg group-hover:shadow-gold-glow transition-shadow duration-300">
-            SIS
-          </div>
+    <header className="sticky top-0 z-50 border-b border-line bg-ivory">
+      <nav className="container-site flex h-16 items-center justify-between md:h-20" aria-label="Головна навігація">
+        <Link href="/" className="font-serif text-[1.75rem] font-medium tracking-[0.12em] text-navy" aria-label="SIS — на головну">
+          SIS
         </Link>
 
-        {/* Desktop Menu */}
-        <div className="hidden md:flex gap-xl">
+        <ul className="hidden items-center gap-8 lg:flex">
           {navItems.map((item) => (
-            <Link
-              key={item.href}
-              href={item.href}
-              className="text-text-secondary hover:text-navy-600 transition-colors duration-200 font-sans font-medium text-sm"
-            >
-              {item.label}
-            </Link>
+            <li key={item.href}>
+              <Link href={item.href} className="text-[0.9375rem] text-ink/80 transition-colors hover:text-navy">
+                {item.label}
+              </Link>
+            </li>
           ))}
-        </div>
+        </ul>
 
-        {/* CTA Buttons */}
-        <div className="hidden sm:flex gap-sm">
-          <Link
-            href="/contact"
-            className="btn-secondary hidden sm:inline-block"
-          >
+        <div className="flex items-center gap-3">
+          <Link href="/contact" className="btn-primary hidden min-h-[42px] px-5 sm:inline-flex">
             Консультація
           </Link>
+          <button
+            type="button"
+            onClick={() => setIsOpen((v) => !v)}
+            className="flex h-11 w-11 flex-col items-center justify-center gap-[6px] lg:hidden"
+            aria-label={isOpen ? 'Закрити меню' : 'Відкрити меню'}
+            aria-expanded={isOpen}
+            aria-controls="mobile-menu"
+          >
+            <span className={`h-px w-6 bg-navy transition-transform ${isOpen ? 'translate-y-[3.5px] rotate-45' : ''}`} />
+            <span className={`h-px w-6 bg-navy transition-transform ${isOpen ? '-translate-y-[3.5px] -rotate-45' : ''}`} />
+          </button>
         </div>
+      </nav>
 
-        {/* Mobile Menu Button */}
-        <button
-          onClick={() => setIsOpen(!isOpen)}
-          className="md:hidden flex flex-col gap-xs w-6 h-6 justify-center"
-          aria-label="Toggle menu"
-        >
-          <motion.span
-            animate={isOpen ? { rotate: 45, y: 8 } : { rotate: 0, y: 0 }}
-            className="w-full h-0.5 bg-navy-600 rounded-full origin-left"
-          />
-          <motion.span
-            animate={isOpen ? { opacity: 0 } : { opacity: 1 }}
-            className="w-full h-0.5 bg-navy-600 rounded-full"
-          />
-          <motion.span
-            animate={isOpen ? { rotate: -45, y: -8 } : { rotate: 0, y: 0 }}
-            className="w-full h-0.5 bg-navy-600 rounded-full origin-left"
-          />
-        </button>
-      </div>
-
-      {/* Mobile Menu */}
       {isOpen && (
-        <motion.div
-          initial={{ opacity: 0, height: 0 }}
-          animate={{ opacity: 1, height: 'auto' }}
-          exit={{ opacity: 0, height: 0 }}
-          className="md:hidden border-t border-border bg-surface"
-        >
-          <div className="container-responsive py-lg flex flex-col gap-md">
-            {navItems.map((item, idx) => (
-              <motion.div
-                key={item.href}
-                initial={{ opacity: 0, x: -10 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ delay: idx * 0.05 }}
-              >
+        <div id="mobile-menu" className="border-t border-line bg-ivory lg:hidden">
+          <ul className="container-site flex flex-col py-4">
+            {navItems.map((item) => (
+              <li key={item.href} className="border-b border-line last:border-0">
                 <Link
                   href={item.href}
                   onClick={() => setIsOpen(false)}
-                  className="block text-text-secondary hover:text-navy-600 transition-colors font-sans font-medium"
+                  className="block py-4 text-body-lg text-navy"
                 >
                   {item.label}
                 </Link>
-              </motion.div>
+              </li>
             ))}
-            <Link href="/contact" className="btn-primary w-full text-center">
-              Консультація
-            </Link>
-          </div>
-        </motion.div>
+            <li className="pt-4">
+              <Link href="/contact" onClick={() => setIsOpen(false)} className="btn-primary w-full">
+                Консультація
+              </Link>
+            </li>
+          </ul>
+        </div>
       )}
-    </nav>
+    </header>
   );
 }

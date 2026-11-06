@@ -1,161 +1,89 @@
-'use client';
-
-import { motion } from 'framer-motion';
-import Link from 'next/link';
+import type { Metadata } from 'next';
 import Image from 'next/image';
-import { articles } from '@/data/articles';
-import { renderArticle } from '@/lib/renderArticle';
+import Link from 'next/link';
 import { notFound } from 'next/navigation';
+import { articles } from '@/data/articles';
+import { contacts } from '@/data/contacts';
+import { renderArticle } from '@/lib/renderArticle';
 
-const itemVariants = {
-  hidden: { opacity: 0, y: 20 },
-  visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: 'easeOut' } },
-};
+export function generateStaticParams() {
+  return articles.map((a) => ({ slug: a.slug }));
+}
+
+export function generateMetadata({ params }: { params: { slug: string } }): Metadata {
+  const article = articles.find((a) => a.slug === params.slug);
+  return article ? { title: article.title, description: article.excerpt } : {};
+}
 
 export default function ArticlePage({ params }: { params: { slug: string } }) {
   const article = articles.find((a) => a.slug === params.slug);
+  if (!article) notFound();
 
-  if (!article) {
-    notFound();
-  }
-
-  const relatedArticles = articles.filter((a) => a.id !== article.id).slice(0, 3);
+  const related = articles.filter((a) => a.id !== article.id).slice(0, 3);
 
   return (
     <>
-      {/* Hero Section */}
-      <section className="bg-gradient-to-br from-navy-600 to-navy-800 text-white py-3xl">
-        <div className="container-responsive">
-          <motion.div
-            variants={itemVariants}
-            initial="hidden"
-            animate="visible"
-            className="max-w-3xl"
-          >
-            <Link href="/blog" className="text-gold-400 hover:text-gold-300 text-sm font-medium mb-lg block">
-              ← Назад до всіх статей
+      <article className="bg-ivory">
+        <header className="container-site max-w-4xl pt-14 md:pt-20">
+          <Link href="/blog" className="link text-[0.9375rem]">
+            Усі статті
+          </Link>
+          <p className="mt-10 text-sm text-muted">
+            <span className="text-brass-deep">{article.category}</span> · {article.readTime} ·{' '}
+            {new Date(article.date).toLocaleDateString('uk-UA', { year: 'numeric', month: 'long', day: 'numeric' })}
+          </p>
+          <h1 className="mt-4 text-[2.375rem] leading-[1.1] md:text-[3.5rem]">{article.title}</h1>
+        </header>
+
+        <div className="container-site max-w-5xl">
+          <div className="relative mt-12 aspect-[2/1] overflow-hidden bg-ivory-deep">
+            <Image src={article.image} alt="" fill priority sizes="(min-width: 1024px) 1024px, 100vw" className="object-cover" />
+          </div>
+        </div>
+
+        <div
+          className="container-site max-w-prose py-12 text-body-lg md:py-16"
+          dangerouslySetInnerHTML={{ __html: renderArticle(article.content) }}
+        />
+      </article>
+
+      <section className="on-navy section bg-navy text-on-navy">
+        <div className="container-site max-w-2xl">
+          <div className="h-px w-10 bg-brass-light" aria-hidden />
+          <h2 className="h-section mt-8 text-ivory">Готові до розмови?</h2>
+          <p className="mt-5 text-body-lg text-on-navy-muted">
+            Перша консультація безкоштовна. 15–20 хвилин, щоб зрозуміти ваші цілі.
+          </p>
+          <div className="mt-10 flex flex-col gap-3 sm:flex-row">
+            <Link href="/contact" className="btn-primary-inverse">
+              Записатися на консультацію
             </Link>
-            <h1 className="text-4xl lg:text-5xl font-serif font-bold mb-lg">{article.title}</h1>
-            <div className="flex flex-wrap gap-lg items-center">
-              <span className="text-gold-400 bg-gold-600/20 px-md py-sm rounded-full text-sm font-medium">
-                {article.category}
-              </span>
-              <span className="text-white/60 text-sm">{article.readTime}</span>
-              <span className="text-white/60 text-sm">
-                {new Date(article.date).toLocaleDateString('uk-UA', {
-                  year: 'numeric',
-                  month: 'long',
-                  day: 'numeric',
-                })}
-              </span>
-            </div>
-          </motion.div>
-        </div>
-      </section>
-
-      {/* Article Image */}
-      <section className="bg-white">
-        <div className="container-responsive">
-          <motion.div
-            variants={itemVariants}
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true }}
-            className="relative h-96 rounded-xl overflow-hidden my-3xl"
-          >
-            <Image
-              src={article.image}
-              alt={article.title}
-              fill
-              className="object-cover"
-            />
-          </motion.div>
-        </div>
-      </section>
-
-      {/* Article Content */}
-      <section className="py-3xl bg-white">
-        <div className="container-responsive">
-          <div className="max-w-3xl mx-auto prose prose-lg dark:prose-invert">
-            <motion.div
-              variants={itemVariants}
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true }}
-              className="text-text leading-relaxed"
-              dangerouslySetInnerHTML={{ __html: renderArticle(article.content) }}
-            />
+            <a href={contacts.telegram} className="btn-secondary-inverse">
+              Telegram
+            </a>
           </div>
         </div>
       </section>
 
-      {/* CTA Section */}
-      <section className="py-3xl bg-gradient-to-br from-navy-600 to-navy-800 text-white">
-        <div className="container-responsive">
-          <motion.div
-            variants={itemVariants}
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true }}
-            className="max-w-2xl"
-          >
-            <motion.h2 variants={itemVariants} className="text-white mb-lg">
-              Готові до розмови?
-            </motion.h2>
-            <motion.p variants={itemVariants} className="text-lg text-white/80 mb-2xl">
-              Запишіться на консультацію з нашим експертом.
-            </motion.p>
-            <motion.div variants={itemVariants} className="flex flex-col sm:flex-row gap-md">
-              <Link href="/contact" className="btn-primary">
-                Записатися
-              </Link>
-              <a href="https://t.me/+380960082884" className="btn-base border-2 border-white text-white bg-transparent hover:bg-white/15">
-                Телеграм
-              </a>
-            </motion.div>
-          </motion.div>
-        </div>
-      </section>
-
-      {/* Related Articles */}
-      {relatedArticles.length > 0 && (
-        <section className="py-3xl bg-cream">
-          <div className="container-responsive">
-            <motion.div
-              variants={itemVariants}
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true }}
-            >
-              <h2 className="mb-3xl">Інші статті</h2>
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-lg">
-                {relatedArticles.map((relArticle) => (
-                  <Link key={relArticle.id} href={`/blog/${relArticle.slug}`} className="group">
-                    <div className="card-base overflow-hidden h-full flex flex-col hover:shadow-lg transition-shadow">
-                      <div className="relative h-40 overflow-hidden bg-navy-100">
-                        <Image
-                          src={relArticle.image}
-                          alt={relArticle.title}
-                          fill
-                          className="object-cover group-hover:scale-105 transition-transform duration-300"
-                        />
-                      </div>
-                      <div className="p-lg flex flex-col flex-grow">
-                        <div className="flex gap-sm items-center mb-md">
-                          <span className="text-xs font-bold text-gold-600 bg-gold-50 px-sm py-xs rounded-full">
-                            {relArticle.category}
-                          </span>
-                          <span className="text-xs text-text-secondary">{relArticle.readTime}</span>
-                        </div>
-                        <h4 className="text-navy-600 group-hover:text-gold-600 transition-colors leading-snug">
-                          {relArticle.title}
-                        </h4>
-                      </div>
-                    </div>
-                  </Link>
-                ))}
-              </div>
-            </motion.div>
+      {related.length > 0 && (
+        <section className="section bg-ivory">
+          <div className="container-site">
+            <h2 className="h-section">Інші статті</h2>
+            <div className="mt-12 grid grid-cols-1 gap-8 md:grid-cols-3">
+              {related.map((r) => (
+                <Link key={r.id} href={`/blog/${r.slug}`} className="group block">
+                  <div className="relative aspect-[16/10] overflow-hidden bg-ivory-deep">
+                    <Image src={r.image} alt="" fill sizes="(min-width: 768px) 33vw, 100vw" className="object-cover" />
+                  </div>
+                  <p className="mt-5 text-sm text-muted">
+                    <span className="text-brass-deep">{r.category}</span> · {r.readTime}
+                  </p>
+                  <h3 className="mt-2 text-[1.5rem] leading-snug group-hover:underline group-hover:decoration-brass group-hover:decoration-1 group-hover:underline-offset-[6px]">
+                    {r.title}
+                  </h3>
+                </Link>
+              ))}
+            </div>
           </div>
         </section>
       )}

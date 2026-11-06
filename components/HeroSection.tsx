@@ -1,111 +1,52 @@
-'use client';
-
-import { motion } from 'framer-motion';
-import Link from 'next/link';
 import Image from 'next/image';
+import Link from 'next/link';
+import house1 from '@/public/images/house-1/house-1-1.jpg';
 
+// Static -- no entrance animation, so the LCP heading and photo paint immediately.
 export default function HeroSection() {
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.1,
-        delayChildren: 0.2,
-      },
-    },
-  };
-
-  const itemVariants = {
-    hidden: { opacity: 0, y: 20 },
-    visible: {
-      opacity: 1,
-      y: 0,
-      transition: { duration: 0.8, ease: 'easeOut' },
-    },
-  };
-
   return (
-    <section className="relative min-h-screen overflow-hidden bg-gradient-to-br from-navy-600 via-navy-700 to-navy-800">
-      {/* Decorative elements */}
-      <div className="absolute top-0 right-0 w-96 h-96 bg-gold-500/10 rounded-full blur-3xl" />
-      <div className="absolute bottom-20 left-10 w-72 h-72 bg-white/5 rounded-full blur-2xl" />
-      
-      <div className="container-responsive relative z-10 min-h-screen flex flex-col justify-center py-2xl">
-        <motion.div
-          variants={containerVariants}
-          initial="hidden"
-          animate="visible"
-          className="grid grid-cols-1 lg:grid-cols-2 gap-3xl items-center"
-        >
-          {/* Left Column - Text */}
-          <div className="space-y-lg">
-            <motion.div variants={itemVariants}>
-              <span className="inline-block px-md py-sm rounded-full bg-gold-100/20 border border-gold-400/30 text-gold-300 text-xs font-bold tracking-widest">
-                ІНВЕСТИЦІЙНА КОНСУЛЬТАЦІЯ
-              </span>
-            </motion.div>
-
-            <motion.h1 variants={itemVariants} className="text-5xl lg:text-6xl font-serif font-bold text-white leading-tight">
-              Збільшуйте<br />Вашу<br />капіталізацію<br />через <span className="text-gold-400">нерухомість</span>
-            </motion.h1>
-
-            <motion.p variants={itemVariants} className="text-lg text-white/80 max-w-md leading-relaxed">
-              Інвестуйте в міжнародні та українські проекти без ризику та стресу. Повний супровід, прозора структура.
-            </motion.p>
-
-            <motion.div variants={itemVariants} className="flex flex-col sm:flex-row gap-md pt-lg">
-              <Link href="/contact" className="btn-primary text-center border-2 border-gold-400 hover:border-gold-500">
-                Інвестувати в проєкт
-              </Link>
-              <a href="/#services" className="btn-base text-center border-2 border-white text-white bg-transparent hover:bg-white/15">
-                Отримати консультацію
-              </a>
-            </motion.div>
-
-            {/* Trust metrics */}
-            <motion.div variants={itemVariants} className="flex flex-wrap gap-2xl pt-2xl border-t border-white/10">
-              {[
-                { number: '25+', label: 'Завершених проектів' },
-                { number: '€5M+', label: 'Обсяг інвестицій' },
-                { number: '€11M+', label: 'Супровід проектів' },
-              ].map((metric, idx) => (
-                <div key={idx} className="flex-col">
-                  <div className="text-3xl font-serif font-bold text-gold-400">{metric.number}</div>
-                  <div className="text-sm text-white/60">{metric.label}</div>
-                </div>
-              ))}
-            </motion.div>
+    <section className="bg-ivory">
+      <div className="container-site grid grid-cols-1 items-center gap-12 py-14 md:py-20 lg:grid-cols-12 lg:gap-16 lg:py-24">
+        <div className="lg:col-span-6">
+          <p className="eyebrow">Інвестиційний консалтинг</p>
+          <div className="mt-4 h-px w-10 bg-brass" aria-hidden />
+          <h1 className="mt-8 text-[2.625rem] leading-[1.05] sm:text-[3.5rem] lg:text-[4.5rem] xl:text-[5rem]">
+            Ми інвестуємо разом з вами.{' '}
+            <span className="italic">Власними грошима.</span>
+          </h1>
+          <p className="mt-8 max-w-[34rem] text-body-lg text-muted">
+            У кожен проєкт SIS вкладає щонайменше 50% власних коштів. Ви бачите документи, розрахунки та
+            результат кожного завершеного об&apos;єкта.
+          </p>
+          <div className="mt-10 flex flex-col gap-3 sm:flex-row">
+            <Link href="/contact" className="btn-primary">
+              Обговорити інвестицію
+            </Link>
+            <Link href="/#projects" className="btn-secondary">
+              Дивитись проєкти
+            </Link>
           </div>
-
-          {/* Right Column - Image */}
-          <motion.div
-            variants={itemVariants}
-            className="relative hidden lg:block"
-          >
-            <div className="relative h-96 rounded-2xl overflow-hidden shadow-lg">
-              <Image
-                src="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=800&h=600&fit=crop"
-                alt="Modern building"
-                fill
-                className="object-cover"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-navy-900/60 to-transparent" />
-            </div>
-          </motion.div>
-        </motion.div>
-      </div>
-
-      {/* Scroll indicator */}
-      <motion.div
-        animate={{ y: [0, 10, 0] }}
-        transition={{ duration: 3, repeat: Infinity }}
-        className="absolute bottom-10 left-1/2 transform -translate-x-1/2 z-10"
-      >
-        <div className="w-6 h-10 border-2 border-white/30 rounded-full flex justify-center p-2">
-          <div className="w-1 h-2 bg-white/50 rounded-full" />
         </div>
-      </motion.div>
+
+        <figure className="lg:col-span-6">
+          <div className="relative aspect-[4/3] overflow-hidden bg-ivory-deep">
+            <Image
+              src={house1}
+              alt="Будинок №1 у Варшаві — завершений проєкт SIS"
+              fill
+              priority
+              quality={60}
+              placeholder="blur"
+              sizes="(min-width: 1024px) 50vw, 100vw"
+              className="object-cover"
+            />
+          </div>
+          <figcaption className="mt-4 flex items-center justify-between border-t border-line pt-3 text-sm text-muted">
+            <span>Будинок №1 · Варшава · завершено</span>
+            <span className="numeral text-base text-brass-deep">ROI 32%</span>
+          </figcaption>
+        </figure>
+      </div>
     </section>
   );
 }

@@ -7,18 +7,12 @@
  */
 
 function escapeHtml(text: string): string {
-  return text
-    .replace(/&/g, '&amp;')
-    .replace(/</g, '&lt;')
-    .replace(/>/g, '&gt;');
+  return text.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
 }
 
 /** Escapes, then turns **text** into bold. */
 function inline(text: string): string {
-  return escapeHtml(text).replace(
-    /\*\*(.+?)\*\*/g,
-    '<strong class="font-bold text-navy-600">$1</strong>'
-  );
+  return escapeHtml(text).replace(/\*\*(.+?)\*\*/g, '<strong class="font-medium text-navy">$1</strong>');
 }
 
 export function renderArticle(markdown: string): string {
@@ -33,8 +27,8 @@ export function renderArticle(markdown: string): string {
     if (!listTag) return;
     const cls =
       listTag === 'ul'
-        ? 'list-disc pl-xl space-y-sm my-lg text-text-secondary'
-        : 'list-decimal pl-xl space-y-md my-lg text-text-secondary';
+        ? 'dash-list space-y-2 my-6 text-ink/85'
+        : 'list-decimal pl-6 space-y-3 my-6 text-ink/85 marker:text-brass-deep';
     out.push(`<${listTag} class="${cls}">${items.join('')}</${listTag}>`);
     items = [];
     listTag = null;
@@ -48,7 +42,6 @@ export function renderArticle(markdown: string): string {
       continue;
     }
 
-    // Hero already shows the title, so skip the top-level heading.
     if (line.startsWith('# ')) {
       flushList();
       continue;
@@ -57,22 +50,14 @@ export function renderArticle(markdown: string): string {
     if (line.startsWith('### ')) {
       flushList();
       seenHeading = true;
-      out.push(
-        `<h3 class="text-xl font-sans font-bold text-navy-600 mt-xl mb-sm">${inline(
-          line.slice(4)
-        )}</h3>`
-      );
+      out.push(`<h3 class="font-sans text-[1.125rem] font-medium tracking-normal text-navy mt-10 mb-2">${inline(line.slice(4))}</h3>`);
       continue;
     }
 
     if (line.startsWith('## ')) {
       flushList();
       seenHeading = true;
-      out.push(
-        `<h2 class="text-2xl font-serif font-bold text-navy-600 mt-2xl mb-md">${inline(
-          line.slice(3)
-        )}</h2>`
-      );
+      out.push(`<h2 class="text-[2rem] leading-tight mt-14 mb-4">${inline(line.slice(3))}</h2>`);
       continue;
     }
 
@@ -99,15 +84,11 @@ export function renderArticle(markdown: string): string {
 
     if (!seenHeading && !leadUsed) {
       leadUsed = true;
-      out.push(
-        `<p class="text-xl text-text leading-relaxed border-l-4 border-gold-600 pl-lg my-xl">${inline(
-          line
-        )}</p>`
-      );
+      out.push(`<p class="font-serif text-[1.5rem] leading-snug text-navy border-l border-brass pl-6 my-10">${inline(line)}</p>`);
       continue;
     }
 
-    out.push(`<p class="text-text-secondary my-md">${inline(line)}</p>`);
+    out.push(`<p class="text-ink/85 my-4">${inline(line)}</p>`);
   }
 
   flushList();
