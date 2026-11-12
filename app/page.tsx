@@ -183,19 +183,19 @@ export default function Home() {
       {/* 4. Founder */}
       <section id="about" className="section bg-ivory">
         <div className="container-site grid grid-cols-1 items-center gap-12 lg:grid-cols-12 lg:gap-16">
-          <Reveal className="lg:col-span-6">
-            <div className="relative aspect-[5/4] overflow-hidden bg-ivory-deep">
+          <Reveal className="lg:col-span-5">
+            <div className="relative aspect-[4/5] overflow-hidden bg-ivory-deep">
               <Image
                 src={igor}
                 alt="Ігор — засновник SIS"
                 fill
                 placeholder="blur"
-                sizes="(min-width: 1024px) 50vw, 100vw"
-                className="object-cover object-[65%_center]"
+                sizes="(min-width: 1024px) 40vw, 100vw"
+                className="object-cover object-[center_20%]"
               />
             </div>
           </Reveal>
-          <Reveal className="lg:col-span-6">
+          <Reveal className="lg:col-span-7">
             <SectionHeading eyebrow="Про засновника" title="Ігор, засновник SIS" />
             <div className="mt-8 space-y-5 text-body-lg text-ink/85">
               {founderParagraphs.map((p) => (
